@@ -53,13 +53,15 @@ aid = bytearray.fromhex("A0000000620201")
 major = 1
 minor = 0
 
+modified_byte_value = 0xff
+
 for i in range(len(aid)):
     aid_modified = aid.copy()
-    aid_modified[i] = 0xff
+    aid_modified[i] = modified_byte_value
     generate_cap_for_package_aid(aid_modified, major, minor, i, package_name)
 
-generate_cap_for_package_aid(aid, 0xff, minor, len(aid), package_name)
-generate_cap_for_package_aid(aid, major, 0xff, len(aid) + 1, package_name)
+generate_cap_for_package_aid(aid, modified_byte_value, minor, len(aid), package_name)
+generate_cap_for_package_aid(aid, major, modified_byte_value, len(aid) + 1, package_name)
 
 generate_cap_for_package_aid(aid, major, minor, len(aid) + 2, package_name)
 
@@ -67,10 +69,12 @@ generate_cap_for_package_aid(aid, major, minor, len(aid) + 2, package_name)
 f = open(f"aid_upload_times_{package_name}.csv", "w", newline="")
 writer = csv.writer(f)
 
+measurements_num = 50
+
 for i in range(len(aid) + 3):
     times = []
     print(f"Measuring test_{package_name}_{i}.cap...")
-    for j in range(50):
+    for j in range(measurements_num):
         print(j)
         start = time.time()
         subprocess.run(["java", "-jar", "gp.jar", "--install", f"test_{package_name}_{i}.cap"], stdout=subprocess.PIPE)
