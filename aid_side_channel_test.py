@@ -48,12 +48,12 @@ def generate_cap_for_package_aid(aid, major, minor, version, package_name):
     os.rename(f'test_{package_name}_{version}.cap.zip', f'test_{package_name}_{version}.cap')
 
 
-package_name = "javacardx_crypto"
-aid = bytearray.fromhex("A0000000620201")
+package_name = "javacard_security"
+aid = bytearray.fromhex("A0000000620102")
 major = 1
 minor = 0
 
-modified_byte_value = 0xff
+modified_byte_value = 0xee
 
 for i in range(len(aid)):
     aid_modified = aid.copy()
