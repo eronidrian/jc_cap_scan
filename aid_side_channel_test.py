@@ -65,20 +65,29 @@ generate_cap_for_package_aid(aid, major, modified_byte_value, len(aid) + 1, pack
 
 generate_cap_for_package_aid(aid, major, minor, len(aid) + 2, package_name)
 
+measurements_num = 50
+
+row_names = [f"AID {i}. byte" for i in range(1, len(aid) + 1)]
+row_names.extend([
+    "Major version",
+    "Minor version",
+    "Unchanged"
+])
 
 f = open(f"aid_upload_times_{package_name}.csv", "w", newline="")
 writer = csv.writer(f)
+writer.writerow(["modification"] + [i for i in range(1, 51)])
 
-measurements_num = 50
 
 for i in range(len(aid) + 3):
     times = []
     print(f"Measuring test_{package_name}_{i}.cap...")
+    times.append(row_names[i])
     for j in range(measurements_num):
         print(j)
-        start = time.time()
+        start = time.perf_counter_ns()
         subprocess.run(["java", "-jar", "gp.jar", "--install", f"test_{package_name}_{i}.cap"], stdout=subprocess.PIPE)
-        end = time.time()
+        end = time.perf_counter_ns()
         times.append(end - start)
         subprocess.run(["java", "-jar", "gp.jar", "--uninstall", f"test_{package_name}_{i}.cap"], stdout=subprocess.PIPE)
     print("Resulting times:")
