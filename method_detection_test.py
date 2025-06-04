@@ -25,7 +25,8 @@ def format_import(packages_list):
 
     return import_section
 
-def generate_cap_for_package_aid(aid, major, minor, version, package_name):
+
+def modify_package_aid(aid: bytearray, major: int, minor: int) -> None:
     imported_packages = []
     imported_packages.append(javacard_framework)
     # imported_packages.append(java_lang)  # do not import java_lang as default (some cards will then fail to load)
@@ -33,23 +34,46 @@ def generate_cap_for_package_aid(aid, major, minor, version, package_name):
 
     import_section = format_import(imported_packages)
 
-    print(import_section)
-    f = open(path.join(BASE_PATH, 'template', 'test', 'javacard', 'Import.cap'), 'wb')
+    f = open(path.join(BASE_PATH, 'template_class', 'test', 'javacard', 'Import.cap'), 'wb')
     f.write(bytes.fromhex(import_section))
     f.close()
 
-    # create new cap file by zip of directories
-    shutil.make_archive(f'test_{package_name}_{version}.cap', 'zip', path.join(BASE_PATH, 'template'))
+
+def modify_class_token(class_token: int) -> None:
+    f = open(path.join(BASE_PATH, 'template_class', 'test', 'javacard', 'ConstantPool.cap'), 'rb')
+    hexdata = f.read().hex().upper()
+    f.close()
+    hex_array = bytearray(bytes.fromhex(hexdata))
+
+    hex_array[43] = int(class_token)
+    f = open(path.join(BASE_PATH, 'template_class', 'test', 'javacard', 'ConstantPool.cap'), 'wb')
+    f.write(hex_array)
+    f.close()
+
+
+def generate_cap(cap_name: str) -> None:
+    shutil.make_archive(cap_name, 'zip', path.join(BASE_PATH, 'template_class'))
 
     # remove zip suffix
-    if os.path.exists(f'test_{package_name}_{version}.cap'):
-        os.remove(f'test_{package_name}_{version}.cap')
-    os.rename(f'test_{package_name}_{version}.cap.zip', f'test_{package_name}_{version}.cap')
+    if os.path.exists(cap_name):
+        os.remove(cap_name)
+    os.rename(f'{cap_name}.zip', cap_name)
 
 
-package_name = "javacard_security"
-aid = bytearray.fromhex("A0000000620102")
+def generate_cap_package_class(package_aid: str, major: int, minor: int, class_token: int):
+    aid = bytearray.fromhex(package_aid)
+    modify_package_aid(aid, major, minor)
+    modify_class_token(class_token)
+
+    generate_cap(f"{package_aid}_{class_token}.cap")
+
+
+package_name = "javacardx_crypto"
+aid = "A0000000620201"
 major = 1
 minor = 0
 
-generate_cap_for_package_aid(aid, major, minor, 0, package_name)
+class_token = 0
+generate_cap_package_class(aid, major, minor, class_token)
+subprocess.run(["java", "-jar", "gp.jar", "--install", f"{aid}_{class_token}.cap"], stdout=subprocess.PIPE)
+subprocess.run(["java", "-jar", "gp.jar", "--uninstall", f"{aid}_{class_token}.cap"], stdout=subprocess.PIPE)
