@@ -45,7 +45,20 @@ def modify_class_token(class_token: int) -> None:
     f.close()
     hex_array = bytearray(bytes.fromhex(hexdata))
 
+    hex_array[41] = 1
     hex_array[43] = int(class_token)
+    f = open(path.join(BASE_PATH, 'template_class', 'test', 'javacard', 'ConstantPool.cap'), 'wb')
+    f.write(hex_array)
+    f.close()
+
+
+def modify_method_token(method_token: int) -> None:
+    f = open(path.join(BASE_PATH, 'template_class', 'test', 'javacard', 'ConstantPool.cap'), 'rb')
+    hexdata = f.read().hex().upper()
+    f.close()
+    hex_array = bytearray(bytes.fromhex(hexdata))
+
+    hex_array[44] = int(method_token)
     f = open(path.join(BASE_PATH, 'template_class', 'test', 'javacard', 'ConstantPool.cap'), 'wb')
     f.write(hex_array)
     f.close()
@@ -60,12 +73,13 @@ def generate_cap(cap_name: str) -> None:
     os.rename(f'{cap_name}.zip', cap_name)
 
 
-def generate_cap_package_class(package_aid: str, major: int, minor: int, class_token: int):
+def generate_cap_package_class_method(package_aid: str, major: int, minor: int, class_token: int, method_token: int):
     aid = bytearray.fromhex(package_aid)
     modify_package_aid(aid, major, minor)
     modify_class_token(class_token)
+    modify_method_token(method_token)
 
-    generate_cap(f"{package_aid}_{class_token}.cap")
+    generate_cap(f"{package_aid}_{class_token}_{method_token}.cap")
 
 
 package_name = "javacardx_crypto"
@@ -74,6 +88,7 @@ major = 1
 minor = 0
 
 class_token = 0
-generate_cap_package_class(aid, major, minor, class_token)
-subprocess.run(["java", "-jar", "gp.jar", "--install", f"{aid}_{class_token}.cap"], stdout=subprocess.PIPE)
-subprocess.run(["java", "-jar", "gp.jar", "--uninstall", f"{aid}_{class_token}.cap"], stdout=subprocess.PIPE)
+method_token = 0
+generate_cap_package_class_method(aid, major, minor, class_token, method_token)
+subprocess.run(["java", "-jar", "gp.jar", "--install", f"{aid}_{class_token}_{method_token}.cap"])
+subprocess.run(["java", "-jar", "gp.jar", "--uninstall", f"{aid}_{class_token}_{method_token}.cap"])
