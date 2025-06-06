@@ -7,7 +7,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 from datetime import datetime  # For generating the folder name
 from smartleia import TriggerPoints
-from smartleia_target import TargetController
 from picosdk.ps6000 import ps6000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok
 from trsfile import trs_open, Trace, SampleCoding, Header
@@ -18,30 +17,30 @@ import subprocess
 matplotlib.use('Agg')  # Use the non-interactive Agg backend
 
 # Constants and configurations
-NUM_TRACES = 10  # Number of traces to capture
+NUM_TRACES = 1  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
 PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 
 # Leia setup functions
-def setup_leia():
-    target = TargetController(0)
-    target.configure_smartcard(protocol_to_use=1, ETU_to_use=None, freq_to_use=None,
-                               negotiate_pts=True, negotiate_baudrate=True)
-    ATR = target.get_ATR()
-    print(f"\nUsing protocol T={ATR.T_protocol_curr} with frequency {ATR.f_max_curr / 1000} KHz")
-
-    target.set_trigger_strategy(1, point_list=[TriggerPoints.TRIG_PRE_SEND_APDU], delay=0)
-
-    # # Select applet
-    # aid = [0x55, 0x6E, 0x69, 0x74, 0x54, 0x65, 0x73, 0x74]
-    # select_apdu = APDU(cla=0x00, ins=0xA4, p1=0x04, p2=0x00, lc=len(aid), data=aid)
-    # resp = target.send_APDU(select_apdu)
-    # if resp.sw1 != 0x90 or resp.sw2 != 0x00:
-    #     raise Exception(f"Failed to select applet: SW={resp.sw1:02X}{resp.sw2:02X}")
-
-    return target
+# def setup_leia():
+#     target = TargetController(0)
+#     target.configure_smartcard(protocol_to_use=1, ETU_to_use=None, freq_to_use=None,
+#                                negotiate_pts=True, negotiate_baudrate=True)
+#     ATR = target.get_ATR()
+#     print(f"\nUsing protocol T={ATR.T_protocol_curr} with frequency {ATR.f_max_curr / 1000} KHz")
+#
+#     target.set_trigger_strategy(1, point_list=[TriggerPoints.TRIG_PRE_SEND_APDU], delay=0)
+#
+#     # # Select applet
+#     # aid = [0x55, 0x6E, 0x69, 0x74, 0x54, 0x65, 0x73, 0x74]
+#     # select_apdu = APDU(cla=0x00, ins=0xA4, p1=0x04, p2=0x00, lc=len(aid), data=aid)
+#     # resp = target.send_APDU(select_apdu)
+#     # if resp.sw1 != 0x90 or resp.sw2 != 0x00:
+#     #     raise Exception(f"Failed to select applet: SW={resp.sw1:02X}{resp.sw2:02X}")
+#
+#     return target
 
 
 # PicoScope setup and capture functions
@@ -149,7 +148,7 @@ def install_package(changed_byte, package_name, changed_byte_value):
     subprocess.run(["java", "-jar", "gp.jar", "--install", f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"], stdout=subprocess.PIPE)
 
 
-def run_installation_and_capture(target, chandle, status, trs_writer, changed_byte, index, save_to_trs=True, folder=""):
+def run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, save_to_trs=True, folder=""):
     capture_done_event = threading.Event()
 
     # Start capture in a separate thread
@@ -180,12 +179,12 @@ def main():
     os.makedirs(folder_name, exist_ok=True)
     print(f"Saving files to folder: {folder_name}")
 
-    target = setup_leia()
+    # target = setup_leia()
     chandle, status = setup_picoscope()
 
     print("Performing dummy capture...")
     changed_byte = 0
-    run_installation_and_capture(target, chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
+    run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
 
     # Remove dummy files
     dummy_png = os.path.join(folder_name, "trace_dummy.png")
@@ -214,11 +213,11 @@ def main():
         try:
             for index in range(NUM_TRACES):
                 print(f"Processing input {index + 1}/{NUM_TRACES}")
-                run_installation_and_capture(target, chandle, status, trs_writer, changed_byte, index, folder=folder_name)
+                run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
                 print(f"Completed capture for input {index + 1}")
         finally:
             # Clean up
-            target.close()
+            # target.close()
             ps.ps6000Stop(chandle)
             ps.ps6000CloseUnit(chandle)
 
