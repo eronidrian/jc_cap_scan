@@ -52,7 +52,7 @@ def setup_picoscope():
     assert_pico_ok(status["openunit"])
 
     # Set up channel B with -150 mV offset
-    chBRange = PS6000_RANGE["PS6000_1V"]
+    chBRange = 6 # PS6000_RANGE["PS6000_1V"]
     offset_b_mv = -0.150  # -150 mV in volts
     status["setChB"] = ps.ps6000SetChannel(chandle, 1, 1, 1, chBRange, offset_b_mv, 0)
     assert_pico_ok(status["setChB"])
