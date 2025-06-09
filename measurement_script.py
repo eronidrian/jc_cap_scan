@@ -70,7 +70,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
     try:
         # Set number of pre and post trigger samples to be collected
         preTriggerSamples = 10
-        postTriggerSamples = 50000000  # 50 million samples
+        postTriggerSamples = 25000000  # 25 million samples
         maxSamples = preTriggerSamples + postTriggerSamples
 
         # Set up buffers
@@ -83,7 +83,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
         assert_pico_ok(status["setDataBuffersB"])
 
         # Run block capture
-        sample_interval_ns = 109
+        sample_interval_ns = 300
         timebase = int(sample_interval_ns / 10**9 * 156250000) + 4
         timeIntervalns = ctypes.c_float()
         returnedMaxSamples = ctypes.c_int32()
