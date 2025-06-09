@@ -23,24 +23,10 @@ NUM_TRACES = 1  # Number of traces to capture
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
 PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 
-# Leia setup functions
-# def setup_leia():
-#     target = TargetController(0)
-#     target.configure_smartcard(protocol_to_use=1, ETU_to_use=None, freq_to_use=None,
-#                                negotiate_pts=True, negotiate_baudrate=True)
-#     ATR = target.get_ATR()
-#     print(f"\nUsing protocol T={ATR.T_protocol_curr} with frequency {ATR.f_max_curr / 1000} KHz")
-#
-#     target.set_trigger_strategy(1, point_list=[TriggerPoints.TRIG_PRE_SEND_APDU], delay=0)
-#
-#     # # Select applet
-#     # aid = [0x55, 0x6E, 0x69, 0x74, 0x54, 0x65, 0x73, 0x74]
-#     # select_apdu = APDU(cla=0x00, ins=0xA4, p1=0x04, p2=0x00, lc=len(aid), data=aid)
-#     # resp = target.send_APDU(select_apdu)
-#     # if resp.sw1 != 0x90 or resp.sw2 != 0x00:
-#     #     raise Exception(f"Failed to select applet: SW={resp.sw1:02X}{resp.sw2:02X}")
-#
-#     return target
+THRESHOLD_MV = 32
+SAMPLE_INTERVAL_NS = 102
+NUMBER_OF_SAMPLES = 50 * 10**6
+
 
 
 # PicoScope setup and capture functions
@@ -58,7 +44,7 @@ def setup_picoscope():
     assert_pico_ok(status["setChB"])
 
     # Set up single trigger on AUX IN
-    threshold_mv = 50
+    threshold_mv = THRESHOLD_MV
     threshold = int(threshold_mv / 1000 * 32512)
     status["trigger"] = ps.ps6000SetSimpleTrigger(chandle, 1, PS6000_TRIGGER_AUX, threshold, PS6000_RISING, 0, 1000)
     assert_pico_ok(status["trigger"])
@@ -70,7 +56,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
     try:
         # Set number of pre and post trigger samples to be collected
         preTriggerSamples = 10
-        postTriggerSamples = 25000000  # 25 million samples
+        postTriggerSamples = NUMBER_OF_SAMPLES  # 25 million samples
         maxSamples = preTriggerSamples + postTriggerSamples
 
         # Set up buffers
@@ -83,7 +69,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
         assert_pico_ok(status["setDataBuffersB"])
 
         # Run block capture
-        sample_interval_ns = 300
+        sample_interval_ns = SAMPLE_INTERVAL_NS
         timebase = int(sample_interval_ns / 10**9 * 156250000) + 4
         timeIntervalns = ctypes.c_float()
         returnedMaxSamples = ctypes.c_int32()
@@ -112,24 +98,6 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
         chBRange = 5  # Make sure this matches the range set in setup_picoscope
         adc2mVChBMax = adc2mV(bufferBMax, chBRange, maxADC)
 
-        # # Create time data
-        # time = np.linspace(0, (cmaxSamples.value - 1) * timeIntervalns.value / 1e6, cmaxSamples.value)
-        #
-        # # Create and save the plot
-        # plt.figure(figsize=(12, 8))
-        # key_text = f"Key: {key.hex()}"
-        # pt_text = f"Plaintext: {plaintext.hex()}"
-        # plt.text(0.05, -0.1, key_text, transform=plt.gca().transAxes, fontsize=9, verticalalignment='top')
-        # plt.text(0.05, -0.15, pt_text, transform=plt.gca().transAxes, fontsize=9, verticalalignment='top')
-        # plt.plot(time, adc2mVChBMax, label='Channel B')
-        # plt.ylim([-700, 700])
-        # plt.xlabel('Time (ms)')
-        # plt.ylabel('Voltage (mV)')
-        # plt.title(f'PicoScope Data {index}')
-        # plt.legend()
-        # plt.tight_layout()
-        # plt.savefig(os.path.join(folder, f'trace_{index}.png'), dpi=300, bbox_inches='tight')
-        # plt.close()  # Close the plot to avoid displaying it
 
         if save_to_trs:
             # Save trace data to .trs file
@@ -204,7 +172,7 @@ def main():
         Header.SCALE_X: 1e-6,
         Header.SCALE_Y: 1e-3,
         Header.DESCRIPTION: 'PicoScope Full Data',
-        Header.NUMBER_SAMPLES: 25000010,  # Pre-trigger + post-trigger samples
+        Header.NUMBER_SAMPLES: NUMBER_OF_SAMPLES + 10,  # Pre-trigger + post-trigger samples
         Header.SAMPLE_CODING: SampleCoding.BYTE,
         Header.TRACE_TITLE: 'PicoScope Data',
         Header.TRACE_PARAMETER_DEFINITIONS: trace_parameter_definitions
