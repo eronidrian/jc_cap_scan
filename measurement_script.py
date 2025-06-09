@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 from datetime import datetime  # For generating the folder name
 from smartleia import TriggerPoints
-from picosdk.ps6000 import ps6000 as ps
+from picosdk.ps6000 import ps6000 as ps, PS6000_RANGE
 from picosdk.functions import adc2mV, assert_pico_ok
 from trsfile import trs_open, Trace, SampleCoding, Header
 from trsfile.parametermap import TraceParameterMap, TraceParameterDefinitionMap
@@ -52,7 +52,7 @@ def setup_picoscope():
     assert_pico_ok(status["openunit"])
 
     # Set up channel B with -150 mV offset
-    chBRange = 1
+    chBRange = PS6000_RANGE["PS6000_1V"]
     offset_b_mv = -0.150  # -150 mV in volts
     status["setChB"] = ps.ps6000SetChannel(chandle, 1, 1, 1, chBRange, offset_b_mv, 0)
     assert_pico_ok(status["setChB"])
