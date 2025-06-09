@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 from datetime import datetime  # For generating the folder name
 from smartleia import TriggerPoints
-from picosdk.ps6000 import ps6000 as ps, PS6000_RANGE
+from picosdk.ps6000 import ps6000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok
 from trsfile import trs_open, Trace, SampleCoding, Header
 from trsfile.parametermap import TraceParameterMap, TraceParameterDefinitionMap
