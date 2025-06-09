@@ -58,7 +58,8 @@ def setup_picoscope():
     assert_pico_ok(status["setChB"])
 
     # Set up single trigger on AUX IN
-    threshold = int(60 / 1000 * 32512)
+    threshold_mv = 50
+    threshold = int(threshold_mv / 1000 * 32512)
     status["trigger"] = ps.ps6000SetSimpleTrigger(chandle, 1, PS6000_TRIGGER_AUX, threshold, PS6000_RISING, 0, 1000)
     assert_pico_ok(status["trigger"])
 
@@ -69,7 +70,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
     try:
         # Set number of pre and post trigger samples to be collected
         preTriggerSamples = 10
-        postTriggerSamples = 25000000  # 25 million samples
+        postTriggerSamples = 50000000  # 50 million samples
         maxSamples = preTriggerSamples + postTriggerSamples
 
         # Set up buffers
@@ -82,7 +83,8 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
         assert_pico_ok(status["setDataBuffersB"])
 
         # Run block capture
-        timebase = 6
+        sample_interval_ns = 109
+        timebase = int(sample_interval_ns / 10**9 * 156250000) + 4
         timeIntervalns = ctypes.c_float()
         returnedMaxSamples = ctypes.c_int32()
         status["getTimebase2"] = ps.ps6000GetTimebase2(chandle, timebase, maxSamples, ctypes.byref(timeIntervalns), 1,
