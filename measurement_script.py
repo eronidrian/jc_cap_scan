@@ -52,13 +52,13 @@ def setup_picoscope():
     assert_pico_ok(status["openunit"])
 
     # Set up channel B with -150 mV offset
-    chBRange = 5
+    chBRange = 1
     offset_b_mv = -0.150  # -150 mV in volts
     status["setChB"] = ps.ps6000SetChannel(chandle, 1, 1, 1, chBRange, offset_b_mv, 0)
     assert_pico_ok(status["setChB"])
 
     # Set up single trigger on AUX IN
-    threshold = int(3 / 10 * 32512)
+    threshold = int(60 / 1000 * 32512)
     status["trigger"] = ps.ps6000SetSimpleTrigger(chandle, 1, PS6000_TRIGGER_AUX, threshold, PS6000_RISING, 0, 1000)
     assert_pico_ok(status["trigger"])
 
@@ -82,7 +82,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
         assert_pico_ok(status["setDataBuffersB"])
 
         # Run block capture
-        timebase = 2
+        timebase = 6
         timeIntervalns = ctypes.c_float()
         returnedMaxSamples = ctypes.c_int32()
         status["getTimebase2"] = ps.ps6000GetTimebase2(chandle, timebase, maxSamples, ctypes.byref(timeIntervalns), 1,
@@ -160,7 +160,7 @@ def run_installation_and_capture(chandle, status, trs_writer, changed_byte, inde
     time.sleep(0.1)
 
     # Perform installation (this is what we want to capture)
-    package_name = "javacard_security"
+    package_name = "javacardx_crypto"
     changed_byte_value = "ff"
     install_package(changed_byte, package_name, changed_byte_value)
 
