@@ -169,20 +169,20 @@ def main():
         Header.TRACE_PARAMETER_DEFINITIONS: trace_parameter_definitions
     }
 
-    for changed_byte in range(9):
+    changed_byte = 1
 
-        trs_file_path = os.path.join(folder_name, f"all_traces_byte_{changed_byte}.trs")
-        with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
-            try:
-                for index in range(NUM_TRACES):
-                    print(f"Processing input {index + 1}/{NUM_TRACES}")
-                    run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
-                    print(f"Completed capture for input {index + 1}")
-            finally:
-                # Clean up
-                # target.close()
-                ps.ps6000Stop(chandle)
-                ps.ps6000CloseUnit(chandle)
+    trs_file_path = os.path.join(folder_name, f"all_traces_byte_{changed_byte}.trs")
+    with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
+        try:
+            for index in range(NUM_TRACES):
+                print(f"Processing input {index + 1}/{NUM_TRACES}")
+                run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
+                print(f"Completed capture for input {index + 1}")
+        finally:
+            # Clean up
+            # target.close()
+            ps.ps6000Stop(chandle)
+            ps.ps6000CloseUnit(chandle)
 
     end_time = time.time()  # End timing the program
     elapsed_time = end_time - start_time
