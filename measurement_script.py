@@ -17,7 +17,7 @@ import subprocess
 matplotlib.use('Agg')  # Use the non-interactive Agg backend
 
 # Constants and configurations
-NUM_TRACES = 5  # Number of traces to capture
+NUM_TRACES = 10  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
@@ -152,15 +152,6 @@ def main():
     # target = setup_leia()
     chandle, status = setup_picoscope()
 
-    print("Performing dummy capture...")
-    changed_byte = 0
-    run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
-
-    # Remove dummy files
-    dummy_png = os.path.join(folder_name, "trace_dummy.png")
-    if os.path.exists(dummy_png):
-        os.remove(dummy_png)
-        print(f"Removed {dummy_png}")
 
     # Define the trace parameter definitions and header for the trs file
     trace_parameter_definitions = TraceParameterDefinitionMap({
@@ -178,18 +169,20 @@ def main():
         Header.TRACE_PARAMETER_DEFINITIONS: trace_parameter_definitions
     }
 
-    trs_file_path = os.path.join(folder_name, "all_traces.trs")
-    with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
-        try:
-            for index in range(NUM_TRACES):
-                print(f"Processing input {index + 1}/{NUM_TRACES}")
-                run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
-                print(f"Completed capture for input {index + 1}")
-        finally:
-            # Clean up
-            # target.close()
-            ps.ps6000Stop(chandle)
-            ps.ps6000CloseUnit(chandle)
+    for changed_byte in range(9):
+
+        trs_file_path = os.path.join(folder_name, f"all_traces_byte_{changed_byte}.trs")
+        with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
+            try:
+                for index in range(NUM_TRACES):
+                    print(f"Processing input {index + 1}/{NUM_TRACES}")
+                    run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
+                    print(f"Completed capture for input {index + 1}")
+            finally:
+                # Clean up
+                # target.close()
+                ps.ps6000Stop(chandle)
+                ps.ps6000CloseUnit(chandle)
 
     end_time = time.time()  # End timing the program
     elapsed_time = end_time - start_time
