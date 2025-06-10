@@ -24,8 +24,8 @@ PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the d
 PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 
 THRESHOLD_MV = 40
-SAMPLE_INTERVAL_NS = 70
-NUMBER_OF_SAMPLES = 50 * 10**6
+SAMPLE_INTERVAL_NS = 200
+NUMBER_OF_SAMPLES = 25 * 10**6
 
 
 
