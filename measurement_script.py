@@ -17,7 +17,7 @@ import subprocess
 matplotlib.use('Agg')  # Use the non-interactive Agg backend
 
 # Constants and configurations
-NUM_TRACES = 1  # Number of traces to capture
+NUM_TRACES = 5  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
