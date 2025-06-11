@@ -137,8 +137,8 @@ def run_installation_and_capture(chandle, status, trs_writer, changed_byte, inde
     # Wait for capture to complete
     capture_done_event.wait()
 
-    subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                    f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"], stdout=subprocess.PIPE)
+    # subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
+    #                 f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"], stdout=subprocess.PIPE)
 
 
 def main():
