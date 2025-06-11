@@ -23,8 +23,8 @@ NUM_TRACES = 1  # Number of traces to capture
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
 PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 
-THRESHOLD_MV = 1
-SAMPLE_INTERVAL_NS = 120
+THRESHOLD_MV = 500
+SAMPLE_INTERVAL_NS = 150
 NUMBER_OF_SAMPLES = 25 * 10**6
 
 
