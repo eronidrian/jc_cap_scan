@@ -17,15 +17,18 @@ import subprocess
 matplotlib.use('Agg')  # Use the non-interactive Agg backend
 
 # Constants and configurations
-NUM_TRACES = 1  # Number of traces to capture
+NUM_TRACES = 10  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
 PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 
-THRESHOLD_MV = 500
+THRESHOLD_MV = 1
 SAMPLE_INTERVAL_NS = 150
 NUMBER_OF_SAMPLES = 25 * 10**6
+
+PACKAGE_NAME = "javacardx_crypto"
+CHANGED_BYTE_VALUE = "ff"
 
 
 
@@ -130,9 +133,8 @@ def run_installation_and_capture(chandle, status, trs_writer, changed_byte, inde
     time.sleep(0.1)
 
     # Perform installation (this is what we want to capture)
-    package_name = "javacardx_crypto"
-    changed_byte_value = "ff"
-    install_package(changed_byte, package_name, changed_byte_value)
+
+    install_package(changed_byte, PACKAGE_NAME, CHANGED_BYTE_VALUE)
 
     # Wait for capture to complete
     capture_done_event.wait()
@@ -152,48 +154,44 @@ def main():
     # target = setup_leia()
     chandle, status = setup_picoscope()
 
-    changed_byte = 1
+    try:
+        for changed_byte in range(9):
 
-    print("Performing dummy capture...")
-    run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
+            print("Performing dummy capture...")
+            run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
 
-    # Remove dummy files
-    dummy_png = os.path.join(folder_name, "trace_dummy.png")
-    if os.path.exists(dummy_png):
-        os.remove(dummy_png)
-        print(f"Removed {dummy_png}")
+            # Remove dummy files
+            dummy_png = os.path.join(folder_name, "trace_dummy.png")
+            if os.path.exists(dummy_png):
+                os.remove(dummy_png)
+                print(f"Removed {dummy_png}")
 
-    # Define the trace parameter definitions and header for the trs file
-    trace_parameter_definitions = TraceParameterDefinitionMap({
-        'CHANGED': TraceParameterDefinition(ParameterType.INT, 1, 0),
-    })
+            # Define the trace parameter definitions and header for the trs file
+            trace_parameter_definitions = TraceParameterDefinitionMap({
+                'CHANGED': TraceParameterDefinition(ParameterType.INT, 1, 0),
+            })
 
-    header = {
-        Header.TRS_VERSION: 2,
-        Header.SCALE_X: 1e-6,
-        Header.SCALE_Y: 1e-3,
-        Header.DESCRIPTION: 'PicoScope Full Data',
-        Header.NUMBER_SAMPLES: NUMBER_OF_SAMPLES + 10,  # Pre-trigger + post-trigger samples
-        Header.SAMPLE_CODING: SampleCoding.BYTE,
-        Header.TRACE_TITLE: 'PicoScope Data',
-        Header.TRACE_PARAMETER_DEFINITIONS: trace_parameter_definitions
-    }
+            header = {
+                Header.TRS_VERSION: 2,
+                Header.SCALE_X: 1e-6,
+                Header.SCALE_Y: 1e-3,
+                Header.DESCRIPTION: 'PicoScope Full Data',
+                Header.NUMBER_SAMPLES: NUMBER_OF_SAMPLES + 10,  # Pre-trigger + post-trigger samples
+                Header.SAMPLE_CODING: SampleCoding.BYTE,
+                Header.TRACE_TITLE: 'PicoScope Data',
+                Header.TRACE_PARAMETER_DEFINITIONS: trace_parameter_definitions
+            }
 
+            trs_file_path = os.path.join(folder_name, f"all_traces_{PACKAGE_NAME}_{changed_byte}_{CHANGED_BYTE_VALUE}.trs")
+            with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
+                    for index in range(NUM_TRACES):
+                        print(f"Processing input {index + 1}/{NUM_TRACES}")
+                        run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
+                        print(f"Completed capture for input {index + 1}")
 
-
-    trs_file_path = os.path.join(folder_name, f"all_traces_byte_{changed_byte}.trs")
-    with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
-        try:
-            for index in range(NUM_TRACES):
-                print(f"Processing input {index + 1}/{NUM_TRACES}")
-                run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
-                print(f"Completed capture for input {index + 1}")
-        finally:
-            # Clean up
-            # target.close()
-            ps.ps6000Stop(chandle)
-            ps.ps6000CloseUnit(chandle)
-
+    finally:
+        ps.ps6000Stop(chandle)
+        ps.ps6000CloseUnit(chandle)
     end_time = time.time()  # End timing the program
     elapsed_time = end_time - start_time
     print(f"Total execution time: {elapsed_time:.2f} seconds")
