@@ -152,6 +152,16 @@ def main():
     # target = setup_leia()
     chandle, status = setup_picoscope()
 
+    changed_byte = 1
+
+    print("Performing dummy capture...")
+    run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
+
+    # Remove dummy files
+    dummy_png = os.path.join(folder_name, "trace_dummy.png")
+    if os.path.exists(dummy_png):
+        os.remove(dummy_png)
+        print(f"Removed {dummy_png}")
 
     # Define the trace parameter definitions and header for the trs file
     trace_parameter_definitions = TraceParameterDefinitionMap({
@@ -169,7 +179,7 @@ def main():
         Header.TRACE_PARAMETER_DEFINITIONS: trace_parameter_definitions
     }
 
-    changed_byte = 1
+
 
     trs_file_path = os.path.join(folder_name, f"all_traces_byte_{changed_byte}.trs")
     with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
