@@ -2,8 +2,11 @@ import trsfile
 import csv
 
 MEASUREMENTS_FILENAME = "time_measurements.csv"
-NUM_OF_TRACES_IN_FILE = 10
-NUM_OF_CHANGED_BYTES = 9
+NUM_OF_TRACES_IN_FILE = 1
+NUM_OF_CHANGED_BYTES = 11
+
+PACKAGE_NAME = "javacardx_framework_util_intx"
+CHANGED_BYTE = "ff"
 
 def extract_trace(filename: str, trace_index: int) -> list[int]:
     with trsfile.open(filename, 'r') as traces:
@@ -52,7 +55,7 @@ def bulk_process(traces_dirname: str, max_gap: int, min_duration: int, threshold
         print(f"{byte_changed + 1}/{NUM_OF_CHANGED_BYTES}")
         for trace_num in range(NUM_OF_TRACES_IN_FILE):
             print(f"{trace_num + 1}/{NUM_OF_TRACES_IN_FILE}")
-            filename = f'{traces_dirname}/{byte_changed}/all_traces_byte_{byte_changed}.trs'
+            filename = f'{traces_dirname}/all_traces_{PACKAGE_NAME}_{byte_changed}_{CHANGED_BYTE}.trs'
             trace = extract_trace(filename, trace_num)
 
             high_periods = [x > threshold_high for x in trace]
@@ -76,7 +79,7 @@ def extract_single_response(response_index: int, output_filename: str) -> None:
     csv_writer = csv.writer(csv_file_write)
 
     csv_writer.writerow(["modification"] + [i for i in range(1, NUM_OF_TRACES_IN_FILE + 1)])
-    rows = [row for row in csv_reader]
+    rows = [row for row in csv_reader if row]
 
     row_names = [f"AID {i}. byte" for i in range(1, NUM_OF_CHANGED_BYTES - 1)]
     row_names.extend([
@@ -97,7 +100,8 @@ def extract_single_response(response_index: int, output_filename: str) -> None:
 max_gap = 100_000
 min_duration = 50_000
 threshold_high = 6
-results_dirname = '/home/petr/Downloads/diplomka/side_channel_measurement/results/25_MS_all_bytes_10_traces'
+results_dirname = f'/home/petr/Downloads/diplomka/side_channel_measurement/results/{PACKAGE_NAME}_{CHANGED_BYTE}'
 
-bulk_process(results_dirname, max_gap, min_duration, threshold_high)
+# bulk_process(results_dirname, max_gap, min_duration, threshold_high)
 
+extract_single_response(-2, f"aid_upload_times_{PACKAGE_NAME}_single.csv")
