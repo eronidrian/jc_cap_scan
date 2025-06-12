@@ -27,7 +27,7 @@ THRESHOLD_MV = 1
 SAMPLE_INTERVAL_NS = 150
 NUMBER_OF_SAMPLES = 25 * 10**6
 
-PACKAGE_NAME = "javacardx_framework_util_intx"
+PACKAGE_NAME = "javacardx_crypto"
 CHANGED_BYTE_VALUE = "ff"
 
 
@@ -118,8 +118,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
 
 
 def install_package(changed_byte, package_name, changed_byte_value):
-#    subprocess.run(["java", "-jar", "gp.jar", "--install", f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"], stdout=subprocess.PIPE)
-   subprocess.run(["java", "-jar", "gp.jar", "--install", f"A0000000620201_2_0.cap"], stdout=subprocess.PIPE)
+   subprocess.run(["java", "-jar", "gp.jar", "--install", f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"], stdout=subprocess.PIPE)
 
 
 def run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, save_to_trs=True, folder=""):
@@ -156,16 +155,16 @@ def main():
     chandle, status = setup_picoscope()
 
     try:
-        for changed_byte in range(1):
+        for changed_byte in range(9, 10):
 
-            # print("Performing dummy capture...")
-            # run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
-            #
-            # # Remove dummy files
-            # dummy_png = os.path.join(folder_name, "trace_dummy.png")
-            # if os.path.exists(dummy_png):
-            #     os.remove(dummy_png)
-            #     print(f"Removed {dummy_png}")
+            print("Performing dummy capture...")
+            run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
+
+            # Remove dummy files
+            dummy_png = os.path.join(folder_name, "trace_dummy.png")
+            if os.path.exists(dummy_png):
+                os.remove(dummy_png)
+                print(f"Removed {dummy_png}")
 
             # Define the trace parameter definitions and header for the trs file
             trace_parameter_definitions = TraceParameterDefinitionMap({
