@@ -17,7 +17,7 @@ import subprocess
 matplotlib.use('Agg')  # Use the non-interactive Agg backend
 
 # Constants and configurations
-NUM_TRACES = 10  # Number of traces to capture
+NUM_TRACES = 1  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
@@ -27,7 +27,7 @@ THRESHOLD_MV = 1
 SAMPLE_INTERVAL_NS = 150
 NUMBER_OF_SAMPLES = 25 * 10**6
 
-PACKAGE_NAME = "javacardx_crypto"
+PACKAGE_NAME = "javacardx_framework_util_intx"
 CHANGED_BYTE_VALUE = "ff"
 
 
@@ -155,7 +155,7 @@ def main():
     chandle, status = setup_picoscope()
 
     try:
-        for changed_byte in range(9):
+        for changed_byte in range(12):
 
             print("Performing dummy capture...")
             run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
