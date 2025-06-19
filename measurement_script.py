@@ -17,14 +17,14 @@ import subprocess
 matplotlib.use('Agg')  # Use the non-interactive Agg backend
 
 # Constants and configurations
-NUM_TRACES = 1  # Number of traces to capture
+NUM_TRACES = 10  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
 PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 
 THRESHOLD_MV = 1
-SAMPLE_INTERVAL_NS = 150
+SAMPLE_INTERVAL_NS = 50
 NUMBER_OF_SAMPLES = 25 * 10**6
 
 PACKAGE_NAME = "javacardx_crypto"
@@ -49,7 +49,7 @@ def setup_picoscope():
     # Set up single trigger on AUX IN
     threshold_mv = THRESHOLD_MV
     threshold = int(threshold_mv / 1000 * 32512)
-    status["trigger"] = ps.ps6000SetSimpleTrigger(chandle, 1, PS6000_TRIGGER_AUX, threshold, PS6000_RISING, 0, 1000)
+    status["trigger"] = ps.ps6000SetSimpleTrigger(chandle, 1, PS6000_TRIGGER_AUX, threshold, PS6000_RISING, 0, 3000)
     assert_pico_ok(status["trigger"])
 
     return chandle, status
@@ -155,7 +155,7 @@ def main():
     chandle, status = setup_picoscope()
 
     try:
-        for changed_byte in range(9, 10):
+        for changed_byte in range(1, 5):
 
             print("Performing dummy capture...")
             run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
@@ -188,6 +188,13 @@ def main():
                         print(f"Processing input {index + 1}/{NUM_TRACES}")
                         run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
                         print(f"Completed capture for input {index + 1}")
+
+            subprocess.run(["java", "-jar", "gp.jar", "--install",
+                            f"templates_ff/test_javacardx_crypto_9.cap"],
+                           stdout=subprocess.PIPE)
+            subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
+                            f"templates_ff/test_javacardx_crypto_9.cap"],
+                           stdout=subprocess.PIPE)
 
     finally:
         ps.ps6000Stop(chandle)
