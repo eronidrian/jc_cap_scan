@@ -2,10 +2,10 @@ import trsfile
 import csv
 
 MEASUREMENTS_FILENAME = "time_measurements.csv"
-NUM_OF_TRACES_IN_FILE = 1
-NUM_OF_CHANGED_BYTES = 11
+NUM_OF_TRACES_IN_FILE = 10
+NUM_OF_CHANGED_BYTES = 9
 
-PACKAGE_NAME = "javacardx_framework_util_intx"
+PACKAGE_NAME = "javacardx_crypto"
 CHANGED_BYTE = "ff"
 
 def extract_trace(filename: str, trace_index: int) -> list[int]:
@@ -97,8 +97,8 @@ def extract_single_response(response_index: int, output_filename: str) -> None:
     csv_file_read.close()
 
 
-max_gap = 100_000
-min_duration = 50_000
+max_gap = 300_000
+min_duration = 150_000
 threshold_high = 6
 results_dirname = f'/home/petr/Downloads/diplomka/side_channel_measurement/results/{PACKAGE_NAME}_{CHANGED_BYTE}'
 
