@@ -155,7 +155,7 @@ def main():
     chandle, status = setup_picoscope()
 
     try:
-        for changed_byte in range(1, 5):
+        for changed_byte in range(9):
 
             print("Performing dummy capture...")
             run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
@@ -189,6 +189,7 @@ def main():
                         run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
                         print(f"Completed capture for input {index + 1}")
 
+            # reset fault counter
             subprocess.run(["java", "-jar", "gp.jar", "--install",
                             f"templates_ff/test_javacardx_crypto_9.cap"],
                            stdout=subprocess.PIPE)
