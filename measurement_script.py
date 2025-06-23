@@ -27,7 +27,7 @@ THRESHOLD_MV = 1
 SAMPLE_INTERVAL_NS = 50
 NUMBER_OF_SAMPLES = 25 * 10**6
 
-PACKAGE_NAME = "javacardx_crypto"
+PACKAGE_NAME = "javacardx_framework_util_intx"
 CHANGED_BYTE_VALUE = "ff"
 
 
@@ -155,7 +155,7 @@ def main():
     chandle, status = setup_picoscope()
 
     try:
-        for changed_byte in range(9):
+        for changed_byte in range(8, 10):
 
             print("Performing dummy capture...")
             run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
