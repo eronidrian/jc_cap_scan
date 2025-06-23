@@ -1,3 +1,4 @@
+import random
 import threading
 import time
 import os
@@ -155,7 +156,9 @@ def main():
     chandle, status = setup_picoscope()
 
     try:
-        for changed_byte in range(8, 10):
+        random_range = list(range(1, 12))
+        random.shuffle(random_range)
+        for changed_byte in random_range:
 
             print("Performing dummy capture...")
             run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
