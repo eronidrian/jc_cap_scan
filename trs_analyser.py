@@ -1,11 +1,13 @@
 import trsfile
 import csv
+import numpy as np
+import numba
 
 MEASUREMENTS_FILENAME = "time_measurements.csv"
 NUM_OF_TRACES_IN_FILE = 10
-NUM_OF_CHANGED_BYTES = 9
+NUM_OF_CHANGED_BYTES = 11
 
-PACKAGE_NAME = "javacardx_crypto"
+PACKAGE_NAME = "javacardx_framework_util_intx"
 CHANGED_BYTE = "ff"
 
 def extract_trace(filename: str, trace_index: int) -> list[int]:
@@ -13,39 +15,53 @@ def extract_trace(filename: str, trace_index: int) -> list[int]:
         return traces[trace_index]
 
 
-def smooth_high_periods(high_periods: list[bool], max_gap: int) -> list[bool]:
-    result = high_periods[:]
-    i = 0
-    while i < len(result):
-        if not result[i]:
-            j = i
-            while j < len(result) and not result[j] and (j - i) <= max_gap:
-                j += 1
-            if j < len(result) and result[i - 1] and result[j]:
-                for k in range(i, j):
-                    result[k] = True
-            i = j
+@numba.njit
+def merge_gaps(starts, ends, max_gap):
+    result_starts = []
+    result_ends = []
+    current_start = starts[0]
+    current_end = ends[0]
+
+    for i in range(1, len(starts)):
+        if starts[i] - current_end <= max_gap:
+            current_end = ends[i]
         else:
-            i += 1
-    return result
+            result_starts.append(current_start)
+            result_ends.append(current_end)
+            current_start = starts[i]
+            current_end = ends[i]
 
+    result_starts.append(current_start)
+    result_ends.append(current_end)
 
-def filter_long_high_periods(high_periods_smoothed: list[bool], min_duration: int) -> list[tuple[int, int]]:
-    periods = []
-    start = None
-    for i, is_high in enumerate(high_periods_smoothed):
-        if is_high:
-            if start is None:
-                start = i
-        else:
-            if start is not None and i - start >= min_duration:
-                periods.append((start, i - 1))
-            start = None
+    return result_starts, result_ends
 
-    if start is not None and len(high_periods_smoothed) - start >= min_duration:
-        periods.append((start, len(high_periods_smoothed) - 1))
+def find_high_consumption_periods(data, threshold, min_duration, max_gap):
+    data = np.asarray(data)
+    high = data > threshold
 
-    return periods
+    # Detect rising and falling edges
+    diff = np.diff(high.astype(np.int8))
+    starts = np.flatnonzero(diff == 1) + 1
+    ends = np.flatnonzero(diff == -1) + 1
+
+    # Edge case: high at start or end
+    if high[0]:
+        starts = np.insert(starts, 0, 0)
+    if high[-1]:
+        ends = np.append(ends, len(high))
+
+    # Merge small gaps
+    starts, ends = merge_gaps(starts, ends, max_gap)
+
+    # Filter by min_duration
+    starts = np.array(starts)
+    ends = np.array(ends)
+    durations = ends - starts
+    valid = durations >= min_duration
+
+    return list(zip(starts[valid], ends[valid] - 1))
+
 
 def bulk_process(traces_dirname: str, max_gap: int, min_duration: int, threshold_high: int):
     csv_file = open(MEASUREMENTS_FILENAME, "w")
@@ -58,11 +74,9 @@ def bulk_process(traces_dirname: str, max_gap: int, min_duration: int, threshold
             filename = f'{traces_dirname}/all_traces_{PACKAGE_NAME}_{byte_changed}_{CHANGED_BYTE}.trs'
             trace = extract_trace(filename, trace_num)
 
-            high_periods = [x > threshold_high for x in trace]
-            high_periods_smoothed = smooth_high_periods(high_periods, max_gap)
-            periods = filter_long_high_periods(high_periods_smoothed, min_duration)
-
+            periods = find_high_consumption_periods(trace, threshold_high, min_duration, max_gap)
             times = [period[1] - period[0] for period in periods]
+
             print(periods)
             print(times)
             csv_writer.writerow([byte_changed, trace_num] + times)
@@ -100,8 +114,34 @@ def extract_single_response(response_index: int, output_filename: str) -> None:
 max_gap = 300_000
 min_duration = 150_000
 threshold_high = 6
-results_dirname = f'/home/petr/Downloads/diplomka/side_channel_measurement/results/{PACKAGE_NAME}_{CHANGED_BYTE}'
+results_dirname = f'/home/petr/Downloads/diplomka/side_channel_measurement/results/new/{PACKAGE_NAME}_{CHANGED_BYTE}'
 
-# bulk_process(results_dirname, max_gap, min_duration, threshold_high)
+bulk_process(results_dirname, max_gap, min_duration, threshold_high)
 
-extract_single_response(-2, f"aid_upload_times_{PACKAGE_NAME}_single.csv")
+# extract_single_response(-1, f"aid_upload_times_{PACKAGE_NAME}_last.csv")
+
+# result_file = open("all.csv", "w")
+# csv_writer = csv.writer(result_file)
+# csv_writer.writerow(["modification"] + [i for i in range(1, 41)])
+# row_names = [f"AID {i}. byte" for i in range(1, NUM_OF_CHANGED_BYTES - 1)]
+# row_names.extend([
+#     "Major version",
+#     "Minor version",
+# ])
+#
+# base_name = "results_sca_new"
+# new_rows = [[row_name] for row_name in row_names]
+# for i in range(9):
+#     new_row = []
+#     for changed_byte in ["results_ee", "results_ff"]:
+#         for package_name in ["javacard_security", "javacardx_crypto"]:
+#             full_name = f"{base_name}/{changed_byte}/aid_upload_times_{package_name}_last.csv"
+#             with open(full_name) as f:
+#                 csv_reader = csv.reader(f)
+#                 rows = list(csv_reader)
+#                 rows = [row for row in rows if row[0] != 'modification']
+#                 new_rows[i].extend(rows[i][1:])
+#
+# for row in new_rows:
+#     csv_writer.writerow(row)
+# print(new_rows)
