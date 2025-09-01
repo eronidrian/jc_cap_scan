@@ -4,7 +4,6 @@ import time
 import os
 import ctypes
 import numpy as np
-import matplotlib
 from datetime import datetime  # For generating the folder name
 from picosdk.ps6000 import ps6000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok
@@ -13,7 +12,6 @@ from trsfile.parametermap import TraceParameterMap, TraceParameterDefinitionMap
 from trsfile.traceparameter import ParameterType, TraceParameterDefinition, IntegerArrayParameter
 import subprocess
 
-matplotlib.use('Agg')  # Use the non-interactive Agg backend
 
 # Constants and configurations
 NUM_TRACES = 1  # Number of traces to capture
@@ -159,14 +157,16 @@ def main():
         random.shuffle(random_range)
         for changed_byte in random_range:
 
-            print("Performing dummy capture...")
-            run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
+            print(f"Measuring byte {changed_byte}")
 
-            # Remove dummy files
-            dummy_png = os.path.join(folder_name, "trace_dummy.png")
-            if os.path.exists(dummy_png):
-                os.remove(dummy_png)
-                print(f"Removed {dummy_png}")
+            # print("Performing dummy capture...")
+            # run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
+            #
+            # # Remove dummy files
+            # dummy_png = os.path.join(folder_name, "trace_dummy.png")
+            # if os.path.exists(dummy_png):
+            #     os.remove(dummy_png)
+            #     print(f"Removed {dummy_png}")
 
             # Define the trace parameter definitions and header for the trs file
             trace_parameter_definitions = TraceParameterDefinitionMap({
@@ -187,17 +187,18 @@ def main():
             trs_file_path = os.path.join(folder_name, f"all_traces_{PACKAGE_NAME}_{changed_byte}_{CHANGED_BYTE_VALUE}.trs")
             with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
                     for index in range(NUM_TRACES):
-                        print(f"Processing input {index + 1}/{NUM_TRACES}")
+                        print(f"Getting trace {index + 1}/{NUM_TRACES}")
                         run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
-                        print(f"Completed capture for input {index + 1}")
 
             # reset fault counter
+            print("Resetting fault counter...")
             subprocess.run(["java", "-jar", "gp.jar", "--install",
                             f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
                            stdout=subprocess.PIPE)
             subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
                             f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
                            stdout=subprocess.PIPE)
+            print()
 
     finally:
         ps.ps6000Stop(chandle)
