@@ -196,7 +196,7 @@ def main():
                             f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
                            stdout=subprocess.PIPE)
             subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap.cap"],
+                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
                            stdout=subprocess.PIPE)
 
     finally:
