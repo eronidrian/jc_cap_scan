@@ -5,9 +5,7 @@ import os
 import ctypes
 import numpy as np
 import matplotlib
-import matplotlib.pyplot as plt
 from datetime import datetime  # For generating the folder name
-from smartleia import TriggerPoints
 from picosdk.ps6000 import ps6000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok
 from trsfile import trs_open, Trace, SampleCoding, Header
@@ -18,7 +16,7 @@ import subprocess
 matplotlib.use('Agg')  # Use the non-interactive Agg backend
 
 # Constants and configurations
-NUM_TRACES = 10  # Number of traces to capture
+NUM_TRACES = 1  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
@@ -28,9 +26,9 @@ THRESHOLD_MV = 1
 SAMPLE_INTERVAL_NS = 50
 NUMBER_OF_SAMPLES = 25 * 10**6
 
-PACKAGE_NAME = "javacardx_framework_util_intx"
+PACKAGE_NAME = "javacardx_crypto"
 CHANGED_BYTE_VALUE = "ff"
-BYTE_RANGE = 11
+BYTE_RANGE = 9
 
 
 
