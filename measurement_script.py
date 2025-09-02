@@ -26,7 +26,7 @@ NUMBER_OF_SAMPLES = 25 * 10**6
 
 PACKAGE_NAME = "javacardx_crypto"
 CHANGED_BYTE_VALUE = "ff"
-BYTE_RANGE = 9
+BYTE_RANGE = [2, 5, 6]
 
 
 
@@ -153,7 +153,7 @@ def main():
     chandle, status = setup_picoscope()
 
     try:
-        random_range = list(range(BYTE_RANGE))
+        random_range = BYTE_RANGE
         random.shuffle(random_range)
         for changed_byte in random_range:
 
@@ -195,10 +195,10 @@ def main():
                             # reset fault counter
                             print("Resetting fault counter...")
                             subprocess.run(["java", "-jar", "gp.jar", "--install",
-                                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
+                                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_9.cap"],
                                            stdout=subprocess.PIPE)
                             subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
+                                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_9.cap"],
                                            stdout=subprocess.PIPE)
             print()
 
