@@ -75,9 +75,10 @@ def bulk_extract(traces_dirname: str, output_filename: str) -> tuple[int, int]:
     csv_writer = csv.writer(csv_file)
     num_of_files = len(os.listdir(traces_dirname))
 
-    for file_num, trs_file_name in enumerate(os.listdir(traces_dirname)):
+    for file_num, trs_file_name in enumerate(sorted(os.listdir(traces_dirname))):
         print(f"{file_num + 1}/{num_of_files}")
         trs_path = os.path.join(traces_dirname, trs_file_name)
+        print(trs_path)
         num_of_traces_in_file = get_num_of_traces(trs_path)
         for trace_num in range(num_of_traces_in_file):
             print(f"{trace_num + 1}/{num_of_traces_in_file}")
