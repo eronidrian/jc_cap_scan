@@ -14,7 +14,7 @@ import subprocess
 
 
 # Constants and configurations
-NUM_TRACES = 1  # Number of traces to capture
+NUM_TRACES = 100  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
@@ -159,14 +159,14 @@ def main():
 
             print(f"Measuring byte {changed_byte}")
 
-            # print("Performing dummy capture...")
-            # run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
-            #
-            # # Remove dummy files
-            # dummy_png = os.path.join(folder_name, "trace_dummy.png")
-            # if os.path.exists(dummy_png):
-            #     os.remove(dummy_png)
-            #     print(f"Removed {dummy_png}")
+            print("Performing dummy capture...")
+            run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
+
+            # Remove dummy files
+            dummy_png = os.path.join(folder_name, "trace_dummy.png")
+            if os.path.exists(dummy_png):
+                os.remove(dummy_png)
+                print(f"Removed {dummy_png}")
 
             # Define the trace parameter definitions and header for the trs file
             trace_parameter_definitions = TraceParameterDefinitionMap({
@@ -190,14 +190,16 @@ def main():
                         print(f"Getting trace {index + 1}/{NUM_TRACES}")
                         run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
 
-            # reset fault counter
-            print("Resetting fault counter...")
-            subprocess.run(["java", "-jar", "gp.jar", "--install",
-                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
-                           stdout=subprocess.PIPE)
-            subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
-                           stdout=subprocess.PIPE)
+                        if index % 20 == 0:
+
+                            # reset fault counter
+                            print("Resetting fault counter...")
+                            subprocess.run(["java", "-jar", "gp.jar", "--install",
+                                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
+                                           stdout=subprocess.PIPE)
+                            subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
+                                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_{BYTE_RANGE}.cap"],
+                                           stdout=subprocess.PIPE)
             print()
 
     finally:
