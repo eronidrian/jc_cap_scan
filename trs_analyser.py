@@ -7,8 +7,10 @@ import numpy as np
 import numba
 from numba.np.arrayobj import numpy_broadcast_arrays
 
-MAX_GAP = 300_000
-MIN_DURATION = 150_000
+SAMPLE_INTERVAL_NS = 25
+
+MAX_GAP = 300_000 * 50/SAMPLE_INTERVAL_NS
+MIN_DURATION = 150_000 * 50/SAMPLE_INTERVAL_NS
 THRESHOLD_HIGH = 6
 
 TRACE_TO_EXTRACT = -1

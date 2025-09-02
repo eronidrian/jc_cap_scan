@@ -21,7 +21,7 @@ PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the d
 PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 
 THRESHOLD_MV = 1
-SAMPLE_INTERVAL_NS = 50
+SAMPLE_INTERVAL_NS = 25
 NUMBER_OF_SAMPLES = 25 * 10**6
 
 PACKAGE_NAME = "javacardx_crypto"
@@ -47,7 +47,7 @@ def setup_picoscope():
     # Set up single trigger on AUX IN
     threshold_mv = THRESHOLD_MV
     threshold = int(threshold_mv / 1000 * 32512)
-    status["trigger"] = ps.ps6000SetSimpleTrigger(chandle, 1, PS6000_TRIGGER_AUX, threshold, PS6000_RISING, 0, 3000)
+    status["trigger"] = ps.ps6000SetSimpleTrigger(chandle, 1, PS6000_TRIGGER_AUX, threshold, PS6000_RISING, 0, 3700)
     assert_pico_ok(status["trigger"])
 
     return chandle, status
