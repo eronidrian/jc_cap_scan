@@ -86,6 +86,7 @@ def bulk_extract(traces_dirname: str, output_filename: str) -> tuple[int, int]:
             print(f"{trace_num + 1}/{num_of_traces_in_file}")
 
             trace = extract_trace(trs_path, trace_num)
+            print(trace[:100])
 
             periods = find_high_consumption_periods(trace)
             times = [period[1] - period[0] for period in periods]
@@ -145,19 +146,18 @@ if __name__ == '__main__':
 # result_file = open("all.csv", "w")
 # csv_writer = csv.writer(result_file)
 # csv_writer.writerow(["modification"] + [i for i in range(1, 41)])
-# row_names = [f"AID {i}. byte" for i in range(1, NUM_OF_TRS_FILES - 1)]
+# row_names = [f"AID {i}. byte" for i in range(1, 8)]
 # row_names.extend([
 #     "Major version",
 #     "Minor version",
 # ])
 #
-# base_name = "results_sca_new"
 # new_rows = [[row_name] for row_name in row_names]
 # for i in range(9):
 #     new_row = []
-#     for changed_byte in ["results_ee", "results_ff"]:
+#     for changed_byte in ["ee", "ff"]:
 #         for package_name in ["javacard_security", "javacardx_crypto"]:
-#             full_name = f"{base_name}/{changed_byte}/aid_upload_times_{package_name}_last.csv"
+#             full_name = f"/home/petr/Downloads/diplomka/new_results/100_measurements/{package_name}_{changed_byte}_extract.csv"
 #             with open(full_name) as f:
 #                 csv_reader = csv.reader(f)
 #                 rows = list(csv_reader)

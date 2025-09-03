@@ -74,24 +74,28 @@ row_names.extend([
     "Unchanged"
 ])
 
-f = open(f"aid_upload_times_{package_name}.csv", "w", newline="")
-writer = csv.writer(f)
-writer.writerow(["modification"] + [i for i in range(1, 51)])
 
-
-for i in range(len(aid) + 3):
-    times = []
-    print(f"Measuring test_{package_name}_{i}.cap...")
-    times.append(row_names[i])
-    for j in range(measurements_num):
-        print(j)
-        start = time.perf_counter_ns()
-        subprocess.run(["java", "-jar", "gp.jar", "--install", f"test_{package_name}_{i}.cap"], stdout=subprocess.PIPE)
-        end = time.perf_counter_ns()
-        times.append(end - start)
-        subprocess.run(["java", "-jar", "gp.jar", "--uninstall", f"test_{package_name}_{i}.cap"], stdout=subprocess.PIPE)
-    print("Resulting times:")
-    print(times)
-    writer.writerow(times)
-
-f.close()
+#############################
+# PC TIMER MEASUREMENT      #
+#############################
+# f = open(f"aid_upload_times_{package_name}.csv", "w", newline="")
+# writer = csv.writer(f)
+# writer.writerow(["modification"] + [i for i in range(1, 51)])
+#
+#
+# for i in range(len(aid) + 3):
+#     times = []
+#     print(f"Measuring test_{package_name}_{i}.cap...")
+#     times.append(row_names[i])
+#     for j in range(measurements_num):
+#         print(j)
+#         start = time.perf_counter_ns()
+#         subprocess.run(["java", "-jar", "gp.jar", "--install", f"test_{package_name}_{i}.cap"], stdout=subprocess.PIPE)
+#         end = time.perf_counter_ns()
+#         times.append(end - start)
+#         subprocess.run(["java", "-jar", "gp.jar", "--uninstall", f"test_{package_name}_{i}.cap"], stdout=subprocess.PIPE)
+#     print("Resulting times:")
+#     print(times)
+#     writer.writerow(times)
+#
+# f.close()
