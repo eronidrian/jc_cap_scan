@@ -26,7 +26,7 @@ def format_import(packages_list):
 
     return import_section
 
-def generate_cap_for_package_aid(aid, major, minor, version, package_name):
+def generate_cap_for_package_aid(aid, major, minor, aid_len):
     imported_packages = []
     imported_packages.append(javacard_framework)
     # imported_packages.append(java_lang)  # do not import java_lang as default (some cards will then fail to load)
@@ -40,44 +40,35 @@ def generate_cap_for_package_aid(aid, major, minor, version, package_name):
     f.close()
 
     # create new cap file by zip of directories
-    shutil.make_archive(f'test_{package_name}_{version}.cap', 'zip', path.join(BASE_PATH, 'template'))
+    shutil.make_archive(f'test_{aid_len}.cap', 'zip', path.join(BASE_PATH, 'template'))
 
     # remove zip suffix
-    if os.path.exists(f'test_{package_name}_{version}.cap'):
-        os.remove(f'test_{package_name}_{version}.cap')
-    os.rename(f'test_{package_name}_{version}.cap.zip', f'test_{package_name}_{version}.cap')
+    if os.path.exists(f'test_{aid_len}.cap'):
+        os.remove(f'test_{aid_len}.cap')
+    os.rename(f'test_{aid_len}.cap.zip', f'test_{aid_len}.cap')
 
-
-package_name = "javacard_security"
-aid = bytearray.fromhex("A0000000620102")
 major = 1
 minor = 0
+for aid_len in range(4, 15):
+    aid = bytearray.fromhex("AA"*aid_len)
+    generate_cap_for_package_aid(aid, major, minor, aid_len)
 
-modified_byte_value = 0xee
 
-for i in range(len(aid)):
-    aid_modified = aid.copy()
-    aid_modified[i] = modified_byte_value
-    generate_cap_for_package_aid(aid_modified, major, minor, i, package_name)
 
-generate_cap_for_package_aid(aid, modified_byte_value, minor, len(aid), package_name)
-generate_cap_for_package_aid(aid, major, modified_byte_value, len(aid) + 1, package_name)
-
-generate_cap_for_package_aid(aid, major, minor, len(aid) + 2, package_name)
-
-measurements_num = 50
-
-row_names = [f"AID {i}. byte" for i in range(1, len(aid) + 1)]
-row_names.extend([
-    "Major version",
-    "Minor version",
-    "Unchanged"
-])
 
 
 #############################
 # PC TIMER MEASUREMENT      #
 #############################
+# measurements_num = 50
+#
+# row_names = [f"AID {i}. byte" for i in range(1, len(aid) + 1)]
+# row_names.extend([
+#     "Major version",
+#     "Minor version",
+#     "Unchanged"
+# ])
+
 # f = open(f"aid_upload_times_{package_name}.csv", "w", newline="")
 # writer = csv.writer(f)
 # writer.writerow(["modification"] + [i for i in range(1, 51)])

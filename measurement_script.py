@@ -14,7 +14,7 @@ import subprocess
 
 
 # Constants and configurations
-NUM_TRACES = 100  # Number of traces to capture
+NUM_TRACES = 10  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
@@ -24,9 +24,9 @@ THRESHOLD_MV = 1
 SAMPLE_INTERVAL_NS = 25
 NUMBER_OF_SAMPLES = 25 * 10**6
 
-PACKAGE_NAME = "javacardx_crypto"
-CHANGED_BYTE_VALUE = "ff"
-BYTE_RANGE = [2, 5, 6]
+# PACKAGE_NAME = "javacardx_crypto"
+# CHANGED_BYTE_VALUE = "ff"
+AID_LEN_RANGE = list(range(4, 15))
 
 
 
@@ -53,7 +53,7 @@ def setup_picoscope():
     return chandle, status
 
 
-def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte, index, save_to_trs=True, folder=""):
+def capture_trace(chandle, status, trs_writer, capture_done_event, aid_len, index, save_to_trs=True, folder=""):
     try:
         # Set number of pre and post trigger samples to be collected
         preTriggerSamples = 10
@@ -106,7 +106,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
             adc2mVChBMax_byte = np.clip((adc2mVChBMax / (max_value / 127.0)), -128, 127).astype(np.int8)
 
             trace_parameters = TraceParameterMap({
-                'CHANGED': IntegerArrayParameter([changed_byte])
+                'CHANGED': IntegerArrayParameter([aid_len])
             })
             trs_writer.extend([Trace(SampleCoding.BYTE, adc2mVChBMax_byte, trace_parameters)])
 
@@ -115,16 +115,16 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
         capture_done_event.set()
 
 
-def install_package(changed_byte, package_name, changed_byte_value):
-   subprocess.run(["java", "-jar", "gp.jar", "--install", f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"], stdout=subprocess.PIPE)
+def install_package(aid_len):
+   subprocess.run(["java", "-jar", "gp.jar", "--install", f"templates_len/test_{aid_len}.cap"], stdout=subprocess.PIPE)
 
 
-def run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, save_to_trs=True, folder=""):
+def run_installation_and_capture(chandle, status, trs_writer, aid_len, index, save_to_trs=True, folder=""):
     capture_done_event = threading.Event()
 
     # Start capture in a separate thread
     capture_thread = threading.Thread(target=capture_trace,
-                                      args=(chandle, status, trs_writer, capture_done_event, changed_byte, index, save_to_trs, folder))
+                                      args=(chandle, status, trs_writer, capture_done_event, aid_len, index, save_to_trs, folder))
     capture_thread.start()
 
     # Wait a short time to ensure capture has started
@@ -132,13 +132,10 @@ def run_installation_and_capture(chandle, status, trs_writer, changed_byte, inde
 
     # Perform installation (this is what we want to capture)
 
-    install_package(changed_byte, PACKAGE_NAME, CHANGED_BYTE_VALUE)
+    install_package(aid_len)
 
     # Wait for capture to complete
     capture_done_event.wait()
-
-    # subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-    #                 f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"], stdout=subprocess.PIPE)
 
 
 def main():
@@ -153,14 +150,14 @@ def main():
     chandle, status = setup_picoscope()
 
     try:
-        random_range = BYTE_RANGE
+        random_range = AID_LEN_RANGE
         random.shuffle(random_range)
-        for changed_byte in random_range:
+        for aid_len in random_range:
 
-            print(f"Measuring byte {changed_byte}")
+            print(f"Measuring AID length {aid_len}")
 
             print("Performing dummy capture...")
-            run_installation_and_capture(chandle, status, None, changed_byte, "dummy", save_to_trs=False, folder=folder_name)
+            run_installation_and_capture(chandle, status, None, aid_len, "dummy", save_to_trs=False, folder=folder_name)
 
             # Remove dummy files
             dummy_png = os.path.join(folder_name, "trace_dummy.png")
@@ -184,22 +181,32 @@ def main():
                 Header.TRACE_PARAMETER_DEFINITIONS: trace_parameter_definitions
             }
 
-            trs_file_path = os.path.join(folder_name, f"all_traces_{PACKAGE_NAME}_{changed_byte}_{CHANGED_BYTE_VALUE}.trs")
+            trs_file_path = os.path.join(folder_name, f"all_traces_{aid_len}.trs")
             with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
                     for index in range(NUM_TRACES):
                         print(f"Getting trace {index + 1}/{NUM_TRACES}")
-                        run_installation_and_capture(chandle, status, trs_writer, changed_byte, index, folder=folder_name)
+                        run_installation_and_capture(chandle, status, trs_writer, aid_len, index, folder=folder_name)
 
                         if index % 20 == 0:
 
                             # reset fault counter
                             print("Resetting fault counter...")
                             subprocess.run(["java", "-jar", "gp.jar", "--install",
-                                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_9.cap"],
+                                            f"templates_ff/test_javacard_security_9.cap"],
                                            stdout=subprocess.PIPE)
                             subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                                            f"templates_{CHANGED_BYTE_VALUE}/test_{PACKAGE_NAME}_9.cap"],
+                                            f"templates_ff/test_javacard_security_9.cap"],
                                            stdout=subprocess.PIPE)
+
+                            print("Performing dummy capture...")
+                            run_installation_and_capture(chandle, status, None, aid_len, "dummy", save_to_trs=False,
+                                                         folder=folder_name)
+
+                            # Remove dummy files
+                            dummy_png = os.path.join(folder_name, "trace_dummy.png")
+                            if os.path.exists(dummy_png):
+                                os.remove(dummy_png)
+                                print(f"Removed {dummy_png}")
             print()
 
     finally:

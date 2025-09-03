@@ -1,0 +1,1 @@
+AID full of 0xaa from length 4 to length 15, major version 1, minor version 0
