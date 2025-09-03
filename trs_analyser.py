@@ -86,7 +86,6 @@ def bulk_extract(traces_dirname: str, output_filename: str) -> tuple[int, int]:
             print(f"{trace_num + 1}/{num_of_traces_in_file}")
 
             trace = extract_trace(trs_path, trace_num)
-            print(trace[:100])
 
             periods = find_high_consumption_periods(trace)
             times = [period[1] - period[0] for period in periods]
@@ -110,17 +109,13 @@ def extract_single_response(response_index: int, input_filename: str, output_fil
     csv_writer.writerow(["modification"] + [i for i in range(1, num_of_traces_in_file + 1)])
     rows = [row for row in csv_reader if row]
 
-    row_names = [f"AID {i}. byte" for i in range(1, num_of_files - 1)]
-    row_names.extend([
-        "Major version",
-        "Minor version",
-    ])
+    row_names = list(range(4, 15))
 
-    for byte_changed in range(num_of_files):
+    for file_index in range(num_of_files):
         new_row = []
-        for measurement in range(num_of_traces_in_file):
-            new_row.append(rows[byte_changed * num_of_traces_in_file + measurement][response_index])
-        csv_writer.writerow([row_names[byte_changed]] + new_row)
+        for measurement_index in range(num_of_traces_in_file):
+            new_row.append(rows[file_index * num_of_traces_in_file + measurement_index][response_index])
+        csv_writer.writerow([row_names[file_index]] + new_row)
 
     csv_file_write.close()
     csv_file_read.close()
