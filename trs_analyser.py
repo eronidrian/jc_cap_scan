@@ -147,6 +147,47 @@ if __name__ == '__main__':
 #     "Minor version",
 # ])
 #
+#     csv_writer.writerow(["modification"] + [i for i in range(1, num_of_traces_in_file + 1)])
+#     rows = [row for row in csv_reader if row]
+#
+#     row_names = list(range(4, 15))
+#
+#     for file_index in range(num_of_files):
+#         new_row = []
+#         for measurement_index in range(num_of_traces_in_file):
+#             new_row.append(rows[file_index * num_of_traces_in_file + measurement_index][response_index])
+#         csv_writer.writerow([row_names[file_index]] + new_row)
+#
+#     csv_file_write.close()
+#     csv_file_read.close()
+#
+#
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        prog="TRS analyser",
+        description=""
+    )
+
+    parser.add_argument('-r', '--results_dirname', help='Directory with the TRS files', required=True)
+    parser.add_argument('-o', '--output_filename', help='Filename for the complete CSV', required=True)
+    parser.add_argument('-e', '--extract_filename', help='Filename for the CSV with extracted time', required=True)
+
+
+    args = parser.parse_args()
+
+    num_of_files, num_of_traces_in_file = bulk_extract(args.results_dirname, args.output_filename)
+
+    extract_single_response(-1, args.output_filename, args.extract_filename, num_of_files, num_of_traces_in_file)
+
+# result_file = open("all.csv", "w")
+# csv_writer = csv.writer(result_file)
+# csv_writer.writerow(["modification"] + [i for i in range(1, 401)])
+# row_names = [f"AID {i}. byte" for i in range(1, 8)]
+# row_names.extend([
+#     "Major version",
+#     "Minor version",
+# ])
+#
 # new_rows = [[row_name] for row_name in row_names]
 # for i in range(9):
 #     new_row = []
