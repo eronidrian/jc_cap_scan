@@ -71,7 +71,8 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
 
         # Run block capture
         sample_interval_ns = SAMPLE_INTERVAL_NS
-        timebase = int(sample_interval_ns / 10**9 * 156250000) + 4
+        timebase = round(sample_interval_ns / 10 ** 9 * 156250000) + 4
+        print(f"ACTUAL SAMPLE INTERVAL: {(timebase - 4) / 156250000 * 10 ** 9} ns")
         timeIntervalns = ctypes.c_float()
         returnedMaxSamples = ctypes.c_int32()
         status["getTimebase2"] = ps.ps6000GetTimebase2(chandle, timebase, maxSamples, ctypes.byref(timeIntervalns), 1,
