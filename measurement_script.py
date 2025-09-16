@@ -13,7 +13,7 @@ from trsfile.traceparameter import ParameterType, TraceParameterDefinition, Inte
 import subprocess
 
 # Constants and configurations
-NUM_TRACES = 2  # Number of traces to capture
+NUM_TRACES = 100  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
@@ -122,12 +122,19 @@ def install_package(changed_byte, package_name, changed_byte_value):
 
 
 def reset_fault_counter():
-    subprocess.run(["java", "-jar", "gp.jar", "--install",
+    result = subprocess.run(["java", "-jar", "gp.jar", "--install",
                     VALID_CAP_FILE_PATH],
                    stdout=subprocess.PIPE)
+
+    result = result.stdout.decode("utf-8")
+    if result.find("CAP loaded") == -1:
+        print("CARD UNRESPONSIVE! ABORTING!")
+        exit(1)
     subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
                     VALID_CAP_FILE_PATH],
                    stdout=subprocess.PIPE)
+
+
 
 
 def run_installation_and_capture(chandle, status, trs_writer, changed_byte, package_name, changed_byte_value, index,
