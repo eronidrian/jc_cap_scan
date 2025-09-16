@@ -13,7 +13,7 @@ from trsfile.traceparameter import ParameterType, TraceParameterDefinition, Inte
 import subprocess
 
 # Constants and configurations
-NUM_TRACES = 100  # Number of traces to capture
+NUM_TRACES = 2  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
@@ -201,7 +201,7 @@ def main():
                                 print("Resetting fault counter...")
                                 reset_fault_counter()
                                 # reset fault counter
-
+                    time.sleep(10)
                     print()
 
     finally:
