@@ -2,11 +2,13 @@ Javacos A40
 
 post-trigger delay - 3700 ms
 fault counter reset - after 20 repetitions
+threshold for extraction - 6
 
 NXP JCOP4
 
 post-trigger delay - 3700 ms
 fault counter reset - after 10 repetitions
+threshold for extraction - 20
 
 NXP JCOP3
 

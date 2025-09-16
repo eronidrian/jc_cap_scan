@@ -11,7 +11,7 @@ SAMPLE_INTERVAL_NS = 25
 
 MAX_GAP = 300_000 * 50/SAMPLE_INTERVAL_NS
 MIN_DURATION = 150_000 * 50/SAMPLE_INTERVAL_NS
-THRESHOLD_HIGH = 6
+THRESHOLD_HIGH = 20
 
 TRACE_TO_EXTRACT = -1
 
@@ -86,7 +86,6 @@ def bulk_extract(traces_dirname: str, output_filename: str) -> tuple[int, int]:
             print(f"{trace_num + 1}/{num_of_traces_in_file}")
 
             trace = extract_trace(trs_path, trace_num)
-            print(trace[:100])
 
             periods = find_high_consumption_periods(trace)
             times = [period[1] - period[0] for period in periods]
