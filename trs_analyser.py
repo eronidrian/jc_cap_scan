@@ -9,9 +9,9 @@ from numba.np.arrayobj import numpy_broadcast_arrays
 
 SAMPLE_INTERVAL_NS = 25
 
-MAX_GAP = 300_000 * 50/SAMPLE_INTERVAL_NS
+MAX_GAP = 10_000_000 * 50/SAMPLE_INTERVAL_NS
 MIN_DURATION = 150_000 * 50/SAMPLE_INTERVAL_NS
-THRESHOLD_HIGH = 20
+THRESHOLD_HIGH = 10
 
 TRACE_TO_EXTRACT = -1
 
@@ -142,9 +142,11 @@ if __name__ == '__main__':
 
     extract_single_response(-1, args.output_filename, args.extract_filename, num_of_files, num_of_traces_in_file)
 
+# import csv
+#
 # result_file = open("all.csv", "w")
 # csv_writer = csv.writer(result_file)
-# csv_writer.writerow(["modification"] + [i for i in range(1, 41)])
+# csv_writer.writerow(["modification"] + [i for i in range(1, 401)])
 # row_names = [f"AID {i}. byte" for i in range(1, 8)]
 # row_names.extend([
 #     "Major version",
@@ -156,7 +158,7 @@ if __name__ == '__main__':
 #     new_row = []
 #     for changed_byte in ["ee", "ff"]:
 #         for package_name in ["javacard_security", "javacardx_crypto"]:
-#             full_name = f"/home/petr/Downloads/diplomka/new_results/100_measurements/{package_name}_{changed_byte}_extract.csv"
+#             full_name = f"/home/petr/Downloads/diplomka/new_results/nxp_jcop_4/{package_name}_{changed_byte}_extract.csv"
 #             with open(full_name) as f:
 #                 csv_reader = csv.reader(f)
 #                 rows = list(csv_reader)
