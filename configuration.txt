@@ -21,3 +21,13 @@ fault counter reset - after 10 repetitions
 threshold for extraction - 10
 max gap 10 000 000
 min duration 150 000
+
+Feitian K9
+
+post-trigger delay - 3700 ms
+fault counter reset - after 20 repetitions
+threshold for extraction
+    threshold = min(data[:100_000]) - 1
+    high = data < threshold
+max gap 100 000
+min duration 150 000
