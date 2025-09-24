@@ -140,7 +140,7 @@ if __name__ == '__main__':
 
     num_of_files, num_of_traces_in_file = bulk_extract(args.results_dirname, args.output_filename)
 
-    extract_single_response(-1, args.output_filename, args.extract_filename, num_of_files, num_of_traces_in_file)
+    extract_single_response(TRACE_TO_EXTRACT, args.output_filename, args.extract_filename, num_of_files, num_of_traces_in_file)
 
 # import csv
 #
@@ -158,7 +158,7 @@ if __name__ == '__main__':
 #     new_row = []
 #     for changed_byte in ["ee", "ff"]:
 #         for package_name in ["javacard_security", "javacardx_crypto"]:
-#             full_name = f"/home/petr/Downloads/diplomka/new_results/nxp_jcop_4/{package_name}_{changed_byte}_extract.csv"
+#             full_name = f"/home/petr/Downloads/diplomka/new_results/feitian_k_9/{package_name}_{changed_byte}_extract.csv"
 #             with open(full_name) as f:
 #                 csv_reader = csv.reader(f)
 #                 rows = list(csv_reader)
