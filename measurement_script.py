@@ -125,7 +125,7 @@ def install_package(changed_byte, package_name, changed_byte_value):
 
 def uninstall_package(changed_byte, package_name, changed_byte_value):
     return subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                           f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"
+                           f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap",
                            "-key", "404142434445464748494A4B4C4D4E4F404142434445464748494A4B4C4D4E4F"],
                           stdout=subprocess.PIPE)
 
