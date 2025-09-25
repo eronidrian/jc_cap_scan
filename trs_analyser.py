@@ -100,7 +100,7 @@ def extract_single_response(response_index: int, input_filename: str, output_fil
     csv_file_write = open(output_filename, "w")
     csv_writer = csv.writer(csv_file_write)
 
-    csv_writer.writerow(["modification"] + [i for i in range(1, SAMPLES_IN_TRACE + 1)])
+    csv_writer.writerow(["modification"] + [i for i in range(1, TRACES_IN_FILE + 1)])
     rows = [row for row in csv_reader if row]
 
     row_names = [f"AID {i}. byte" for i in range(1, num_of_files - 1)]
@@ -111,8 +111,8 @@ def extract_single_response(response_index: int, input_filename: str, output_fil
 
     for byte_changed in range(num_of_files):
         new_row = []
-        for measurement in range(SAMPLES_IN_TRACE):
-            new_row.append(rows[byte_changed * SAMPLES_IN_TRACE + measurement][response_index])
+        for measurement in range(TRACES_IN_FILE):
+            new_row.append(rows[byte_changed * TRACES_IN_FILE + measurement][response_index])
         csv_writer.writerow([row_names[byte_changed]] + new_row)
 
     csv_file_write.close()
