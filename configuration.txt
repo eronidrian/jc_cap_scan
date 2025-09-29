@@ -39,3 +39,11 @@ fault counter reset - after 10 repetitions
 threshold for extraction - 32
 max gap 100 000
 min duration 500 000
+
+NXP JCOP unknown
+
+post-trigger delay - 3450 ms
+fault counter reset - after 10 repetitions
+threshold for extraction - -9
+max gap 50 000
+min duration 500 000

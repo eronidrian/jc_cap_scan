@@ -8,13 +8,13 @@ import numba
 
 SAMPLE_INTERVAL_NS = 25
 
-MAX_GAP = 10_000_000 * 50 / SAMPLE_INTERVAL_NS
-MIN_DURATION = 150_000 * 50 / SAMPLE_INTERVAL_NS
-THRESHOLD_HIGH = 10
+MAX_GAP = 50_000 * 50 / SAMPLE_INTERVAL_NS
+MIN_DURATION = 500_000 * 50 / SAMPLE_INTERVAL_NS
+THRESHOLD_HIGH = -9
 
 TRACE_TO_EXTRACT = -1
 
-SAMPLES_IN_TRACE = 30_000_010
+SAMPLES_IN_TRACE = 25_000_010
 TRACES_IN_FILE = 100
 
 
@@ -131,33 +131,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    num_of_files = bulk_extract(args.results_dirname, args.output_filename)
-
-    extract_single_response(TRACE_TO_EXTRACT, args.output_filename, args.extract_filename, num_of_files)
-
-# import csv
-#
-# result_file = open("all.csv", "w")
-# csv_writer = csv.writer(result_file)
-# csv_writer.writerow(["modification"] + [i for i in range(1, 401)])
-# row_names = [f"AID {i}. byte" for i in range(1, 8)]
-# row_names.extend([
-#     "Major version",
-#     "Minor version",
-# ])
-#
-# new_rows = [[row_name] for row_name in row_names]
-# for i in range(9):
-#     new_row = []
-#     for changed_byte in ["ee", "ff"]:
-#         for package_name in ["javacard_security", "javacardx_crypto"]:
-#             full_name = f"/home/petr/Downloads/diplomka/new_results/feitian_k_9/{package_name}_{changed_byte}_extract.csv"
-#             with open(full_name) as f:
-#                 csv_reader = csv.reader(f)
-#                 rows = list(csv_reader)
-#                 rows = [row for row in rows if row[0] != 'modification']
-#                 new_rows[i].extend(rows[i][1:])
-#
-# for row in new_rows:
-#     csv_writer.writerow(row)
-# print(new_rows)
+    for package_name in ["javacard_security", "javacardx_crypto"]:
+        for changed_byte_value in ["ee", "ff"]:
+            current_dirname = os.path.join(args.results_dirname, f"{package_name}_{changed_byte_value}")
+            num_of_files = bulk_extract(current_dirname, args.output_filename)
+            extract_single_response(TRACE_TO_EXTRACT, args.output_filename, args.extract_filename, num_of_files)
