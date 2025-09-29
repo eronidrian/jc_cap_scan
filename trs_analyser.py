@@ -134,5 +134,6 @@ if __name__ == '__main__':
     for package_name in ["javacard_security", "javacardx_crypto"]:
         for changed_byte_value in ["ee", "ff"]:
             current_dirname = os.path.join(args.results_dirname, f"{package_name}_{changed_byte_value}")
-            num_of_files = bulk_extract(current_dirname, args.output_filename)
-            extract_single_response(TRACE_TO_EXTRACT, args.output_filename, args.extract_filename, num_of_files)
+            num_of_files = bulk_extract(current_dirname, f"{package_name}_{changed_byte_value}_full.csv")
+            extract_single_response(TRACE_TO_EXTRACT, f"{package_name}_{changed_byte_value}_full.csv",
+                                    f"{package_name}_{changed_byte_value}_extract.csv", num_of_files)
