@@ -126,8 +126,6 @@ if __name__ == '__main__':
     )
 
     parser.add_argument('-r', '--results_dirname', help='Directory with the TRS files', required=True)
-    parser.add_argument('-o', '--output_filename', help='Filename for the complete CSV', required=True)
-    parser.add_argument('-e', '--extract_filename', help='Filename for the CSV with extracted time', required=True)
 
     args = parser.parse_args()
 
