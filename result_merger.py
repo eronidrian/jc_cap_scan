@@ -1,7 +1,7 @@
 import csv
 
 
-directory_name = f"/home/petr/Downloads/diplomka/new_results/infineon_secora/"
+directory_name = f"/home/petr/Downloads/diplomka/new_results/smartcafe_6/"
 
 result_file = open(directory_name + "all.csv", "w")
 csv_writer = csv.writer(result_file)

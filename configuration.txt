@@ -22,7 +22,7 @@ threshold for extraction - 10
 max gap 10 000 000
 min duration 150 000
 
-NXP JCOP21
+NXP JCOP 242
 
 post-trigger delay - 3700 ms
 fault counter reset - after 20 repetitions
@@ -40,10 +40,18 @@ threshold for extraction - 32
 max gap 100 000
 min duration 500 000
 
-NXP JCOP unknown
+NXP JCOP 241
 
 post-trigger delay - 3450 ms
 fault counter reset - after 10 repetitions
 threshold for extraction - -9
+max gap 50 000
+min duration 500 000
+
+Smartcafe 6.0
+
+post-trigger delay - 3900 ms
+fault counter reset - after 10 repetitions
+threshold for extraction - -30
 max gap 50 000
 min duration 500 000
