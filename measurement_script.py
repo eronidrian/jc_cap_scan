@@ -158,7 +158,7 @@ def run_installation_and_capture(chandle, status, trs_writer, changed_byte, pack
     # Wait for capture to complete
     capture_done_event.wait()
 
-    uninstall_package(changed_byte_value, package_name, changed_byte_value)
+    uninstall_package(changed_byte, package_name, changed_byte_value)
 
 
 def main():
