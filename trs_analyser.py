@@ -85,7 +85,8 @@ def bulk_extract(traces_dirname: str, output_filename: str) -> int:
             periods = find_high_consumption_periods(trace)
             times = [period[1] - period[0] for period in periods]
             print(periods)
-            print(times[TRACE_TO_EXTRACT])
+            if len(times) > TRACE_TO_EXTRACT:
+                print(times[TRACE_TO_EXTRACT])
             csv_writer.writerow([file_num, trace_num] + times)
         csv_writer.writerow([])
 
