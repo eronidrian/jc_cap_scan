@@ -1,58 +1,147 @@
 Javacos A40
+---
 
 post-trigger delay - 3700 ms (invalid)
 post-trigger delay - 2900 ms (valid)
 fault counter reset - after 20 repetitions
 threshold for extraction - 6
-max gap 300 000
-min duration 150 000
+max gap - 600 000
+min duration - 300 000
+
+precise
+max gap - 10 000
+min duration - 50 000
+threshold - 0
 
 NXP JCOP4
+---
 
-post-trigger delay - 3700 ms
+post-trigger delay - 3900 ms (invalid)
+post-trigger delay - 3300 ms (valid)
 fault counter reset - after 10 repetitions
 threshold for extraction - 20
-max gap 300 000
-min duration 150 000
+max gap 600 000
+min duration 300 000
+
+precise
+max gap - 5 000
+min duration - 100 000
+threshold - 30
+trace to extract - 1
+
+offset_invalid_x = -8_260_000
+offset_invalid_y = -0.4
+
+highlight_start = 10_390_400
+highlight_end = 10_541_400
 
 NXP JCOP3
+---
 
-post-trigger delay - 3500 ms
+post-trigger delay - 3500 ms (invalid)
+post-trigger delay - 3000 ms (valid)
 fault counter reset - after 10 repetitions
 threshold for extraction - 10
-max gap 10 000 000
-min duration 150 000
+max gap 20 000 000
+min duration 300 000
+
+precise
+max gap - 30 000
+min duration - 40 000
+threshold - -22
+sum periods [1:11]
+
+offset_invalid_x = -4_410_000
+offset_invalid_y = 1
+
+highlight_start = 7_216_000
+highlight_end = 8_124_500
 
 NXP JCOP 242
+---
 
-post-trigger delay - 3700 ms
+post-trigger delay - 3700 ms (invalid)
+post-trigger delay - 3050 ms (valid)
 fault counter reset - after 20 repetitions
 threshold for extraction
     threshold = min(data[:100_000]) - 1
     high = data < threshold
-max gap 100 000
-min duration 150 000
+max gap 200 000
+min duration 300 000
+
+precise
+max gap - 5 000
+min duration - 100 000
+threshold - -30
+trace to extract - 2
+
+offset_invalid_x = 1_450_000
+offset_invalid_y = 6
+
+highlight_start = 14_926_200
+highlight_end = 15_137_500
 
 Infineon Secora
+---
 
-post-trigger delay - 3500 ms
+post-trigger delay - 3500 ms (invalid)
+post-trigger delay - 3250 ms (valid)
 fault counter reset - after 10 repetitions
 threshold for extraction - 32
-max gap 100 000
-min duration 500 000
+max gap 200 000
+min duration 1 000 000
+
+precise
+max gap -
+min duration -
+threshold -
+
+offset_invalid_x = 1_120_000
+offset_invalid_y = 0.3
+
+highlight_start = 0
+highlight_end = 0
 
 NXP JCOP 241
+---
 
-post-trigger delay - 3450 ms
+post-trigger delay - 3450 ms (invalid)
+post-trigger delay - 2850 ms (valid)
 fault counter reset - after 10 repetitions
 threshold for extraction - -9
-max gap 50 000
-min duration 500 000
+max gap 100 000
+min duration 1 000 000
+
+precise
+max gap - 5 000
+min duration - 200 000
+threshold - -15
+trace to extract - 1
+
+offset_invalid_x = -3_250_000
+offset_invalid_y = 2
+
+highlight_start = 10_862_500
+highlight_end = 11_133_500
 
 Smartcafe 6.0
+---
 
-post-trigger delay - 3900 ms
+post-trigger delay - 3900 ms (invalid)
+post-trigger delay - 3200 ms (valid)
 fault counter reset - after 10 repetitions
 threshold for extraction - -30
-max gap 50 000
-min duration 500 000
+max gap 100 000
+min duration 1 000 000
+
+precise
+max gap - 50 000
+min duration - 200 000
+threshold - -10
+trace to extract - 4
+
+offset_invalid_x = 3_340_000
+offset_invalid_y = 3
+
+highlight_start = 13_173_000
+highlight_end = 13_655_000
