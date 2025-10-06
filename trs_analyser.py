@@ -8,11 +8,11 @@ import numba
 
 SAMPLE_INTERVAL_NS = 25
 
-MAX_GAP = 50_000 * 50 / SAMPLE_INTERVAL_NS
-MIN_DURATION = 500_000 * 50 / SAMPLE_INTERVAL_NS
-THRESHOLD_HIGH = -9
+MAX_GAP = 5_000
+MIN_DURATION = 100_000
+THRESHOLD_HIGH = 30
 
-TRACE_TO_EXTRACT = -1
+TRACE_TO_EXTRACT = 1
 
 SAMPLES_IN_TRACE = 25_000_010
 TRACES_IN_FILE = 100
@@ -85,7 +85,7 @@ def bulk_extract(traces_dirname: str, output_filename: str) -> int:
             periods = find_high_consumption_periods(trace)
             times = [period[1] - period[0] for period in periods]
             print(periods)
-            print(times)
+            print(times[TRACE_TO_EXTRACT])
             csv_writer.writerow([file_num, trace_num] + times)
         csv_writer.writerow([])
 
@@ -109,10 +109,15 @@ def extract_single_response(response_index: int, input_filename: str, output_fil
         "Minor version",
     ])
 
+    response_index = response_index if response_index < 0 else response_index + 2
+
     for byte_changed in range(num_of_files):
         new_row = []
         for measurement in range(TRACES_IN_FILE):
-            new_row.append(rows[byte_changed * TRACES_IN_FILE + measurement][response_index])
+            if len(rows[byte_changed * TRACES_IN_FILE + measurement]) <= response_index:
+                new_row.append(0)
+            else:
+                new_row.append(rows[byte_changed * TRACES_IN_FILE + measurement][response_index])
         csv_writer.writerow([row_names[byte_changed]] + new_row)
 
     csv_file_write.close()
