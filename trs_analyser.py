@@ -86,7 +86,7 @@ def bulk_extract(traces_dirname: str, output_filename: str) -> int:
             times = [period[1] - period[0] for period in periods]
             print(periods)
             print(times)
-            csv_writer.writerow([file_num, trace_num] + times)
+            csv_writer.writerow([file_num, trace_num] + periods)
         csv_writer.writerow([])
 
     csv_file.close()
@@ -136,5 +136,5 @@ if __name__ == '__main__':
         for changed_byte_value in ["ee", "ff"]:
             current_dirname = os.path.join(args.results_dirname, f"{package_name}_{changed_byte_value}")
             num_of_files = bulk_extract(current_dirname, f"{package_name}_{changed_byte_value}_full.csv")
-            extract_single_response(TRACE_TO_EXTRACT, f"{package_name}_{changed_byte_value}_full.csv",
-                                    f"{package_name}_{changed_byte_value}_extract.csv", num_of_files)
+            # extract_single_response(TRACE_TO_EXTRACT, f"{package_name}_{changed_byte_value}_full.csv",
+            #                         f"{package_name}_{changed_byte_value}_extract.csv", num_of_files)
