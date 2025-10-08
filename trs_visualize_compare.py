@@ -2,6 +2,7 @@ import trsfile
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import argparse
+import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -11,15 +12,22 @@ if __name__ == '__main__':
 
     parser.add_argument('-v', '--valid', help='TRS file with valid LOAD', required=True)
     parser.add_argument('-i', '--invalid', help='TRS file with invalid LOAD', required=True)
+    parser.add_argument('-i_2', '--invalid_2', help='Another TRS file with invalid LOAD', required=False)
+    parser.add_argument('-i_3', '--invalid_3', help='Another TRS file with invalid LOAD', required=False)
+
 
     args = parser.parse_args()
 
     fig, ax = plt.subplots()
-    offset_invalid_x = -2_842_000
+
     offset_invalid_y = 0
+    offset_invalid_2_y = 0.3
+    offset_invalid_3_y = 0.3
 
     highlight_start = 10_518_000
     highlight_end = 10_763_000
+
+    alignment_threshold = -5
 
     with trsfile.open(args.valid, 'r') as traces_valid:
         samples_valid = traces_valid[0].samples
@@ -27,10 +35,33 @@ if __name__ == '__main__':
     with trsfile.open(args.invalid, 'r') as traces_invalid:
         samples_invalid = traces_invalid[0].samples
 
-    # times = np.arange(len(samples_valid)) * 25.6 / 10**6
+    valid_anchor = np.where(samples_valid >= alignment_threshold)[0][0]
+    invalid_anchor = np.where(samples_invalid >= alignment_threshold)[0][0]
+    offset_invalid_x = valid_anchor - invalid_anchor
+
     ax.plot(samples_valid, label="Successful LOAD")
     ax.plot(range(offset_invalid_x, len(samples_invalid) + offset_invalid_x), samples_invalid + offset_invalid_y,
-            label="Unsuccessful LOAD")
+            label="First unsuccessful LOAD")
+
+    if args.invalid_2:
+        with trsfile.open(args.invalid_2, 'r') as traces_invalid:
+            samples_invalid_2 = traces_invalid[0].samples
+        invalid_anchor_2 = np.where(samples_invalid_2 >= alignment_threshold)[0][0]
+        offset_invalid_2_x = valid_anchor - invalid_anchor_2
+        ax.plot(range(offset_invalid_2_x, len(samples_invalid_2) + offset_invalid_2_x),
+                samples_invalid_2 + offset_invalid_2_y,
+                label="Second unsuccessful LOAD")
+
+    if args.invalid_3:
+        with trsfile.open(args.invalid_3, 'r') as traces_invalid:
+            samples_invalid_3 = traces_invalid[0].samples
+        invalid_anchor_3 = np.where(samples_invalid_3 >= alignment_threshold)[0][0]
+        offset_invalid_3_x = valid_anchor - invalid_anchor_3
+        ax.plot(range(offset_invalid_3_x, len(samples_invalid_3) + offset_invalid_3_x),
+                samples_invalid_3 + offset_invalid_3_y,
+                label="Third unsuccessful LOAD")
+
+
     ax.add_patch(Rectangle((highlight_start, ax.get_ylim()[0]), highlight_end - highlight_start,
                            abs(ax.get_ylim()[0] - ax.get_ylim()[1]), facecolor="xkcd:pale pink", label="Measurement range"))
 
