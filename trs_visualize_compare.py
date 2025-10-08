@@ -20,16 +20,13 @@ if __name__ == '__main__':
 
     fig, ax = plt.subplots()
 
-    offset_invalid_y = 0
-    offset_invalid_2_y = 0.3
-    offset_invalid_3_y = 0.3
-
     highlight_start = 10_518_000
     highlight_end = 10_763_000
 
     alignment_threshold = -5
     align_to_start = False
     ignore_last = 5_000_000
+    average_first = 100_000
 
     anchor_index = 0 if align_to_start else -1
 
@@ -40,8 +37,11 @@ if __name__ == '__main__':
         samples_invalid = traces_invalid[0].samples[:-ignore_last]
 
     valid_anchor = np.where(samples_valid >= alignment_threshold)[0][anchor_index]
+    valid_average = np.average(samples_valid[:average_first])
     invalid_anchor = np.where(samples_invalid >= alignment_threshold)[0][anchor_index]
+    invalid_average = np.average(samples_invalid[:average_first])
     offset_invalid_x = valid_anchor - invalid_anchor
+    offset_invalid_y = valid_average - invalid_average
 
     ax.plot(samples_valid, label="Successful LOAD")
     ax.plot(range(offset_invalid_x, len(samples_invalid) + offset_invalid_x), samples_invalid + offset_invalid_y,
@@ -53,6 +53,8 @@ if __name__ == '__main__':
 
         invalid_anchor_2 = np.where(samples_invalid_2 >= alignment_threshold)[0][anchor_index]
         offset_invalid_2_x = valid_anchor - invalid_anchor_2
+        invalid_average_2 = np.average(samples_invalid_2[:average_first])
+        offset_invalid_2_y = valid_average - invalid_average_2
         ax.plot(range(offset_invalid_2_x, len(samples_invalid_2) + offset_invalid_2_x),
                 samples_invalid_2 + offset_invalid_2_y,
                 label="Second unsuccessful LOAD")
@@ -63,6 +65,8 @@ if __name__ == '__main__':
 
         invalid_anchor_3 = np.where(samples_invalid_3 >= alignment_threshold)[0][anchor_index]
         offset_invalid_3_x = valid_anchor - invalid_anchor_3
+        invalid_average_3 = np.average(samples_invalid_3[:average_first])
+        offset_invalid_3_y = valid_average - invalid_average_3
         ax.plot(range(offset_invalid_3_x, len(samples_invalid_3) + offset_invalid_3_x),
                 samples_invalid_3 + offset_invalid_3_y,
                 label="Third unsuccessful LOAD")
