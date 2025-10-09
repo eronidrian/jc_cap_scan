@@ -36,7 +36,7 @@ for byte_number in range(bytes_to_bruteforce):
         print(f"Measuring: {current_aid}")
         cap_file_name = generate_cap_for_package_aid(current_aid, major, minor, byte_value, "bruteforce")
         measure_cap_file(cap_file_name, measurements_for_one_byte, "tmp_traces")
-        times = extract_from_single_trs_file(measurements_for_one_byte, "tmp_traces/traces_brutefore.trs", index_to_extract)
+        times = extract_from_single_trs_file(measurements_for_one_byte, "tmp_traces/traces_bruteforce.trs", index_to_extract)
         median_time = median(times)
         print(f"AID: {current_aid}\n"
               f"Times: {times}\n"
