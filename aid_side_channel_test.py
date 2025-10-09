@@ -26,7 +26,7 @@ def format_import(packages_list):
 
     return import_section
 
-def generate_cap_for_package_aid(aid: bytes, major: int, minor: int, version: int, package_name: str):
+def generate_cap_for_package_aid(aid: bytes, major: int, minor: int, version: int, package_name: str) -> str:
     imported_packages = []
     imported_packages.append(javacard_framework)
     # imported_packages.append(java_lang)  # do not import java_lang as default (some cards will then fail to load)
@@ -46,6 +46,8 @@ def generate_cap_for_package_aid(aid: bytes, major: int, minor: int, version: in
     if os.path.exists(f'test_{package_name}_{version}.cap'):
         os.remove(f'test_{package_name}_{version}.cap')
     os.rename(f'test_{package_name}_{version}.cap.zip', f'test_{package_name}_{version}.cap')
+
+    return f'test_{package_name}_{version}.cap'
 
 
 package_name = "javacard_security"

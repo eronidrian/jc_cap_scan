@@ -1,19 +1,14 @@
-import random
 import threading
 import time
 import os
 import ctypes
 import numpy as np
-from datetime import datetime  # For generating the folder name
 from picosdk.ps6000 import ps6000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok
 from trsfile import trs_open, Trace, SampleCoding, Header
-from trsfile.parametermap import TraceParameterMap, TraceParameterDefinitionMap
-from trsfile.traceparameter import ParameterType, TraceParameterDefinition, IntegerArrayParameter
 import subprocess
 
 # Constants and configurations
-NUM_TRACES = 100  # Number of traces to capture
 
 # Manually define the constants if not available in the ps6000 module
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
@@ -22,15 +17,9 @@ PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the doc
 THRESHOLD = 1  # mv
 SAMPLE_INTERVAL = 25  # ns
 NUMBER_OF_SAMPLES = 25 * 10 ** 6
-POSTTRIGGER_DELAY = 3700  # ms
+POSTTRIGGER_DELAY = 3900  # ms
 
-FAULT_COUNTER_RESET = 10  # every n invalid installations perform valid installation
 VALID_CAP_FILE_PATH = "templates_ff/test_javacardx_crypto_9.cap"
-
-PACKAGE_NAME = "javacardx_crypto"
-CHANGED_BYTE_VALUE = "ff"
-BYTE_RANGE = [9]
-
 
 # PicoScope setup and capture functions
 def setup_picoscope():
@@ -55,7 +44,7 @@ def setup_picoscope():
     return chandle, status
 
 
-def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte, index, save_to_trs=True, folder=""):
+def capture_trace(chandle, status, trs_writer, capture_done_event, index, save_to_trs=True, folder=""):
     try:
         # Set number of pre and post trigger samples to be collected
         preTriggerSamples = 10
@@ -106,45 +95,41 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
             max_value = np.max(np.abs(adc2mVChBMax))
             adc2mVChBMax_byte = np.clip((adc2mVChBMax / (max_value / 127.0)), -128, 127).astype(np.int8)
 
-            trace_parameters = TraceParameterMap({
-                'CHANGED': IntegerArrayParameter([changed_byte])
-            })
-            trs_writer.extend([Trace(SampleCoding.BYTE, adc2mVChBMax_byte, trace_parameters)])
+            trs_writer.extend([Trace(SampleCoding.BYTE, adc2mVChBMax_byte)])
 
-            print(f"Trace saved: index {index}")
     finally:
         capture_done_event.set()
 
 
-def install_package(changed_byte, package_name, changed_byte_value):
+def install_package(cap_file_name):
     return subprocess.run(["java", "-jar", "gp.jar", "--install",
-                           f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"],
+                           cap_file_name],
                           stdout=subprocess.PIPE)
 
 
-def uninstall_package(changed_byte, package_name, changed_byte_value):
+def uninstall_package(cap_file_name):
     return subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                           f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"],
+                           cap_file_name],
                           stdout=subprocess.PIPE)
 
 def reset_fault_counter():
-    result = install_package(9, "javacardx_crypto", "ff")
+    result = install_package(VALID_CAP_FILE_PATH)
 
     result = result.stdout.decode("utf-8")
     if result.find("CAP loaded") == -1:
         print("CARD UNRESPONSIVE! ABORTING!")
         exit(1)
 
-    uninstall_package(9, "javacardx_crypto", "ff")
+    uninstall_package(VALID_CAP_FILE_PATH)
 
 
-def run_installation_and_capture(chandle, status, trs_writer, changed_byte, package_name, changed_byte_value, index,
+def run_installation_and_capture(chandle, status, trs_writer, cap_file_name, index,
                                  save_to_trs=True, folder=""):
     capture_done_event = threading.Event()
 
     # Start capture in a separate thread
     capture_thread = threading.Thread(target=capture_trace,
-                                      args=(chandle, status, trs_writer, capture_done_event, changed_byte, index,
+                                      args=(chandle, status, trs_writer, capture_done_event, index,
                                             save_to_trs, folder))
     capture_thread.start()
 
@@ -153,28 +138,15 @@ def run_installation_and_capture(chandle, status, trs_writer, changed_byte, pack
 
     # Perform installation (this is what we want to capture)
 
-    install_package(changed_byte, package_name, changed_byte_value)
+    install_package(cap_file_name)
 
     # Wait for capture to complete
     capture_done_event.wait()
 
-    uninstall_package(changed_byte, package_name, changed_byte_value)
-
-
-def main():
-    start_time = time.time()  # Start timing the program
-
-    # Create a folder named with the current date and time
-    folder_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    os.makedirs(folder_name, exist_ok=True)
-    print(f"Saving files to folder: {folder_name}")
-
+def setup():
     chandle, status = setup_picoscope()
 
     # Define the trace parameter definitions and header for the trs file
-    trace_parameter_definitions = TraceParameterDefinitionMap({
-        'CHANGED': TraceParameterDefinition(ParameterType.INT, 1, 0),
-    })
 
     header = {
         Header.TRS_VERSION: 2,
@@ -184,39 +156,25 @@ def main():
         Header.NUMBER_SAMPLES: NUMBER_OF_SAMPLES + 10,  # Pre-trigger + post-trigger samples
         Header.SAMPLE_CODING: SampleCoding.BYTE,
         Header.TRACE_TITLE: 'PicoScope Data',
-        Header.TRACE_PARAMETER_DEFINITIONS: trace_parameter_definitions
     }
 
+    return chandle, status, header
+
+
+
+def measure_cap_file(cap_file_name: str, num_of_measurements: int, result_folder: str):
+    chandle, status, header = setup()
+
     try:
-        for package_name in ["javacard_security"]:
-            for changed_byte_value in ["ee"]:
-                random_range = BYTE_RANGE
-                random.shuffle(random_range)
-                for changed_byte in random_range:
-
-                    print(f"Measuring byte {changed_byte}, package {package_name}, changed byte value {changed_byte_value}")
-
-                    print("Performing dummy capture...")
-                    run_installation_and_capture(chandle, status, None, changed_byte, package_name, changed_byte_value,
-                                                 "dummy", save_to_trs=False, folder=folder_name)
-
-                    trs_file_path = os.path.join(folder_name, f"{package_name}_{changed_byte_value}_{changed_byte}.trs")
-                    with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
-                        for index in range(NUM_TRACES):
-                            print(f"Getting trace {index + 1}/{NUM_TRACES}")
-                            run_installation_and_capture(chandle, status, trs_writer, changed_byte, package_name,
-                                                         changed_byte_value, index, folder=folder_name)
-
-                    time.sleep(10)
-                    print()
+        reset_fault_counter()
+        run_installation_and_capture(chandle, status, None, cap_file_name,
+                                     "dummy", save_to_trs=False, folder=result_folder)
+        trs_file_path = os.path.join(result_folder, "traces_bruteforce.trs")
+        with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
+            for measurement in range(num_of_measurements):
+                print(f"Measurement: {measurement + 1}/{num_of_measurements}")
+                run_installation_and_capture(chandle, status, trs_writer, cap_file_name, measurement, folder=result_folder)
 
     finally:
         ps.ps6000Stop(chandle)
         ps.ps6000CloseUnit(chandle)
-    end_time = time.time()  # End timing the program
-    elapsed_time = end_time - start_time
-    print(f"Total execution time: {elapsed_time:.2f} seconds")
-
-
-if __name__ == "__main__":
-    main()
