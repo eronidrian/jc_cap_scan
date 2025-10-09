@@ -29,7 +29,7 @@ VALID_CAP_FILE_PATH = "templates_ff/test_javacardx_crypto_9.cap"
 
 PACKAGE_NAME = "javacardx_crypto"
 CHANGED_BYTE_VALUE = "ff"
-BYTE_RANGE = list(range(9))
+BYTE_RANGE = [9]
 
 
 # PicoScope setup and capture functions
@@ -117,24 +117,25 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, changed_byte,
 
 
 def install_package(changed_byte, package_name, changed_byte_value):
-    subprocess.run(["java", "-jar", "gp.jar", "--install",
-                    f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"], stdout=subprocess.PIPE)
+    return subprocess.run(["java", "-jar", "gp.jar", "--install",
+                           f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"],
+                          stdout=subprocess.PIPE)
 
+
+def uninstall_package(changed_byte, package_name, changed_byte_value):
+    return subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
+                           f"templates_{changed_byte_value}/test_{package_name}_{changed_byte}.cap"],
+                          stdout=subprocess.PIPE)
 
 def reset_fault_counter():
-    result = subprocess.run(["java", "-jar", "gp.jar", "--install",
-                    VALID_CAP_FILE_PATH],
-                   stdout=subprocess.PIPE)
+    result = install_package(9, "javacardx_crypto", "ff")
 
     result = result.stdout.decode("utf-8")
     if result.find("CAP loaded") == -1:
         print("CARD UNRESPONSIVE! ABORTING!")
         exit(1)
-    subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                    VALID_CAP_FILE_PATH],
-                   stdout=subprocess.PIPE)
 
-
+    uninstall_package(9, "javacardx_crypto", "ff")
 
 
 def run_installation_and_capture(chandle, status, trs_writer, changed_byte, package_name, changed_byte_value, index,
@@ -156,6 +157,8 @@ def run_installation_and_capture(chandle, status, trs_writer, changed_byte, pack
 
     # Wait for capture to complete
     capture_done_event.wait()
+
+    uninstall_package(changed_byte, package_name, changed_byte_value)
 
 
 def main():
@@ -185,8 +188,8 @@ def main():
     }
 
     try:
-        for package_name in ["javacard_security", "javacardx_crypto"]:
-            for changed_byte_value in ["ee", "ff"]:
+        for package_name in ["javacard_security"]:
+            for changed_byte_value in ["ee"]:
                 random_range = BYTE_RANGE
                 random.shuffle(random_range)
                 for changed_byte in random_range:
@@ -204,10 +207,6 @@ def main():
                             run_installation_and_capture(chandle, status, trs_writer, changed_byte, package_name,
                                                          changed_byte_value, index, folder=folder_name)
 
-                            if index % FAULT_COUNTER_RESET == 0:
-                                print("Resetting fault counter...")
-                                reset_fault_counter()
-                                # reset fault counter
                     time.sleep(10)
                     print()
 

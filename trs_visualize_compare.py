@@ -1,0 +1,81 @@
+import trsfile
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+import argparse
+import numpy as np
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        prog="TRS analyser",
+        description=""
+    )
+
+    parser.add_argument('-v', '--valid', help='TRS file with valid LOAD', required=True)
+    parser.add_argument('-i', '--invalid', help='TRS file with invalid LOAD', required=True)
+    parser.add_argument('-i_2', '--invalid_2', help='Another TRS file with invalid LOAD', required=False)
+    parser.add_argument('-i_3', '--invalid_3', help='Another TRS file with invalid LOAD', required=False)
+
+
+    args = parser.parse_args()
+
+    fig, ax = plt.subplots()
+
+    highlight_start = 10_518_000
+    highlight_end = 10_763_000
+
+    alignment_threshold = -5
+    align_to_start = False
+    ignore_last = 5_000_000
+    average_first = 100_000
+
+    anchor_index = 0 if align_to_start else -1
+
+    with trsfile.open(args.valid, 'r') as traces_valid:
+        samples_valid = traces_valid[0].samples[:-ignore_last]
+
+    with trsfile.open(args.invalid, 'r') as traces_invalid:
+        samples_invalid = traces_invalid[0].samples[:-ignore_last]
+
+    valid_anchor = np.where(samples_valid >= alignment_threshold)[0][anchor_index]
+    valid_average = np.average(samples_valid[:average_first])
+    invalid_anchor = np.where(samples_invalid >= alignment_threshold)[0][anchor_index]
+    invalid_average = np.average(samples_invalid[:average_first])
+    offset_invalid_x = valid_anchor - invalid_anchor
+    offset_invalid_y = valid_average - invalid_average
+
+    ax.plot(samples_valid, label="Successful LOAD")
+    ax.plot(range(offset_invalid_x, len(samples_invalid) + offset_invalid_x), samples_invalid + offset_invalid_y,
+            label="First unsuccessful LOAD")
+
+    if args.invalid_2:
+        with trsfile.open(args.invalid_2, 'r') as traces_invalid:
+            samples_invalid_2 = traces_invalid[0].samples[:-ignore_last]
+
+        invalid_anchor_2 = np.where(samples_invalid_2 >= alignment_threshold)[0][anchor_index]
+        offset_invalid_2_x = valid_anchor - invalid_anchor_2
+        invalid_average_2 = np.average(samples_invalid_2[:average_first])
+        offset_invalid_2_y = valid_average - invalid_average_2
+        ax.plot(range(offset_invalid_2_x, len(samples_invalid_2) + offset_invalid_2_x),
+                samples_invalid_2 + offset_invalid_2_y,
+                label="Second unsuccessful LOAD")
+
+    if args.invalid_3:
+        with trsfile.open(args.invalid_3, 'r') as traces_invalid:
+            samples_invalid_3 = traces_invalid[0].samples[:-ignore_last]
+
+        invalid_anchor_3 = np.where(samples_invalid_3 >= alignment_threshold)[0][anchor_index]
+        offset_invalid_3_x = valid_anchor - invalid_anchor_3
+        invalid_average_3 = np.average(samples_invalid_3[:average_first])
+        offset_invalid_3_y = valid_average - invalid_average_3
+        ax.plot(range(offset_invalid_3_x, len(samples_invalid_3) + offset_invalid_3_x),
+                samples_invalid_3 + offset_invalid_3_y,
+                label="Third unsuccessful LOAD")
+
+
+    ax.add_patch(Rectangle((highlight_start, ax.get_ylim()[0]), highlight_end - highlight_start,
+                           abs(ax.get_ylim()[0] - ax.get_ylim()[1]), facecolor="xkcd:pale pink", label="Measurement range"))
+
+    plt.xlabel("Sample number")
+    plt.ylabel("Values")
+    plt.legend(loc='upper left', )
+    plt.show()
