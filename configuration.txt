@@ -92,9 +92,9 @@ max gap 200 000
 min duration 1 000 000
 
 precise
-max gap -
-min duration -
-threshold -
+max gap - 20 000
+min duration - 100 000
+threshold - 32
 
 offset_invalid_x = 1_120_000
 offset_invalid_y = 0.3
