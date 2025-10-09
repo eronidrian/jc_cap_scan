@@ -86,7 +86,7 @@ def bulk_extract(traces_dirname: str, output_filename: str) -> int:
             times = [period[1] - period[0] for period in periods]
             print(periods)
             print(times)
-            csv_writer.writerow([file_num, trace_num] + periods)
+            csv_writer.writerow([file_num, trace_num] + times)
         csv_writer.writerow([])
 
     csv_file.close()
@@ -108,6 +108,8 @@ def extract_single_response(response_index: int, input_filename: str, output_fil
         "Major version",
         "Minor version",
     ])
+
+    response_index = response_index if response_index < 0 else response_index + 2
 
     for byte_changed in range(num_of_files):
         new_row = []
