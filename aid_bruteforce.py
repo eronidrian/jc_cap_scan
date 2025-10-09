@@ -43,7 +43,7 @@ for byte_number in range(bytes_to_bruteforce):
               f"Median time: {median_time}\n\n")
         result_file_writer.writerow([byte_number, byte_value] + times)
         os.remove(cap_file_name)
-        os.remove("tmp_traces/traces_brutefore.trs")
+        os.remove("tmp_traces/traces_bruteforce.trs")
     break
 
 
