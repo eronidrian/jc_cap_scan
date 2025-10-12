@@ -17,7 +17,7 @@ PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the doc
 THRESHOLD = 1  # mv
 SAMPLE_INTERVAL = 25  # ns
 NUMBER_OF_SAMPLES = 25 * 10 ** 6
-POSTTRIGGER_DELAY = 3900  # ms
+POSTTRIGGER_DELAY = 3700  # ms
 
 VALID_CAP_FILE_PATH = "templates_ff/test_javacardx_crypto_9.cap"
 
