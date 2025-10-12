@@ -24,12 +24,12 @@ index_to_extract = 1
 
 major = 1
 minor = 0
-base_aid = bytearray.fromhex("00" * aid_len)
+base_aid = bytearray.fromhex("A0" + "00" * (aid_len - 1))
 
 result_file = open("bruteforce_results.csv", "w")
 result_file_writer = csv.writer(result_file)
 
-for byte_number in range(bytes_to_bruteforce):
+for byte_number in range(1, bytes_to_bruteforce - 1):
     for byte_value in range(256):
         current_aid = base_aid.copy()
         current_aid[byte_number] = byte_value
