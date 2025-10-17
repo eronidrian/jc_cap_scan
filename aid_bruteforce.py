@@ -3,7 +3,7 @@ import os
 from statistics import median
 
 from aid_side_channel_test import generate_cap_for_package_aid
-from measurement_script import measure_cap_file, install_package
+from measurement_script import measure_cap_file, install_package, reset_fault_counter
 from trs_analyser import extract_from_single_trs_file
 
 # generate CAP file
@@ -28,8 +28,11 @@ minor = 0
 base_aid = bytearray.fromhex("00" * (aid_len - 1))
 
 print("PERFORMING INITIAL INSTALLATIONS")
-for _ in range(measurements_to_discard):
+for i in range(measurements_to_discard):
+    print(f"{i+1}/{measurements_to_discard}")
     install_package("templates_ff/test_javacard_security_0.cap")
+    if i % 20 == 0:
+        reset_fault_counter()
 
 print("STARTING MEASUREMENT")
 result_file = open("bruteforce_results.csv", "w")
