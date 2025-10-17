@@ -19,7 +19,7 @@ from trs_analyser import extract_from_single_trs_file
 aid_len = 7
 bytes_to_bruteforce = 5
 measurements_for_one_byte = 10
-measurements_to_discard = 200
+num_of_dummy_measurements = 20
 
 index_to_extract = 2
 
@@ -27,12 +27,10 @@ major = 1
 minor = 0
 base_aid = bytearray.fromhex("00" * (aid_len - 1))
 
-print("PERFORMING INITIAL INSTALLATIONS")
-for i in range(measurements_to_discard):
-    print(f"{i+1}/{measurements_to_discard}")
-    install_package("templates_ff/test_javacard_security_0.cap")
-    if i % 20 == 0:
-        reset_fault_counter()
+print("PERFORMING DUMMY MEASUREMENTS")
+for i in range(num_of_dummy_measurements):
+    print(f"{i+1}/{num_of_dummy_measurements}")
+    measure_cap_file("templates_ff/test_javacard_security_0.cap", 10, "tmp_traces")
 
 print("STARTING MEASUREMENT")
 result_file = open("bruteforce_results.csv", "w")
