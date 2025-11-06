@@ -7,7 +7,7 @@ public class SimpleApplet extends javacard.framework.Applet {
     protected SimpleApplet(byte[] buffer, short offset, byte length){
         // register this instance
         m_encryptCipher = Cipher.getInstance(Cipher.ALG_DES_CBC_NOPAD, false);
-        Check_virtual();
+        Check_static();
         register();
     }
 
@@ -27,7 +27,7 @@ public class SimpleApplet extends javacard.framework.Applet {
         }
     }
 
-    public void Check_virtual(){
-        byte test_var = m_encryptCipher.getAlgorithm();
+    public void Check_static(){
+        JCSystem.getAID();
     }
     }
