@@ -1,0 +1,32 @@
+STATIC METHOD (javacard.framework.JCSystem)
+
+card: nxp_jcop_3
+(40) non-existent method token: temporarily blocked card + Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2eef7d6b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED
+(6) existing (changed) token + correct signature: success
+(10) existing token + incorrect signature: temporarily blocked card + Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3bae2a92}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED
+(3) unchanged: success
+
+card: nxp_jcop_4
+(40) non-existent method token: LOAD failed: 0x6A80 (Wrong data/incorrect values in data)
+(6) existing (changed) token + correct signature: success
+(10) existing token + incorrect signature: Exception in thread "main" java.lang.IllegalArgumentException: newPosition < 0: (-2 < 0)
+(3) unchanged: success
+
+card: javacos_a_40
+(40) non-existent method token: Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{65fcdf52}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED
+(6) existing (changed) token + correct signature: success
+(10) existing token + incorrect signature: success
+(3) unchanged: success
+
+card: nxp_jcop_241
+(40) non-existent method token: Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6ddeef16}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED
+(6) existing (changed) token + correct signature: success
+(10) existing token + incorrect signature: INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data)
+(3) unchanged: success
+
+card: infineon_secora
+(40) non-existent method token: LOAD failed: 0x6A80 (Wrong data/incorrect values in data
+(6) existing (changed) token + correct signature: success
+(10) existing token + incorrect signature: Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{79864f31}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED
+(3) unchanged: success
+
