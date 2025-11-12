@@ -20,24 +20,21 @@ result_code_map = {
 
 
 
-def install_package(cap_file_name) -> int:
+def install_package(cap_file_name) -> str:
     message = subprocess.run(["java", "-jar", "gp.jar", "--install",
                            cap_file_name] + auth,
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     uninstall_package(cap_file_name)
 
-    message = message.stdout.decode("utf-8") + message.stderr.decode('utf-8')
+    message = message.stdout.decode("utf-8")
+    message = message.replace('Warning: no keys given, using default test key 404142434445464748494A4B4C4D4E4F', '')
+    message = message.replace('\n', ' ')
 
-    print(f"Message: {message}")
+    # print(f"Message: {message}")
 
-    if message.find('Failed to communicate with card') != -1:
-        return 1
-    if message.find("LOAD failed: 0x6A80 (Wrong data/incorrect values in data)") != -1:
-        return 2
+    return message
 
-    return 0
-
-f = open("infineon_secora.csv", "w")
+f = open("javacos_a_40.csv", "w")
 csv_writer = csv.writer(f)
 
 for method_token in range(255):
@@ -61,7 +58,7 @@ for method_token in range(255):
     os.rename(f'{cap_name}.zip', cap_name)
 
     result = install_package(cap_name)
-    print(f"{method_token} - {result_code_map[result]}")
+    print(f"{method_token} - {result}")
     csv_writer.writerow([method_token, result])
 
     os.remove(cap_name)
@@ -69,3 +66,20 @@ for method_token in range(255):
     if method_token % 5 == 0:
         print("Resetting fault counter...")
         install_package("good_package.cap")
+
+
+# f = open("infineon_secora.csv", "r")
+# csv_reader = csv.reader(f)
+#
+# f_1 = open("infineon_secora_categories.csv", "w")
+# csv_writer = csv.writer(f_1)
+#
+# for line in csv_reader:
+#     if "Failed to communicate" in line[1]:
+#         return_code = 1
+#     elif "LOAD failed: 0x6A80" in line[1]:
+#         return_code = 2
+#     else:
+#         return_code = 0
+#     csv_writer.writerow([line[0], return_code])
+#     # print(line[0])

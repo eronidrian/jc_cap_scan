@@ -1,0 +1,255 @@
+0, CAP loaded 
+1, CAP loaded 
+2, CAP loaded 
+3, CAP loaded 
+4," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{371eca2a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+5, CAP loaded 
+6, CAP loaded 
+7, CAP loaded 
+8, CAP loaded 
+9, CAP loaded 
+10, CAP loaded 
+11," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{62c1a63a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+12, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+13, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+14, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+15, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+16, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+17, CAP loaded 
+18, CAP loaded 
+19, CAP loaded 
+20," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7d402058}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+21," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7e8f17d8}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+22, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+23," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3cb9d82e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+24," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2fbf7e6b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+25," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{13b12e66}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+26," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7d5ac6f5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+27, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+28, CAP loaded 
+29, CAP loaded 
+30, CAP loaded 
+31, CAP loaded 
+32, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+33, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+34, CAP loaded 
+35," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{537e51d2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+36," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4bdff3f0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+37," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{620bc5f}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+38, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+39," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6dae70c2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+40," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5c1944da}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+41," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{40234c0d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+42, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+43, CAP loaded 
+44," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{25dc1ec9}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+45," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{36b3dd13}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+46, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+47, CAP loaded 
+48," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4d2887b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+49," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{40ca88b6}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+50, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+51, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+52," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{10b7075c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+53," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{29e3b595}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+54," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2e205f4d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+55, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+56," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5a893ddf}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+57, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+58, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+59, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+60, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+61, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+62, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+63," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{33d26ca5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+64, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+65," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{503d53a5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+66," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{621ef80}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+67," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{334980f9}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+68," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4e7c393e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+69, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+70," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{21c432ef}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+71, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+72," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{31b05e8d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+73," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5bad08de}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+74," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4bacbf2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+75," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{74f43453}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+76," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{25dae72}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+77, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+78," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6e2b1bd1}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+79, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+80, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+81," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2bde08de}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+82, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+83," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{66c21aaf}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+84, CAP loaded 
+85, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+86, CAP loaded 
+87," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6777dcae}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+88," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{af579dc}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+89," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{ebfb386}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+90," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{63320c88}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+91," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{779a1644}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+92," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4b6a2076}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+93, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+94, CAP loaded 
+95, CAP loaded 
+96, CAP loaded 
+97," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{73ff0897}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+98, CAP loaded 
+99, CAP loaded 
+100," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{73e99bb4}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+101," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4f92dbdd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+102, CAP loaded 
+103, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+104," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1af3755a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+105," Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7dc898cf}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+106, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+107," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{41ff4f28}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+108," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{634ae1da}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+109," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{63abc6d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+110," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6099ca52}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+111," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{63ba47bc}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+112," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5ff85589}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+113," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{d17bf07}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+114," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{305d3658}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+115," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{54e28625}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+116, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+117," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3ed6f350}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+118," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3d3c226e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+119, CAP loaded 
+120," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{ec3a75}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+121," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{36c91e1e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+122," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6fcdb0b6}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+123," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{29810ac0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+124," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{46f12e90}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+125," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{454eaa8a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+126," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4c06413e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+127," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7e604b52}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+128, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+129," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{a071fa0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+130," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1fb69577}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+131," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{73fe724d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+132," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4946f755}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+133, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+134," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{53ed17f8}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+135," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1699d5e3}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+136," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3c3ff80c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+137," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6c86c530}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+138," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{167b5787}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+139, CAP loaded 
+140," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{318c2528}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+141," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7c8f89dd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+142," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4dd63fe8}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+143, CAP loaded 
+144," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6cc048df}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+145," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6b6e37ac}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+146," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1309e059}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+147," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3a7ef1e5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+148," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{8ddd363}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+149," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1a49a8fc}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+150, CAP loaded 
+151, CAP loaded 
+152, CAP loaded 
+153," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{34fde0d0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+154," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{41ddf837}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+155," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{30e4120e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+156, CAP loaded 
+157," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2b49d261}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+158," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{207084a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+159," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{12cbabb4}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+160," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6accf1dd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+161, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+162," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2bb38ee6}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+163," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{626a9248}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+164," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1b382729}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+165," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{c1a1a7c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+166," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{bf31371}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+167," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{464e8161}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+168," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3de458f2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+169," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{516176dd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+170," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{40cad874}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+171, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+172, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+173, CAP loaded 
+174," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5eda6e14}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+175, CAP loaded 
+176, CAP loaded 
+177, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+178," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{99eba6b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+179, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+180," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2a4d2e81}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+181," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1736cc22}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+182," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7d46c1a6}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+183," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1ca427ea}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+184," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{73c7decb}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+185, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+186, CAP loaded 
+187," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6d54b02}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+188, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+189," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4c217e37}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+190," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7348b601}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+191," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5d0eeb03}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+192, CAP loaded INSTALL [for install and make selectable] failed: 0x6F00 
+193," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{79c289ea}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+194," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{689b0ce8}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+195, CAP loaded 
+196," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3e40a9d0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+197," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{ab082f6}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+198, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+199, CAP loaded 
+200," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7982a75b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+201," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{472788d5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+202," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{25da5cb4}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+203, CAP loaded 
+204," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2445874a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+205," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{21147db1}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+206," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{382cbf31}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+207, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+208," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{39312f6d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+209, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+210," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{54725abb}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+211," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{78262b1}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+212, CAP loaded 
+213," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{46d0bcaa}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+214," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{167ce5f4}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+215," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{363ab884}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+216," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{783937b8}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+217," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{728a50e9}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+218," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3a7dfb0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+219," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{d43da07}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+220," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{46dc9799}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+221," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3489e757}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+222, CAP loaded 
+223," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7f0029d8}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+224," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{715c761b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+225, CAP loaded 
+226," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{45030213}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+227," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{40c6124b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+228," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{486e0eb4}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+229," Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7864de5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+230, CAP loaded 
+231, CAP loaded 
+232, CAP loaded 
+233, CAP loaded 
+234, CAP loaded 
+235, CAP loaded 
+236, CAP loaded 
+237, CAP loaded 
+238," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{31379477}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+239, CAP loaded 
+240, CAP loaded 
+241," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{88cc4fd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+242," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7542a91c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+243," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3e6b6f26}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+244," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{20111e44}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+245, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+246," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1b75ea14}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+247," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2ea7f641}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+248, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+249, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+250, CAP loaded 
+251, CAP loaded 
+252, CAP loaded INSTALL [for install and make selectable] failed: 0x6985 (Conditions of use not satisfied) 
+253," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{45e3b352}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+254," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{65d0e878}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
