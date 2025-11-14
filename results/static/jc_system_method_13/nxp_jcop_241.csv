@@ -1,0 +1,255 @@
+0, CAP loaded 
+1, CAP loaded 
+2, CAP loaded 
+3, CAP loaded 
+4, CAP loaded 
+5, CAP loaded 
+6, CAP loaded 
+7, CAP loaded 
+8, CAP loaded 
+9, CAP loaded 
+10, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+11," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{127fe109}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+12, CAP loaded 
+13, CAP loaded 
+14, CAP loaded 
+15, CAP loaded 
+16, CAP loaded 
+17, CAP loaded 
+18, CAP loaded 
+19, CAP loaded 
+20, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+21, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+22," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1c34c75c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+23," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6272bd3b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+24, CAP loaded 
+25, CAP loaded 
+26, CAP loaded 
+27, CAP loaded 
+28, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+29, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+30, CAP loaded 
+31," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1fbb5ad1}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+32, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+33, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+34," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{41b045d0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+35, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+36, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+37," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{e1da06}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+38, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+39, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+40," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{33f20012}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+41, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+42, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+43," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{14976a28}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+44, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+45, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+46, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+47," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3276eabd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+48," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{21648661}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+49," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{71af52dd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+50," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5af38efc}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+51," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5f08e49d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+52, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+53, CAP loaded 
+54, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+55, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+56, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+57, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+58, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+59, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+60, CAP loaded 
+61," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{37e1eca9}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+62, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+63, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+64, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+65, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+66," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1c76c5bd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+67," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6d7bdb05}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+68," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{25048a1e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+69," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{217a5f4d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+70, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+71, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+72," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5d94f5c9}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+73," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{63f85c9b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+74, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+75, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+76," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{683e2d84}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+77," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{53316c2b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+78, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+79, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+80, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+81, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+82," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{68add8db}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+83," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{98e581}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+84, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+85, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+86, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+87, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+88, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+89, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+90, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+91, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+92, CAP loaded 
+93," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1167049d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+94, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+95, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+96, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+97, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+98," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4ca7119c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+99," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{508e004a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+100," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2c872123}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+101, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+102, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+103, CAP loaded 
+104, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+105, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+106, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+107, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+108," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4441dd5a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+109," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5e749d7f}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+110, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+111, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+112, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+113, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+114," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5c0b254d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+115," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{f59d4b0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+116, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+117, CAP loaded 
+118, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+119, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+120, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+121, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+122, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+123, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+124, CAP loaded 
+125," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{280fd741}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+126, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+127, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+128, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+129, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+130," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7740d09c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+131, CAP loaded 
+132, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+133, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+134," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{42f2d721}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+135, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+136, CAP loaded 
+137," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{53ec2ee1}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+138, CAP loaded 
+139, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+140, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+141, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+142, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+143, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+144, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+145," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{49db29d5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+146, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+147, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+148," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5951c9d4}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+149," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5371fdfb}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+150, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+151, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+152, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+153, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+154," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1efd10ff}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+155," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{16a6c9a1}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+156, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+157," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{581ce6c8}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+158," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{45ab29a0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+159, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+160, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+161, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+162," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5ddea122}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+163, CAP loaded 
+164, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+165, CAP loaded 
+166, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+167, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+168, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+169, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+170," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2c3cbb76}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+171, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+172, CAP loaded 
+173," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{60671cff}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+174, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+175, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+176, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+177," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6b0832f5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+178,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1a54d126}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+179,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{169b2ed7}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+180,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4a1989db}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+181,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{52ac92a5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+182,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{55bd89c4}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+183,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6d7ea892}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+184,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{42fb08f3}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+185,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{ebde4a2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+186,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{aeb72b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+187,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{567439d6}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+188,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{32320d0b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+189,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{79574a97}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+190,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6d54337a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+191,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{67ea0fb3}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+192,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2c3710ac}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+193,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{380d37a1}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+194,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7f0ccd58}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+195,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5095d4b9}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+196,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{79ca64dc}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+197, STRICT WARNING: Package with AID 73696D706C65 is already present on card 
+198," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{49637aa5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+199," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{177d2bcc}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+200," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5ceac8f3}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+201," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5b7ca394}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+202, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+203," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{79e2b792}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+204," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{568c7b82}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+205, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+206," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7e2a63ba}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+207, CAP loaded 
+208," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{48196a43}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+209," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{28087d1f}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+210," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{623a1f90}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+211, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+212, CAP loaded 
+213," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{705ac696}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+214,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{721c4747}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+215,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{58f2f1c2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+216,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{715f7b84}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+217,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{25e24a7d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+218,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{691d4cdc}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+219,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4ea9a6de}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+220,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7a4e9afe}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+221,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{33dbdb0e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+222,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{406dc97}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+223,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2e752e4f}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+224,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{27fbfa88}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+225,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2180ece7}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+226,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2b62a3b2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+227,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3c56098c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+228,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{43c65470}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+229,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3edcbef5}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+230,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{82118ad}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+231,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6ccb7a8e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+232,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{57b75ad0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+233, STRICT WARNING: Package with AID 73696D706C65 is already present on card 
+234, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+235, CAP loaded 
+236, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+237," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{14c796f2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+238, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+239, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+240, CAP loaded INSTALL [for install and make selectable] failed: 0x6A84 (Not enough memory space) 
+241," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{138dc39c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+242," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{10d4d923}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+243, CAP loaded 
+244, CAP loaded 
+245," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{16ce55fd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+246, CAP loaded INSTALL [for install and make selectable] failed: 0x6A80 (Wrong data/incorrect values in data) 
+247, CAP loaded 
+248," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{16f76213}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+249," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5ac21992}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+250," CAP loaded Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{58733a05}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED "
+251, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+252, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+253, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 
+254, Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data) 

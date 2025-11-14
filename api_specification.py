@@ -62,6 +62,12 @@ class JCPackage:
                 return jc_class
         return None
 
+    def get_class_by_name(self, name: str) -> JCClass | None:
+        for jc_class in self.classes:
+            if jc_class.name == name:
+                return jc_class
+        return None
+
     def add_class(self, jc_class: JCClass) -> Exception | None:
         if self.get_class_by_token(jc_class.token) is not None:
             raise KeyError(f"Class with token {jc_class.token} is already present in the list of classes")
@@ -75,6 +81,12 @@ class ApiSpecification:
     def get_package_by_aid(self, aid: str) -> JCPackage | None:
         for package in self.packages:
             if package.aid == aid.lower():
+                return package
+        return None
+
+    def get_package_by_name(self, name: str) -> JCPackage | None:
+        for package in self.packages:
+            if package.name == name:
                 return package
         return None
 

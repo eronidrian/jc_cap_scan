@@ -1,13 +1,12 @@
 package applets ;
 import javacard.framework.*;
 import javacardx.crypto.*;
+import javacard.security.*;
 
 public class SimpleApplet extends javacard.framework.Applet {
-    private Cipher m_encryptCipher = null ;
+    private AESKey m_aesKey = null;
     protected SimpleApplet(byte[] buffer, short offset, byte length){
         // register this instance
-        m_encryptCipher = Cipher.getInstance(Cipher.ALG_DES_CBC_NOPAD, false);
-        Check_static();
         register();
     }
 
@@ -21,13 +20,18 @@ public class SimpleApplet extends javacard.framework.Applet {
     }
 
     public void process (APDU apdu) throws ISOException {
-        byte[] apduBuffer = apdu.getBuffer();
+        Check_virtual(apdu);
         if (selectingApplet()) {
             return ;
         }
     }
 
-    public void Check_static(){
-        APDU.waitExtension();
+    public void Check_virtual(APDU apdu){
+        KeyPair m_keyPair = new KeyPair(KeyPair.ALG_RSA_CRT, KeyBuilder.LENGTH_RSA_2048);
+        m_keyPair.genKeyPair(); // Generate fresh key pair on-card
+        Key m_privateKey = m_keyPair.getPrivate();
+        Signature m_sign = Signature.getInstance(Signature.ALG_RSA_SHA_PKCS1, false);
+        // INIT WITH PRIVATE KEY
+        m_sign.init(m_privateKey, Signature.MODE_SIGN);
     }
     }
