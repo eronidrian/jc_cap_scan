@@ -127,7 +127,7 @@ highlight_end = 11_133_500
 Smartcafe 6.0
 ---
 
-post-trigger delay - 3900 ms (invalid)
+post-trigger delay - 3850 ms (invalid)
 post-trigger delay - 3200 ms (valid)
 fault counter reset - after 10 repetitions
 threshold for extraction - -30
