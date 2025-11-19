@@ -29,29 +29,35 @@ def install_package(cap_file_name) -> str:
 
     return message
 
+def change_method_token(method_token: int) -> None:
+    f = open(os.path.join('template_method', 'applets', 'javacard', 'ConstantPool.cap'), 'rb')
+    hexdata = f.read().hex().upper()
+    f.close()
+    hex_array = bytearray(bytes.fromhex(hexdata))
+
+    hex_array[-1] = int(method_token)
+    f = open(os.path.join('template_method', 'applets', 'javacard', 'ConstantPool.cap'), 'wb')
+    f.write(hex_array)
+    f.close()
+
+def pack_to_cap_file(cap_name: str, directory_name: str) -> None:
+    shutil.make_archive(cap_name, 'zip', os.path.join(directory_name))
+
+    # remove zip suffix
+    if os.path.exists(cap_name):
+        os.remove(cap_name)
+    os.rename(f'{cap_name}.zip', cap_name)
+
+
 def bruteforce_method_tokens(method_token_range: tuple[int, int], card_name: str) -> None:
     f = open(f"{card_name}.csv", "w")
     csv_writer = csv.writer(f)
 
     for method_token in range(method_token_range[0], method_token_range[1]):
-        f = open(os.path.join('template_method', 'applets', 'javacard', 'ConstantPool.cap'), 'rb')
-        hexdata = f.read().hex().upper()
-        f.close()
-        hex_array = bytearray(bytes.fromhex(hexdata))
-
-        hex_array[-1] = int(method_token)
-        f = open(os.path.join('template_method', 'applets', 'javacard', 'ConstantPool.cap'), 'wb')
-        f.write(hex_array)
-        f.close()
-
+        change_method_token(method_token)
         # create new cap file by zip of directories
         cap_name = f'test_{method_token}.cap'
-        shutil.make_archive(cap_name, 'zip', os.path.join('template_method'))
-
-        # remove zip suffix
-        if os.path.exists(cap_name):
-            os.remove(cap_name)
-        os.rename(f'{cap_name}.zip', cap_name)
+        pack_to_cap_file(card_name)
 
         result = install_package(cap_name)
         print(f"{method_token} - {result}")
@@ -103,20 +109,20 @@ def change_signature_in_descriptor_component(constant_pool_method_index: int, ne
     specification = ApiSpecification.load_from_csv("/home/petr/Downloads/diplomka/jc_api_tables/overview_table_305_new.csv")
     new_signature_jc_type = string_to_type(new_signature, import_component, specification)
 
-    constant_pool_count = int.from_bytes(type_descriptor_info[: 2])
-    offset = int.from_bytes(type_descriptor_info[constant_pool_method_index * 2 + 2: constant_pool_method_index * 2 + 4])
-    print(f"Offset 1: {offset}")
-
-    print(parse_type_descriptor(type_descriptor_info[offset:]))
-
     with open("template_method/applets/javacard/Descriptor.cap", "rb") as f:
         descriptor_component = f.read().hex().upper()
         descriptor_component = bytearray(bytes.fromhex(descriptor_component))
 
-    offset = int.from_bytes(descriptor_component[type_descriptor_info_start + constant_pool_method_index * 2 + 2: type_descriptor_info_start + constant_pool_method_index * 2 + 4])
-    print(f"Offset 2: {offset}")
+    component_size = int.from_bytes(descriptor_component[1:3])
+    print(f"Descriptor component size: {component_size}")
+    component_size += 100
+    descriptor_component[1:3] = component_size.to_bytes(2)
 
-    descriptor_component.extend([0x00 for _ in range(20)])
+    offset = 50
+    descriptor_component[type_descriptor_info_start + constant_pool_method_index * 2 + 2] = offset.to_bytes(2)[0]
+    descriptor_component[type_descriptor_info_start + constant_pool_method_index * 2 + 3] = offset.to_bytes(2)[1]
+
+    descriptor_component.extend([0x00 for _ in range(100)])
     nibble_count = new_signature_jc_type[0]
     nibbles = new_signature_jc_type[1]
     descriptor_component[type_descriptor_info_start + offset] = nibble_count
@@ -129,4 +135,9 @@ def change_signature_in_descriptor_component(constant_pool_method_index: int, ne
 
 
 if __name__ == "__main__":
-    change_signature_in_descriptor_component(12, "void(byte[];javacard.security.Signature;byte)")
+    shutil.rmtree("template_method")
+    shutil.copytree("template_method_backup", "template_method")
+    change_method_token(4)
+    change_signature_in_descriptor_component(7, "void()")
+    pack_to_cap_file("test.cap", "template_method")
+    print(install_package("test.cap"))

@@ -109,6 +109,7 @@ def load_constant_pool_component(directory):
         cp_info = constant_pool[i * 4:(i + 1) * 4]
         tag = cp_info[0]
         tag_name = cp_info_tag_map.get(tag, "Unknown")
+        print(f"Index: {i}")
         print(f"Tag: {tag} ({tag_name})")
         info = cp_info[1:]
         print(f"Info: {bytes.hex(info)}")

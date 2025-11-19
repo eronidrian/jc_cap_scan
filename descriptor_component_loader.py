@@ -10,6 +10,7 @@ def parse_type_descriptor_info(type_descriptor_info: bytes) -> list[tuple[int, b
     jc_types = []
     for i in range(2, constant_pool_count * 2 + 1, 2):
         offset = int.from_bytes(type_descriptor_info[i: i + 2])
+        print(f"Constant pool index: {i}, offset: {offset}")
         if offset != 0xffff:
             jc_types.append(parse_type_descriptor(type_descriptor_info[offset:]))
         else:
