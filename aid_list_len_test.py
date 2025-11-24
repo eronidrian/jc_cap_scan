@@ -1,11 +1,11 @@
 import csv
 import os
 import subprocess
-from statistics import median, mean
+from statistics import mean
 
 from cap_generator import generate_cap_for_package_aid
-# from measurement_script import measure_cap_file, install_package, reset_fault_counter
-# from trs_analyser import extract_from_single_trs_file
+from measurement_script import measure_cap_file, uninstall_package
+from trs_analyser import extract_from_single_trs_file
 
 # for every supported package AID (except javacard.framework)
     # generate CAP file with the AID
@@ -57,11 +57,6 @@ def is_installation_successful(cap_file_name: str) -> bool:
     result = result.stdout.decode("utf-8")
     return result.find("CAP loaded") != -1
 
-def uninstall_package(cap_file_name):
-    return subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                           cap_file_name],
-                          stdout=subprocess.PIPE)
-
 
 print("STARTING MEASUREMENT")
 result_file = open(f"aid_list_len_{card_name}.csv", "w")
@@ -79,12 +74,12 @@ for aid in AID_NAME_MAP:
     print(f"{AID_NAME_MAP[aid]} is supported")
     uninstall_package(cap_file_name)
 
-    # measure_cap_file(cap_file_name, measurements_for_one_aid, "tmp_traces")
-    # times = extract_from_single_trs_file(measurements_for_one_aid,"tmp_traces/traces_aid_list_len.trs", index_to_extract)
-    #
-    # mean_time = mean(times)
-    # print(f"AID: {aid}\n"
-    #       f"Mean time: {mean_time}\n\n")
-    # result_file_writer.writerow([aid] + times)
-    # os.remove(cap_file_name)
-    # os.remove("tmp_traces/traces_aid_list_len.trs")
+    measure_cap_file(cap_file_name, measurements_for_one_aid, "tmp_traces")
+    times = extract_from_single_trs_file(measurements_for_one_aid,"tmp_traces/traces_aid_list_len.trs", index_to_extract)
+
+    mean_time = mean(times)
+    print(f"AID: {aid}\n"
+          f"Mean time: {mean_time}\n\n")
+    result_file_writer.writerow([aid] + times)
+    os.remove(cap_file_name)
+    os.remove("tmp_traces/traces_aid_list_len.trs")

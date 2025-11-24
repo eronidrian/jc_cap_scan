@@ -172,10 +172,6 @@ def measure_cap_file(cap_file_name: str, num_of_measurements: int, result_folder
                 print(f"Measurement: {measurement + 1}/{num_of_measurements}")
                 run_installation_and_capture(chandle, status, trs_writer, cap_file_name, measurement, folder=result_folder)
                 uninstall_package(cap_file_name)
-                if measurement % 10 == 0:
-                    reset_fault_counter()
-                    run_installation_and_capture(chandle, status, None, cap_file_name,
-                                                 "dummy", save_to_trs=False, folder=result_folder)
     finally:
         ps.ps6000Stop(chandle)
         ps.ps6000CloseUnit(chandle)
