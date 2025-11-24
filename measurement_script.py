@@ -166,6 +166,8 @@ def measure_cap_file(cap_file_name: str, num_of_measurements: int, result_folder
     chandle, status, header = setup()
 
     try:
+        run_installation_and_capture(chandle, status, None, cap_file_name,
+                                     "dummy", save_to_trs=False, folder=result_folder)
         trs_file_path = os.path.join(result_folder, "traces_aid_list_len.trs")
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
             for measurement in range(num_of_measurements):
