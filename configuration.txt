@@ -111,6 +111,7 @@ fault counter reset - after 10 repetitions
 threshold for extraction - -9
 max gap 100 000
 min duration 1 000 000
+30 000 000 samples
 
 precise
 max gap - 5 000
