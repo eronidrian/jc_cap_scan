@@ -9,7 +9,7 @@ from descriptor_component_loader import load_descriptor_component, parse_type_de
 from import_component_loader import load_import_component
 
 auth = []
-auth = ["-key", "404142434445464748494A4B4C4D4E4F404142434445464748494A4B4C4D4E4F"]
+# auth = ["-key", "404142434445464748494A4B4C4D4E4F404142434445464748494A4B4C4D4E4F"]
 
 def uninstall_package(cap_file_name):
     return subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
@@ -19,15 +19,19 @@ def uninstall_package(cap_file_name):
 
 def install_package(cap_file_name) -> str:
     message = subprocess.run(["java", "-jar", "gp.jar", "--install",
-                           cap_file_name] + auth,
-                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                              cap_file_name] + auth,
+                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     uninstall_package(cap_file_name)
 
     message = message.stdout.decode("utf-8")
     message = message.replace('Warning: no keys given, using default test key 404142434445464748494A4B4C4D4E4F', '')
+    message = message.replace(
+        '[WARN] GPSession - GET STATUS failed for 80F21000024F0000 with 0x6A81 (Function not supported e.g. card Life Cycle State is CARD_LOCKED)',
+        '')
     message = message.replace('\n', ' ')
 
     return message
+
 
 def change_method_token(method_token: int) -> None:
     f = open(os.path.join('template_method', 'applets', 'javacard', 'ConstantPool.cap'), 'rb')
@@ -39,6 +43,7 @@ def change_method_token(method_token: int) -> None:
     f = open(os.path.join('template_method', 'applets', 'javacard', 'ConstantPool.cap'), 'wb')
     f.write(hex_array)
     f.close()
+
 
 def pack_to_cap_file(cap_name: str, directory_name: str) -> None:
     shutil.make_archive(cap_name, 'zip', os.path.join(directory_name))
@@ -57,7 +62,7 @@ def bruteforce_method_tokens(method_token_range: tuple[int, int], card_name: str
         change_method_token(method_token)
         # create new cap file by zip of directories
         cap_name = f'test_{method_token}.cap'
-        pack_to_cap_file(card_name)
+        pack_to_cap_file(cap_name, "template_method")
 
         result = install_package(cap_name)
         print(f"{method_token} - {result}")
@@ -71,6 +76,7 @@ def bruteforce_method_tokens(method_token_range: tuple[int, int], card_name: str
 
     f.close()
 
+
 def categorise_results(card_name: str) -> None:
     f = open(f"{card_name}.csv", "r")
     csv_reader = csv.reader(f)
@@ -83,7 +89,7 @@ def categorise_results(card_name: str) -> None:
     for line in csv_reader:
         method_token = line[0]
         message = line[1].strip()
-        message = re.sub(r'\{[0-9a-f]*\}', r'{<hex>}', message)
+        message = re.sub(r'\{[0-9a-f]*}', r'{<hex>}', message)
 
         if message in categories:
             category_code = categories.index(message) + 1
@@ -106,7 +112,8 @@ def change_signature_in_descriptor_component(constant_pool_method_index: int, ne
     type_descriptor_info_start, type_descriptor_info = load_descriptor_component(directory)
 
     import_component = load_import_component(directory)
-    specification = ApiSpecification.load_from_csv("/home/petr/Downloads/diplomka/jc_api_tables/overview_table_305_new.csv")
+    specification = ApiSpecification.load_from_csv(
+        "/home/petr/Downloads/diplomka/jc_api_tables/overview_table_305_new.csv")
     new_signature_jc_type = string_to_type(new_signature, import_component, specification)
 
     with open("template_method/applets/javacard/Descriptor.cap", "rb") as f:
@@ -134,10 +141,38 @@ def change_signature_in_descriptor_component(constant_pool_method_index: int, ne
         f.close()
 
 
+def bruteforce_method_signature(signatures: list[str], card_name: str, method_index: int, new_method_token: int | None = None) -> None:
+    f = open(f"{card_name}.csv", "w")
+    csv_writer = csv.writer(f)
+    for signature in signatures:
+        shutil.rmtree("template_method")
+        shutil.copytree("template_method_backup", "template_method")
+        if new_method_token is not None:
+            change_method_token(new_method_token)
+        change_signature_in_descriptor_component(method_index, signature)
+        pack_to_cap_file("test.cap", "template_method")
+        result = install_package("test.cap")
+        csv_writer.writerow([signature, result])
+        print(f"{signature} - {result}")
+        os.remove("test.cap")
+
+
+
 if __name__ == "__main__":
-    shutil.rmtree("template_method")
-    shutil.copytree("template_method_backup", "template_method")
-    change_method_token(4)
-    change_signature_in_descriptor_component(7, "void()")
-    pack_to_cap_file("test.cap", "template_method")
-    print(install_package("test.cap"))
+    signatures = [
+        "byte()",
+        "short()",
+        "short(byte[];short)",
+        "void(byte[];short;short)",
+        "boolean()",
+        "void()",
+        "void(short)",
+        "short(byte[];short;short)",
+        "byte[]()",
+        "short(byte[];short;short;byte[];short)"
+    ]
+    card_name = "javacos_a_40"
+    bruteforce_method_signature(signatures, card_name, 7)
+    categorise_results(card_name)
+
+
