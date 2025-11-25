@@ -2,6 +2,8 @@ import os
 import shutil
 import subprocess
 
+from api_specification import ApiSpecification
+
 
 class PackageAID:
     aid = []
@@ -118,6 +120,8 @@ major = 1
 minor = 0
 class_token = 18
 
+generate_cap_for_aid_and_class_token(aid, major, minor, class_token)
 
-print(test_class_token_range(aid, major, minor, (0, 256)))
+
+# print(test_class_token_range(aid, major, minor, (0, 256)))
 
