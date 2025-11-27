@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import textwrap
 from abc import abstractmethod, ABC
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from cap_parser.cap_file import CapFile
 from cap_parser.component import Component, Structure
 from cap_parser.constants import ComponentTags, CpInfoTags
 
@@ -15,7 +18,8 @@ class CpInfo(Structure, ABC):
 
     size = 1 + Info.size
 
-    def __init__(self, info: Info):
+    def __init__(self, cap_file: CapFile, info: Info):
+        super().__init__(cap_file)
         self.info = info
 
     @property
@@ -24,7 +28,7 @@ class CpInfo(Structure, ABC):
         pass
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> CpInfo | None:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> CpInfo | None:
         raw = raw[start_offset:]
 
         tag = raw[0]
@@ -32,23 +36,25 @@ class CpInfo(Structure, ABC):
 
         for cp_info_subclass in CpInfo.__subclasses__():
             if tag == cp_info_subclass.tag:
-                return cp_info_subclass.load(raw)
+                return cp_info_subclass.load(cap_file, raw)
 
         print(f"CpInfo tag {tag} not implemented")
         return None
 
 
 class ClassRef(Info, ABC):
+    size = 2
     class Internal(Info):
 
-        def __init__(self, internal_class_ref: int):
+        def __init__(self, cap_file: CapFile, internal_class_ref: int):
+            super().__init__(cap_file)
             self.internal_class_ref = internal_class_ref
 
         @staticmethod
-        def load(raw: bytes, start_offset: int = 0) -> ClassRef.Internal:
+        def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassRef.Internal:
             raw = raw[start_offset:]
             internal_class_ref = int.from_bytes(raw[0:2])
-            return ClassRef.Internal(internal_class_ref)
+            return ClassRef.Internal(cap_file, internal_class_ref)
 
         def to_bytes(self) -> bytes:
             raw = bytearray()
@@ -60,16 +66,17 @@ class ClassRef(Info, ABC):
 
     class External(Info):
 
-        def __init__(self, package_token: int, class_token: int):
+        def __init__(self, cap_file: CapFile, package_token: int, class_token: int):
+            super().__init__(cap_file)
             self.package_token = package_token
             self.class_token = class_token
 
         @staticmethod
-        def load(raw: bytes, start_offset: int = 0) -> ClassRef.External:
+        def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassRef.External:
             raw = raw[start_offset:]
             package_token = raw[0] - 128
             class_token = raw[1]
-            return ClassRef.External(package_token, class_token)
+            return ClassRef.External(cap_file, package_token, class_token)
 
         def to_bytes(self) -> bytes:
             raw = bytearray()
@@ -82,13 +89,13 @@ class ClassRef(Info, ABC):
                     f"Class token: {self.class_token}")
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> ClassRef.External | ClassRef.Internal:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassRef.External | ClassRef.Internal:
         raw = raw[start_offset:]
 
         if raw[0] >= 128:  # high bit is one
-            return ClassRef.External.load(raw)
+            return ClassRef.External.load(cap_file, raw)
         else:
-            return ClassRef.Internal.load(raw)
+            return ClassRef.Internal.load(cap_file, raw)
 
 
 class ClassRefInfo(CpInfo):
@@ -96,16 +103,16 @@ class ClassRefInfo(CpInfo):
 
     tag = CpInfoTags.CONSTANT_Classref
 
-    def __init__(self, info: ClassRef.Internal | ClassRef.External):
-        super().__init__(info)
+    def __init__(self, cap_file: CapFile, info: ClassRef.Internal | ClassRef.External):
+        super().__init__(cap_file, info)
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> ClassRefInfo:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassRefInfo:
         raw = raw[start_offset:]
         assert raw[0] == CpInfoTags.CONSTANT_Classref
         assert raw[3] == ClassRefInfo.padding
-        class_ref = ClassRef.load(raw[1:])
-        return ClassRefInfo(class_ref)
+        class_ref = ClassRef.load(cap_file, raw[1:])
+        return ClassRefInfo(cap_file, class_ref)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
@@ -122,16 +129,17 @@ class ClassRefInfo(CpInfo):
 
 class InstanceFieldRef(Info):
 
-    def __init__(self, class_ref: ClassRef.External | ClassRef.Internal, token: int):
+    def __init__(self, cap_file: CapFile, class_ref: ClassRef.External | ClassRef.Internal, token: int):
+        super().__init__(cap_file)
         self.class_ref = class_ref
         self.token = token
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> InstanceFieldRef:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> InstanceFieldRef:
         raw = raw[start_offset:]
-        class_ref = ClassRef.load(raw)
+        class_ref = ClassRef.load(cap_file, raw)
         token = raw[2]
-        return InstanceFieldRef(class_ref, token)
+        return InstanceFieldRef(cap_file, class_ref, token)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
@@ -147,15 +155,15 @@ class InstanceFieldRef(Info):
 class InstanceFieldRefInfo(CpInfo):
     tag = CpInfoTags.CONSTANT_InstanceFieldref
 
-    def __init__(self, info: InstanceFieldRef):
-        super().__init__(info)
+    def __init__(self, cap_file: CapFile,  info: InstanceFieldRef):
+        super().__init__(cap_file, info)
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> InstanceFieldRefInfo:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> InstanceFieldRefInfo:
         raw = raw[start_offset:]
         assert raw[0] == CpInfoTags.CONSTANT_InstanceFieldref
-        instance_field_ref = InstanceFieldRef.load(raw[1:])
-        return InstanceFieldRefInfo(instance_field_ref)
+        instance_field_ref = InstanceFieldRef.load(cap_file, raw[1:])
+        return InstanceFieldRefInfo(cap_file, instance_field_ref)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
@@ -169,25 +177,25 @@ class InstanceFieldRefInfo(CpInfo):
 
 class VirtualMethodRef(InstanceFieldRef):
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> VirtualMethodRef:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> VirtualMethodRef:
         raw = raw[start_offset:]
-        class_ref = ClassRef.load(raw)
+        class_ref = ClassRef.load(cap_file, raw)
         token = raw[2]
-        return VirtualMethodRef(class_ref, token)
+        return VirtualMethodRef(cap_file, class_ref, token)
 
 
 class VirtualMethodRefInfo(CpInfo):
     tag = CpInfoTags.CONSTANT_VirtualMethodref
 
-    def __init__(self, info: VirtualMethodRef):
-        super().__init__(info)
+    def __init__(self, cap_file: CapFile, info: VirtualMethodRef):
+        super().__init__(cap_file, info)
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> VirtualMethodRefInfo:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> VirtualMethodRefInfo:
         raw = raw[start_offset:]
         assert raw[0] == CpInfoTags.CONSTANT_VirtualMethodref
-        virtual_method_ref = VirtualMethodRef.load(raw[1:])
-        return VirtualMethodRefInfo(virtual_method_ref)
+        virtual_method_ref = VirtualMethodRef.load(cap_file, raw[1:])
+        return VirtualMethodRefInfo(cap_file, virtual_method_ref)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
@@ -203,15 +211,16 @@ class StaticMethodRef(Info, ABC):
     class Internal(Info):
         padding = 0
 
-        def __init__(self, offset: int):
+        def __init__(self, cap_file: CapFile, offset: int):
+            super().__init__(cap_file)
             self.offset = offset
 
         @staticmethod
-        def load(raw: bytes, start_offset: int = 0) -> StaticMethodRef.Internal:
+        def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticMethodRef.Internal:
             raw = raw[start_offset:]
             assert raw[0] == StaticMethodRef.Internal.padding
             offset = int.from_bytes(raw[1:3])
-            return StaticMethodRef.Internal(offset)
+            return StaticMethodRef.Internal(cap_file, offset)
 
         def to_bytes(self) -> bytes:
             raw = bytearray()
@@ -224,18 +233,19 @@ class StaticMethodRef(Info, ABC):
 
     class External(Info):
 
-        def __init__(self, package_token: int, class_token: int, token: int):
+        def __init__(self, cap_file: CapFile, package_token: int, class_token: int, token: int):
+            super().__init__(cap_file)
             self.package_token = package_token
             self.class_token = class_token
             self.token = token
 
         @staticmethod
-        def load(raw: bytes, start_offset: int = 0) -> StaticMethodRef.External:
+        def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticMethodRef.External:
             raw = raw[start_offset:]
             package_token = raw[0] - 128
             class_token = raw[1]
             token = raw[2]
-            return StaticMethodRef.External(package_token, class_token, token)
+            return StaticMethodRef.External(cap_file, package_token, class_token, token)
 
         def to_bytes(self) -> bytes:
             raw = bytearray()
@@ -250,27 +260,27 @@ class StaticMethodRef(Info, ABC):
                     f"Method token: {self.token}\n")
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> StaticMethodRef.Internal | StaticMethodRef.External:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticMethodRef.Internal | StaticMethodRef.External:
         raw = raw[start_offset:]
 
         if raw[0] >= 128: # high bit is one
-            return StaticMethodRef.External.load(raw)
+            return StaticMethodRef.External.load(cap_file, raw)
         else:
-            return StaticMethodRef.Internal.load(raw)
+            return StaticMethodRef.Internal.load(cap_file, raw)
 
 
 class StaticMethodRefInfo(CpInfo):
     tag = CpInfoTags.CONSTANT_StaticMethodref
 
-    def __init__(self, info: StaticMethodRef.Internal | StaticMethodRef.External):
-        super().__init__(info)
+    def __init__(self,cap_file:CapFile, info: StaticMethodRef.Internal | StaticMethodRef.External):
+        super().__init__(cap_file, info)
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> StaticMethodRefInfo:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticMethodRefInfo:
         raw = raw[start_offset:]
         assert raw[0] == CpInfoTags.CONSTANT_StaticMethodref
-        static_method_ref = StaticMethodRef.load(raw[1:])
-        return StaticMethodRefInfo(static_method_ref)
+        static_method_ref = StaticMethodRef.load(cap_file, raw[1:])
+        return StaticMethodRefInfo(cap_file, static_method_ref)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
@@ -287,8 +297,10 @@ class StaticMethodRefInfo(CpInfo):
 
 class ConstantPoolComponent(Component):
     tag = ComponentTags.COMPONENT_ConstantPool
+    filename = "ConstantPool.cap"
 
-    def __init__(self, constant_pool: list[CpInfo]):
+    def __init__(self, cap_file: CapFile, constant_pool: list[CpInfo]):
+        super().__init__(cap_file)
         self.constant_pool = constant_pool
 
     @property
@@ -296,7 +308,7 @@ class ConstantPoolComponent(Component):
         return len(self.constant_pool)
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> ConstantPoolComponent:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ConstantPoolComponent:
         raw = raw[start_offset:]
         assert raw[0] == ConstantPoolComponent.tag
 
@@ -304,11 +316,11 @@ class ConstantPoolComponent(Component):
         constant_pool = []
         offset = 0
         for _ in range(count):
-            cp_info = CpInfo.load(raw[5:], offset)
+            cp_info = CpInfo.load(cap_file, raw[5:], offset)
             offset += cp_info.size
             constant_pool.append(cp_info)
 
-        return ConstantPoolComponent(constant_pool)
+        return ConstantPoolComponent(cap_file, constant_pool)
 
     def pretty_print(self) -> None:
         print("Constant pool component")
@@ -333,7 +345,7 @@ class ConstantPoolComponent(Component):
         return bytes(raw)
 
 
-constant_pool_component = ConstantPoolComponent.load_from_file("../template_method/applets/javacard/ConstantPool.cap")
-constant_pool_component.export_to_file("../ConstantPool.cap")
-constant_pool_component = ConstantPoolComponent.load_from_file("../ConstantPool.cap")
-constant_pool_component.pretty_print()
+# constant_pool_component = ConstantPoolComponent.load_from_file("../template_method/applets/javacard/ConstantPool.cap")
+# constant_pool_component.export_to_file("../ConstantPool.cap")
+# constant_pool_component = ConstantPoolComponent.load_from_file("../ConstantPool.cap")
+# constant_pool_component.pretty_print()

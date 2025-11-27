@@ -1,15 +1,19 @@
 from __future__ import annotations
 
-import os.path
 import textwrap
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from cap_parser.cap_file import CapFile
 from cap_parser.component import Component, Structure
-from cap_parser.constants import COMPONENT_Directory, component_names
+from cap_parser.constants import component_names, ComponentTags
 
 
 class StaticFieldSizeInfo(Structure):
 
-    def __init__(self, image_size: int, array_init_count: int, array_init_size: int):
+    def __init__(self, cap_file: CapFile,  image_size: int, array_init_count: int, array_init_size: int):
+        super().__init__(cap_file)
         self.image_size = image_size
         self.array_init_count = array_init_count
         self.array_init_size = array_init_size
@@ -19,13 +23,13 @@ class StaticFieldSizeInfo(Structure):
         return 6
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> StaticFieldSizeInfo:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticFieldSizeInfo:
         raw = raw[start_offset:]
         image_size = int.from_bytes(raw[0:2])
         array_init_count = int.from_bytes(raw[2:4])
         array_init_size = int.from_bytes(raw[4:6])
 
-        return StaticFieldSizeInfo(image_size, array_init_count, array_init_size)
+        return StaticFieldSizeInfo(cap_file, image_size, array_init_count, array_init_size)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
@@ -42,7 +46,8 @@ class StaticFieldSizeInfo(Structure):
 
 class CustomComponentInfo(Structure):
 
-    def __init__(self, component_tag: int, component_size: int, aid: bytes):
+    def __init__(self, cap_file: CapFile, component_tag: int, component_size: int, aid: bytes):
+        super().__init__(cap_file)
         self.component_tag = component_tag
         self.component_size = component_size
         self.aid = aid
@@ -60,7 +65,7 @@ class CustomComponentInfo(Structure):
         return 4 + self.aid_length
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> CustomComponentInfo:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> CustomComponentInfo:
         raw = raw[start_offset:]
 
         component_tag = raw[0]
@@ -68,7 +73,7 @@ class CustomComponentInfo(Structure):
         aid_length = raw[3]
         aid = raw[4 : 4 + aid_length]
 
-        return CustomComponentInfo(component_tag, component_size, aid)
+        return CustomComponentInfo(cap_file, component_tag, component_size, aid)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
@@ -87,15 +92,23 @@ class CustomComponentInfo(Structure):
 
 class DirectoryComponent(Component):
 
-    tag = COMPONENT_Directory
+    tag = ComponentTags.COMPONENT_Directory
     filename = "Directory.cap"
 
-    def __init__(self, component_sizes: list[int], static_field_size: StaticFieldSizeInfo, import_count: int, applet_count: int, custom_components: list[CustomComponentInfo]):
+    def __init__(self, cap_file: CapFile, component_sizes: list[int], static_field_size: StaticFieldSizeInfo, custom_components: list[CustomComponentInfo]):
+        super().__init__(cap_file)
         self.component_sizes = component_sizes
         self.static_field_size = static_field_size
-        self.import_count = import_count
-        self.applet_count = applet_count
         self.custom_components = custom_components
+
+    @property
+    def import_count(self) -> int:
+        return self.cap_file.import_component.count
+
+    @property
+    def applet_count(self) -> int:
+        return self.cap_file.applet_component.count
+
 
     @property
     def custom_count(self) -> int:
@@ -108,18 +121,6 @@ class DirectoryComponent(Component):
             result_string += f"{component_name}: {self.component_sizes[i]}\n"
         return result_string
 
-
-    @staticmethod
-    def load_from_file(filename: str) -> DirectoryComponent:
-        with open(filename, "rb") as f:
-            raw = f.read()
-
-        return DirectoryComponent.load(raw, 0)
-
-
-    def export_to_directory(self, directory_name: str) -> None:
-        with open(os.path.join(directory_name, DirectoryComponent.filename), "wb") as f:
-            f.write(self.to_bytes())
 
     def pretty_print(self) -> None:
         print("Directory component")
@@ -140,7 +141,7 @@ class DirectoryComponent(Component):
         return self.static_field_size.size + 3 + sum([custom_component.size for custom_component in self.custom_components])
 
     @staticmethod
-    def load(raw: bytes, start_offset: int = 0) -> DirectoryComponent:
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> DirectoryComponent:
         raw = raw[start_offset:]
         assert raw[0] == DirectoryComponent.tag
 
@@ -148,19 +149,17 @@ class DirectoryComponent(Component):
         component_sizes = []
         for i in range(0, 22, 2):
             component_sizes.append(int.from_bytes(component_sizes_bytes[i : i + 2]))
-        static_field_size = StaticFieldSizeInfo.load(raw, 25)
-        import_count = raw[25 + static_field_size.size]
-        applet_count = raw[26 + static_field_size.size]
+        static_field_size = StaticFieldSizeInfo.load(cap_file, raw, 25)
 
         custom_count = raw[27 + static_field_size.size]
         custom_components = []
         offset = 0
         for custom_count_num in range(custom_count):
-            custom_component_info = CustomComponentInfo.load(raw[28 + static_field_size.size:], offset)
+            custom_component_info = CustomComponentInfo.load(cap_file, raw[28 + static_field_size.size:], offset)
             offset += custom_component_info.size
             custom_components.append(custom_component_info)
 
-        return DirectoryComponent(component_sizes, static_field_size, import_count, applet_count, custom_components)
+        return DirectoryComponent(cap_file, component_sizes, static_field_size, custom_components)
 
 
     def to_bytes(self) -> bytes:
@@ -177,8 +176,7 @@ class DirectoryComponent(Component):
             raw.extend(custom_component_info.to_bytes())
         return bytes(raw)
 
-
-directory_component = DirectoryComponent.load_from_file("../template_method/applets/javacard/Directory.cap")
-directory_component.export_to_directory("..")
-directory_component = DirectoryComponent.load_from_file("../Directory.cap")
-directory_component.pretty_print()
+# directory_component = DirectoryComponent.load_from_file("../template_method/applets/javacard/Directory.cap")
+# directory_component.export_to_file("..")
+# directory_component = DirectoryComponent.load_from_file("../Directory.cap")
+# directory_component.pretty_print()
