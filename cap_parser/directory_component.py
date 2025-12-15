@@ -4,6 +4,8 @@ import textwrap
 
 from typing import TYPE_CHECKING
 
+from cap_parser.cap_parser_utils import Utils
+
 if TYPE_CHECKING:
     from cap_parser.cap_file import CapFile
 from cap_parser.component import Component, Structure
@@ -134,38 +136,33 @@ class DirectoryComponent(Component):
         print("Custom components:")
         for custom_component in self.custom_components:
             print(textwrap.indent(str(custom_component), "\t"))
+        print()
 
 
     @property
     def size(self) -> int:
-        return self.static_field_size.size + 3 + sum([custom_component.size for custom_component in self.custom_components])
+        return len(self.component_sizes) * 2 + self.static_field_size.size + 3 + Utils.size_of_structure_array(self.custom_components)
 
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> DirectoryComponent:
         raw = raw[start_offset:]
         assert raw[0] == DirectoryComponent.tag
 
-        component_sizes_bytes = raw[3 : 25] # component sizes contains only 11 entries, contrary to the specification
-        component_sizes = []
-        for i in range(0, 22, 2):
-            component_sizes.append(int.from_bytes(component_sizes_bytes[i : i + 2]))
-        static_field_size = StaticFieldSizeInfo.load(cap_file, raw, 25)
+        offset, component_sizes = Utils.load_u2_array(raw, 3, 11) # component sizes contains only 11 entries, contrary to the specification
 
-        custom_count = raw[27 + static_field_size.size]
-        custom_components = []
-        offset = 0
-        for custom_count_num in range(custom_count):
-            custom_component_info = CustomComponentInfo.load(cap_file, raw[28 + static_field_size.size:], offset)
-            offset += custom_component_info.size
-            custom_components.append(custom_component_info)
+        static_field_size = StaticFieldSizeInfo.load(cap_file, raw, offset)
+        offset += static_field_size.size
+        offset += 2
+
+        custom_count = raw[offset]
+        offset += 1
+        _, custom_components = Utils.load_structure_array(cap_file, raw, offset, custom_count, CustomComponentInfo)
 
         return DirectoryComponent(cap_file, component_sizes, static_field_size, custom_components)
 
 
     def to_bytes(self) -> bytes:
-        raw = bytearray()
-        raw.append(DirectoryComponent.tag)
-        raw.extend(int.to_bytes(self.size, 2))
+        raw = super().to_bytes()
         for component_size in self.component_sizes:
             raw.extend(int.to_bytes(component_size, 2))
         raw.extend(self.static_field_size.to_bytes())
@@ -175,8 +172,3 @@ class DirectoryComponent(Component):
         for custom_component_info in self.custom_components:
             raw.extend(custom_component_info.to_bytes())
         return bytes(raw)
-
-# directory_component = DirectoryComponent.load_from_file("../template_method/applets/javacard/Directory.cap")
-# directory_component.export_to_file("..")
-# directory_component = DirectoryComponent.load_from_file("../Directory.cap")
-# directory_component.pretty_print()

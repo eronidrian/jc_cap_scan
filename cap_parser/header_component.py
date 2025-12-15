@@ -4,6 +4,8 @@ import textwrap
 
 from typing import TYPE_CHECKING
 
+from cap_parser.cap_parser_utils import Utils
+
 if TYPE_CHECKING:
     from cap_parser.cap_file import CapFile
 from cap_parser.component import Component
@@ -34,7 +36,7 @@ class HeaderComponent(Component):
     def flags_str(self) -> str:
         flags_str = []
         for flag_name in HeaderComponent.flag_masks:
-            if (self.flags & HeaderComponent.flag_masks[flag_name]) != 0:
+            if Utils.is_flag_set(self.flags, HeaderComponent.flag_masks, flag_name):
                 flags_str.append(flag_name)
         return ",".join(flags_str)
 
@@ -50,7 +52,7 @@ class HeaderComponent(Component):
 
     @property
     def size(self) -> int:
-        return 10 + self.package.size
+        return 7 + self.package.size
 
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> HeaderComponent:
@@ -64,9 +66,7 @@ class HeaderComponent(Component):
         return HeaderComponent(cap_file, cap_format_minor_version, cap_format_major_version, flags, package)
 
     def to_bytes(self) -> bytes:
-        raw = bytearray()
-        raw.append(HeaderComponent.tag)
-        raw.extend(int.to_bytes(self.size, 2))
+        raw = super().to_bytes()
         raw.extend(HeaderComponent.magic)
         raw.append(self.cap_format_minor_version)
         raw.append(self.cap_format_major_version)

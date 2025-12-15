@@ -23,6 +23,10 @@ class ComponentTags(IntEnum):
     COMPONENT_Import = 4
     COMPONENT_ConstantPool = 5
     COMPONENT_Class = 6
+    CONSTANT_Method = 7
+    CONSTANT_StaticField = 8
+    CONSTANT_ReferenceLocation = 9
+    CONSTANT_Descriptor = 11
 
 class CpInfoTags(IntEnum):
     CONSTANT_Classref = 1

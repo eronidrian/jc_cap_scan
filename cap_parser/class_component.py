@@ -2,10 +2,9 @@ from __future__ import annotations
 
 import re
 import textwrap
-from operator import index
-from sys import activate_stack_trampoline
 from typing import TYPE_CHECKING
 
+from cap_parser.cap_parser_utils import Utils
 from cap_parser.constants import API_SPECIFICATION
 from cap_parser.constant_pool_component import ClassRef
 
@@ -33,38 +32,37 @@ class TypeDescriptor(Structure):
     string_to_type_map = dict((v, k) for k, v in jc_type_to_string_map.items())
     string_to_type_map[""] = ""
 
-    def __init__(self, cap_file: CapFile, nibble_count: int, jc_type: bytes):
+    def __init__(self, cap_file: CapFile, nibble_count: int, _type: bytes):
         super().__init__(cap_file)
         self.nibble_count = nibble_count
-        self.jc_type = jc_type
+        self._type = _type
 
     @property
     def size(self) -> int:
-        return 1 + len(self.jc_type)
+        return 1 + len(self._type)
 
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> TypeDescriptor:
         raw = raw[start_offset:]
-        print(raw.hex())
         nibble_count = raw[0]
-        jc_type = raw[1: int((nibble_count + 1) / 2) + 1]
-        return TypeDescriptor(cap_file, nibble_count, jc_type)
+        _type = raw[1: int((nibble_count + 1) / 2) + 1]
+        return TypeDescriptor(cap_file, nibble_count, _type)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
         raw.append(self.nibble_count)
-        raw.extend(self.jc_type)
+        raw.extend(self._type)
         return bytes(raw)
 
     def __str__(self):
-        jc_type = self.jc_type.hex()
-        jc_type = jc_type if self.nibble_count % 2 == 0 else jc_type[:-1]
+        _type = self._type.hex()
+        _type = _type if self.nibble_count % 2 == 0 else _type[:-1]
         type_strings = []
         i = 0
-        while i < len(jc_type):
-            type_string = TypeDescriptor.jc_type_to_string_map.get(jc_type[i], "?")
+        while i < len(_type):
+            type_string = TypeDescriptor.jc_type_to_string_map.get(_type[i], "?")
             if "reference" in type_string:
-                reference = jc_type[i + 1: i + 5]
+                reference = _type[i + 1: i + 5]
                 package_token = int(reference[:2], 16) - 128
                 package_aid = self.cap_file.import_component.get_package_by_token(package_token).aid_hex
                 package = API_SPECIFICATION.get_package_by_aid(package_aid)
@@ -98,12 +96,12 @@ class TypeDescriptor(Structure):
         except ValueError:
             raise ValueError(f"Package with AID {package.aid} not found in Import component")
 
-        jc_class = package.get_class_by_name(class_name)
-        if jc_class is None:
+        _class = package.get_class_by_name(class_name)
+        if _class is None:
             raise ValueError(f"Class with name {class_name} not found in the specification")
 
         hex_package_token = hex(package_token + 128)[2:]
-        hex_class_token = hex(jc_class.token)[2:].zfill(2)
+        hex_class_token = hex(_class.token)[2:].zfill(2)
 
         return hex_package_token + hex_class_token
 
@@ -114,23 +112,27 @@ class TypeDescriptor(Structure):
         parameters = result.group(2)
         parameters = parameters.split(";")
         type_strings = parameters + [return_value]
-        jc_type = ""
+        _type = ""
         for type_string in type_strings:
             if type_string in TypeDescriptor.string_to_type_map.keys():
-                jc_type += TypeDescriptor.string_to_type_map[type_string]
+                _type += TypeDescriptor.string_to_type_map[type_string]
             elif re.match(r'[.a-zA-Z$]+\[]', type_string):
-                jc_type += TypeDescriptor.string_to_type_map["reference[]"]
-                jc_type += TypeDescriptor.reference_name_to_reference(cap_file, type_string[:-2])
+                _type += TypeDescriptor.string_to_type_map["reference[]"]
+                _type += TypeDescriptor.reference_name_to_reference(cap_file, type_string[:-2])
             elif re.match(r'[.a-zA-Z$]+', type_string):
-                jc_type += TypeDescriptor.string_to_type_map["reference"]
-                jc_type += TypeDescriptor.reference_name_to_reference(cap_file, type_string)
+                _type += TypeDescriptor.string_to_type_map["reference"]
+                _type += TypeDescriptor.reference_name_to_reference(cap_file, type_string)
             else:
                 raise ValueError(f"Unrecognized type string: {type_string}")
 
-        jc_type_len = len(jc_type)
-        jc_type = jc_type if jc_type_len % 2 == 0 else jc_type + "0"
+        jc_type_len = len(_type)
+        _type = _type if jc_type_len % 2 == 0 else _type + "0"
 
-        return TypeDescriptor(cap_file, jc_type_len, bytes.fromhex(jc_type))
+        return TypeDescriptor(cap_file, jc_type_len, bytes.fromhex(_type))
+
+    def __eq__(self, other: TypeDescriptor) -> bool:
+        return self.size == other.size and self._type == other._type
+
 
 
 class InterfaceInfo(Structure):
@@ -156,42 +158,36 @@ class InterfaceInfo(Structure):
             return 0
         return len(self.interface_name.encode("utf-8"))
 
-    @staticmethod
-    def is_flag_set(flags: int, flag_name: str) -> bool:
-        assert flag_name in InterfaceInfo.flag_masks.keys()
-        return flags & InterfaceInfo.flag_masks[flag_name] == InterfaceInfo.flag_masks[flag_name]
-
     @property
     def flags_str(self) -> str:
         flags_str = []
         for flag_name in InterfaceInfo.flag_masks:
-            if InterfaceInfo.is_flag_set(self.flags, flag_name):
+            if Utils.is_flag_set(self.flags, InterfaceInfo.flag_masks, flag_name):
                 flags_str.append(flag_name)
         return ",".join(flags_str)
 
     @property
     def size(self) -> int:
-        return 1 + ClassRef.size * self.interface_count
+        size = 1 + Utils.size_of_structure_array(self.superinterfaces)
+        if Utils.is_flag_set(self.flags, InterfaceInfo.flag_masks, "ACC_REMOTE"):
+            size += 1 + self.interface_name_length
+        return size
 
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> InterfaceInfo:
         raw = raw[start_offset:]
         flags = raw[0] >> 4
-        assert InterfaceInfo.is_flag_set(flags, "ACC_INTERFACE")
+        assert Utils.is_flag_set(flags, InterfaceInfo.flag_masks, "ACC_INTERFACE")
 
         interface_count = raw[0] & 0xf
-        superinterfaces = []
-        offset = 0
-        for _ in range(interface_count):
-            superinterface = ClassRef.load(cap_file, raw[1:], offset)
-            offset += superinterface.size
-            superinterfaces.append(superinterface)
+        offset, superinterfaces = Utils.load_structure_array(cap_file, raw, 1, interface_count, ClassRef)
 
-        if InterfaceInfo.is_flag_set(flags, "ACC_REMOTE"):
+        if Utils.is_flag_set(flags, InterfaceInfo.flag_masks, "ACC_REMOTE"):
             interface_name = None
         else:
-            interface_name_length = raw[1 + offset]
-            interface_name = raw[2 + offset: 2 + offset + interface_name_length].decode('utf-8')
+            interface_name_length = raw[offset]
+            offset += 1
+            interface_name = raw[offset: offset + interface_name_length].decode('utf-8')
 
         return InterfaceInfo(cap_file, flags, superinterfaces, interface_name)
 
@@ -200,7 +196,7 @@ class InterfaceInfo(Structure):
         raw.append(self.flags << 4 | self.interface_count)
         for superinterface in self.superinterfaces:
             raw.extend(superinterface.to_bytes())
-        if not InterfaceInfo.is_flag_set(self.flags, "ACC_REMOTE"):
+        if not Utils.is_flag_set(self.flags, InterfaceInfo.flag_masks, "ACC_REMOTE"):
             raw.append(self.interface_name_length)
             raw.extend(self.interface_name.encode('utf-8'))
         return bytes(raw)
@@ -235,8 +231,10 @@ class ImplementedInterfaceInfo(Structure):
         raw = raw[start_offset:]
 
         interface = ClassRef.load(cap_file, raw)
-        count = raw[1]
-        index = [raw[2 + offset] for offset in range(count)]
+        offset = interface.size
+        count = raw[offset]
+        offset += 1
+        index = list(raw[offset: offset + count])
 
         return ImplementedInterfaceInfo(cap_file, interface, index)
 
@@ -271,7 +269,6 @@ class RemoteMethodInfo(Structure):
 
         return RemoteMethodInfo(cap_file, remote_method_hash, signature_offset, virtual_method_token)
 
-
     def to_bytes(self) -> bytes:
         raw = bytearray()
         raw.extend(self.remote_method_hash)
@@ -280,76 +277,13 @@ class RemoteMethodInfo(Structure):
         return bytes(raw)
 
 
-class RemoteInterfaceInfo(Structure):
-    def __init__(self, cap_file: CapFile, remote_methods: list[RemoteMethodInfo], hash_modifier: str, class_name: str,
-                 remote_interfaces: list[ClassRef.Internal | ClassRef.External]):
-        super().__init__(cap_file)
-        self.remote_methods = remote_methods
-        self.hash_modifier = hash_modifier
-        self.class_name = class_name
-        self.remote_interfaces = remote_interfaces
-
-    @property
-    def remote_methods_count(self) -> int:
-        return len(self.remote_methods)
-
-    @property
-    def hash_modifier_length(self) -> int:
-        return len(self.hash_modifier.encode("utf-8"))
-
-    @property
-    def class_name_length(self) -> int:
-        return len(self.class_name.encode("utf-8"))
-
-    @property
-    def size(self) -> int:
-        return 1 + sum([remote_method.size for remote_method in
-                        self.remote_methods]) + 1 + self.hash_modifier_length + 1 + self.class_name_length + 1 + sum(
-            [remote_interface.size for remote_interface in self.remote_interfaces])
-
-    @staticmethod
-    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> RemoteInterfaceInfo:
-        raw = raw[start_offset:]
-        remote_methods_count = raw[0]
-        remote_methods = []
-        offset = 1
-        for _ in range(remote_methods_count):
-            remote_method = ClassRef.load(cap_file, raw, offset)
-            remote_methods.append(remote_method)
-            offset += remote_method.size
-
-        hash_modifier_length = raw[offset]
-        offset += 1
-        hash_modifier = raw[offset : offset + hash_modifier_length].decode("utf-8")
-        offset += hash_modifier_length
-        class_name_length = raw[offset]
-        offset +=1
-        class_name = raw[offset : offset + class_name_length].decode("utf-8")
-        offset += class_name_length
-
-        remote_interfaces_count = raw[offset]
-        offset +=1
-        remote_interfaces = []
-        for _ in range(remote_interfaces_count):
-            remote_interface = ClassRef.load(cap_file, raw, offset)
-            offset += remote_interface.size
-            remote_interfaces.append(remote_interface)
-
-        return RemoteInterfaceInfo(cap_file, remote_methods, hash_modifier, class_name, remote_interfaces)
-
-
-    def to_bytes(self) -> bytes:
-        pass
-
-
 class ClassInfo(Structure):
     flag_masks = InterfaceInfo.flag_masks
 
     def __init__(self, cap_file: CapFile, flags: int, super_class_ref: ClassRef | None, declared_instance_size: int,
                  first_reference_token: int | None, reference_count: int, public_method_table_base: int,
                  package_method_table_base: int, public_virtual_method_table: list[int | None],
-                 package_virtual_method_table: list[int], interfaces: list[ImplementedInterfaceInfo],
-                 remote_interfaces: RemoteInterfaceInfo | None):
+                 package_virtual_method_table: list[int], interfaces: list[ImplementedInterfaceInfo]):
         super().__init__(cap_file)
         self.flags = flags
         self.super_class_ref = super_class_ref
@@ -361,15 +295,18 @@ class ClassInfo(Structure):
         self.public_virtual_method_table = public_virtual_method_table
         self.package_virtual_method_table = package_virtual_method_table
         self.interfaces = interfaces
-        self.remote_interfaces = remote_interfaces
 
     @property
     def flags_str(self) -> str:
         flags_str = []
         for flag_name in ClassInfo.flag_masks:
-            if InterfaceInfo.is_flag_set(self.flags, flag_name):
+            if Utils.is_flag_set(self.flags, ClassInfo.flag_masks, flag_name):
                 flags_str.append(flag_name)
         return ",".join(flags_str)
+
+    @property
+    def interface_count(self) -> int:
+        return len(self.interfaces)
 
     @property
     def public_method_table_count(self) -> int:
@@ -381,17 +318,15 @@ class ClassInfo(Structure):
 
     @property
     def size(self) -> int:
-        size = 1 + ClassRef.size + 7 + 2 * self.public_method_table_count + 2 * self.package_method_table_count + sum(
-            [interface.size for interface in self.interfaces])
-        if self.remote_interfaces is not None:
-            size += self.remote_interfaces.size
+        size = 1 + self.super_class_ref.size + 7 + 2 * self.public_method_table_count + 2 * self.package_method_table_count + Utils.size_of_structure_array(
+            self.interfaces)
         return size
 
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassInfo:
         raw = raw[start_offset:]
         flags = raw[0] >> 4
-        assert not InterfaceInfo.is_flag_set(flags, "ACC_INTERFACE")
+        assert not Utils.is_flag_set(flags, ClassInfo.flag_masks, "ACC_INTERFACE")
         interface_count = raw[0] & 0xf
 
         if int.from_bytes(raw[1:3]) == 0xffff:
@@ -399,7 +334,7 @@ class ClassInfo(Structure):
             offset = 3
         else:
             super_class_ref = ClassRef.load(cap_file, raw[1:])
-            offset = 1 + ClassRef.size
+            offset = 1 + super_class_ref.size
 
         attributes = {}
         attribute_names = ["declared_instance_size", "first_reference_token", "reference_count",
@@ -409,55 +344,50 @@ class ClassInfo(Structure):
             attributes[attribute] = raw[offset]
             offset += 1
 
-        public_virtual_method_table = []
-        for _ in range(attributes["public_method_table_count"]):
-            entry = int.from_bytes(raw[offset: offset + 2])
-            public_virtual_method_table.append(entry)
-            offset += 2
+        offset, public_virtual_method_table = Utils.load_u2_array(raw, offset, attributes["public_method_table_count"])
+        offset, package_virtual_method_table = Utils.load_u2_array(raw, offset, attributes["package_method_table_count"])
+        offset, interfaces = Utils.load_structure_array(cap_file, raw, offset, interface_count, ImplementedInterfaceInfo)
 
-        package_virtual_method_table = []
-        for _ in range(attributes["package_method_table_count"]):
-            entry = int.from_bytes(raw[offset: offset + 2])
-            package_virtual_method_table.append(entry)
-            offset += 2
-
-        interfaces = []
-        for _ in range(interface_count):
-            interface = ImplementedInterfaceInfo.load(cap_file, raw, offset)
-            interfaces.append(interface)
-            offset += interface.size
-
-        if InterfaceInfo.is_flag_set(flags, "ACC_REMOTE"):
-            remote_interfaces = RemoteInterfaceInfo.load(cap_file, raw, offset)
-        else:
-            remote_interfaces = None
 
         return ClassInfo(cap_file, flags, super_class_ref, attributes["declared_instance_size"],
                          attributes["first_reference_token"],
                          attributes["reference_count"], attributes["public_method_table_base"],
                          attributes["package_method_table_base"],
-                         public_virtual_method_table, package_virtual_method_table, interfaces, remote_interfaces)
+                         public_virtual_method_table, package_virtual_method_table, interfaces)
 
-    def to_bytes(self) -> bytes:
-        pass
+    def to_bytes(self) -> bytearray:
+        raw = bytearray()
+        raw.append(self.flags << 4 | self.interface_count)
+        raw.extend(self.super_class_ref.to_bytes() if self.super_class_ref is not None else b'\xff\xff')
+        raw.append(self.declared_instance_size)
+        raw.append(self.first_reference_token if self.first_reference_token is not None else 0xff)
+        raw.append(self.reference_count)
+        raw.append(self.public_method_table_base)
+        raw.append(self.public_method_table_count)
+        raw.append(self.package_method_table_base)
+        raw.append(self.package_method_table_count)
+        for entry in self.public_virtual_method_table:
+            raw.extend(int.to_bytes(entry if entry is not None else 0xffff, 2))
+        for entry in self.package_virtual_method_table:
+            raw.extend(int.to_bytes(entry, 2))
+        for interface in self.interfaces:
+            raw.extend(interface.to_bytes())
+        return raw
 
     def __str__(self):
         result_string = (f"Flags: {self.flags} ({self.flags_str})\n"
-                f"Superclass ref:\n"
-                f"{textwrap.indent(str(self.super_class_ref), '\t')}\n"
-                f"Declared instance size: {self.declared_instance_size}\n"
-                f"First reference token: {self.first_reference_token}\n"
-                f"Reference count: {self.reference_count}\n"
-                f"Public method table base: {self.public_method_table_base}\n"
-                f"Package method table base: {self.package_method_table_base}\n"
-                f"Public virtual method table: {self.public_virtual_method_table}\n"
-                f"Package virtual method table: {self.package_virtual_method_table}\n")
+                         f"Superclass ref:\n"
+                         f"{textwrap.indent(str(self.super_class_ref), '\t')}\n"
+                         f"Declared instance size: {self.declared_instance_size}\n"
+                         f"First reference token: {self.first_reference_token}\n"
+                         f"Reference count: {self.reference_count}\n"
+                         f"Public method table base: {self.public_method_table_base}\n"
+                         f"Package method table base: {self.package_method_table_base}\n"
+                         f"Public virtual method table: {self.public_virtual_method_table}\n"
+                         f"Package virtual method table: {self.package_virtual_method_table}\n")
         result_string += f"Interfaces:\n"
         for interface in self.interfaces:
             result_string += textwrap.indent(str(interface), "\t")
-        if self.remote_interfaces is not None:
-            result_string += "Remote interface info:\n"
-            result_string += textwrap.indent(str(self.remote_interfaces), "\t")
         return result_string
 
 
@@ -471,13 +401,12 @@ class ClassComponent(Component):
         self.interfaces = interfaces
         self.classes = classes
 
-
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassComponent:
         raw = raw[start_offset:]
         assert raw[0] == ClassComponent.tag
 
-        offset = 1
+        offset = 3
         interfaces = []
         classes = []
         while offset < len(raw):
@@ -506,7 +435,12 @@ class ClassComponent(Component):
 
     @property
     def size(self) -> int:
-        return sum([interface.size for interface in self.interfaces]) + sum([jc_class.size for jc_class in self.classes])
+        return Utils.size_of_structure_array(self.interfaces) + Utils.size_of_structure_array(self.classes)
 
-    def to_bytes(self) -> bytes:
-        pass
+    def to_bytes(self) -> bytearray:
+        raw = super().to_bytes()
+        for interface in self.interfaces:
+            raw.extend(interface.to_bytes())
+        for _class in self.classes:
+            raw.extend(_class.to_bytes())
+        return raw

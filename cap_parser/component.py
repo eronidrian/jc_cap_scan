@@ -23,7 +23,7 @@ class Structure(ABC):
         pass
 
     @abstractmethod
-    def to_bytes(self) -> bytes:
+    def to_bytes(self) -> bytearray:
         pass
 
 
@@ -60,3 +60,10 @@ class Component(Structure):
     @abstractmethod
     def pretty_print(self) -> None:
         pass
+
+    @abstractmethod
+    def to_bytes(self) -> bytearray:
+        raw = bytearray()
+        raw.append(self.tag)
+        raw.extend(int.to_bytes(self.size, 2))
+        return raw

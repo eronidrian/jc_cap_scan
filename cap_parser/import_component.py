@@ -4,6 +4,8 @@ import textwrap
 
 from typing import TYPE_CHECKING
 
+from cap_parser.cap_parser_utils import Utils
+
 if TYPE_CHECKING:
     from cap_parser.cap_file import CapFile
 from cap_parser.component import Component, Structure
@@ -42,7 +44,9 @@ class PackageInfo(Structure):
         return PackageInfo(cap_file, minor_version, major_version, aid)
 
     def __str__(self):
-        return (f"AID: {self.aid_hex} ({API_SPECIFICATION.get_package_by_aid(self.aid_hex).name})\n"
+        package_from_api = API_SPECIFICATION.get_package_by_aid(self.aid_hex)
+        package_name = package_from_api.name if package_from_api is not None else "not found in JC API"
+        return (f"AID: {self.aid_hex} ({package_name})\n"
                 f"Major version: {self.major_version}\n"
                 f"Minor version: {self.minor_version}\n")
 
@@ -69,7 +73,7 @@ class ImportComponent(Component):
 
     @property
     def size(self) -> int:
-        return 1 + sum([package_info.size for package_info in self.packages])
+        return 1 + Utils.size_of_structure_array(self.packages)
 
     def get_package_by_token(self, token: int) -> PackageInfo:
         assert token < self.count
@@ -88,19 +92,12 @@ class ImportComponent(Component):
         assert raw[0] == ImportComponent.tag
 
         count = raw[3]
-        packages = []
-        offset = 0
-        for package_num in range(count):
-            package_info = PackageInfo.load(cap_file, raw[4:], offset)
-            offset += package_info.size
-            packages.append(package_info)
+        _, packages = Utils.load_structure_array(cap_file, raw, 4, count, PackageInfo)
 
         return ImportComponent(cap_file, packages)
 
     def to_bytes(self) -> bytes:
-        raw = bytearray()
-        raw.append(ImportComponent.tag)
-        raw.extend(int.to_bytes(self.size, 2))
+        raw = super().to_bytes()
         raw.append(self.count)
         for package_info in self.packages:
             raw.extend(package_info.to_bytes())
@@ -112,10 +109,3 @@ class ImportComponent(Component):
         print("Packages:")
         for package_info in self.packages:
             print(textwrap.indent(str(package_info), "\t"))
-
-# import_component = ImportComponent.load_from_file("../template_method/applets/javacard/Import.cap")
-# # new_package_info = PackageInfo(12, 3, bytes.fromhex("a000ef"))
-# # import_component.packages.append(new_package_info)
-# # import_component.export_to_file("../Import.cap")
-# # import_component = ImportComponent.load_from_file("../Import.cap")
-# import_component.pretty_print()

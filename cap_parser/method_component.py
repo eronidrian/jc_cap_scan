@@ -3,6 +3,9 @@ from __future__ import annotations
 import textwrap
 from typing import TYPE_CHECKING
 
+from cap_parser.bytecodes import BYTECODE_MAP
+from cap_parser.cap_parser_utils import Utils
+
 if TYPE_CHECKING:
     from cap_parser.cap_file import CapFile
 from cap_parser.component import Component, Structure
@@ -42,7 +45,7 @@ class ExceptionHandlerInfo(Structure):
     def to_bytes(self) -> bytes:
         raw = bytearray()
         raw.extend(int.to_bytes(self.start_offset, 2))
-        active_length = self.active_length if not self.stop_bit else self.active_length | 0x7fff
+        active_length = self.active_length if not self.stop_bit else (self.active_length | 0x8000)
         raw.extend(int.to_bytes(active_length, 2))
         raw.extend(int.to_bytes(self.handler_offset, 2))
         raw.extend(int.to_bytes(self.catch_type_index, 2))
@@ -61,6 +64,7 @@ class MethodHeaderInfo(Structure):
         "ACC_ABSTRACT": 0x04,
         "ACC_EXTENDED": 0x08
     }
+    size = 2
 
     def __init__(self, cap_file: CapFile, flags: int, max_stack: int, nargs: int, max_locals: int):
         super().__init__(cap_file)
@@ -73,27 +77,24 @@ class MethodHeaderInfo(Structure):
     def flags_str(self) -> str:
         flags_str = []
         for flag_name in MethodHeaderInfo.flag_masks:
-            if (self.flags & MethodHeaderInfo.flag_masks[flag_name]) != 0:
+            if Utils.is_flag_set(self.flags, MethodHeaderInfo.flag_masks, flag_name):
                 flags_str.append(flag_name)
         return ",".join(flags_str)
-
-    @property
-    def size(self) -> int:
-        return 2
 
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> MethodHeaderInfo:
         raw = raw[start_offset:]
 
-        flags = raw[0] & 0xf0
+        flags = (raw[0] & 0xf0) >> 4
         max_stack = raw[0] & 0x0f
-        nargs = raw[1] & 0xf0
+        nargs = (raw[1] & 0xf0) >> 4
         max_locals = raw[1] & 0x0f
 
         return MethodHeaderInfo(cap_file, flags, max_stack, nargs, max_locals)
 
     def to_bytes(self) -> bytes:
         raw = bytearray()
+
         flags = self.flags << 4 | self.max_stack
         raw.append(flags)
         nargs = self.nargs << 4 | self.max_locals
@@ -134,7 +135,9 @@ class MethodInfo(Structure):
     def __str__(self):
         result_string = "Method header:\n"
         result_string += textwrap.indent(str(self.method_header), "\t")
-        result_string += f"Bytecodes: {self.bytecodes.hex()}\n"
+        result_string += f"Bytecodes:\n"
+        # for bytecode in self.bytecodes:
+        #     result_string += f"{textwrap.indent(BYTECODE_MAP.get(bytecode, hex(bytecode)), '\t')}\n"
         return result_string
 
 
@@ -158,11 +161,7 @@ class MethodComponent(Component):
 
         handler_count = raw[3]
         offset = 4
-        exception_handlers = []
-        for _ in range(handler_count):
-            exception_handler = ExceptionHandlerInfo.load(cap_file, raw, offset)
-            offset += exception_handler.size
-            exception_handlers.append(exception_handler)
+        offset, exception_handlers = Utils.load_structure_array(cap_file, raw, offset, handler_count, ExceptionHandlerInfo)
 
         methods = []
         while offset < len(raw):
@@ -184,15 +183,22 @@ class MethodComponent(Component):
 
     @property
     def size(self) -> int:
-        return 1 + sum([exception_handler.size for exception_handler in self.exception_handlers]) + sum(
-            [method.size for method in self.methods])
+        return 1 + Utils.size_of_structure_array(self.exception_handlers) + Utils.size_of_structure_array(self.methods)
 
     def to_bytes(self) -> bytes:
-        raw = bytearray()
+        raw = super().to_bytes()
         raw.append(self.handler_count)
         for exception_handler in self.exception_handlers:
             raw.extend(exception_handler.to_bytes())
         for method in self.methods:
             raw.extend(method.to_bytes())
         return bytes(raw)
+
+    def get_method_at_offset(self, cap_file: CapFile, offset: int, bytecode_count: int) -> MethodInfo:
+        assert offset + MethodHeaderInfo.size + bytecode_count <= self.size
+
+        offset += 3 # skip tag and size
+        raw = self.to_bytes()
+        return MethodInfo.load(cap_file, raw[offset : offset + MethodHeaderInfo.size + bytecode_count])
+
 

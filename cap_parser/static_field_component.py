@@ -3,6 +3,7 @@ from __future__ import annotations
 import textwrap
 from typing import TYPE_CHECKING
 
+from cap_parser.cap_parser_utils import Utils
 from cap_parser.constants import ComponentTags
 
 if TYPE_CHECKING:
@@ -34,8 +35,12 @@ class ArrayInitInfo(Structure):
         values = [raw[2 + offset] for offset in range(count)]
         return ArrayInitInfo(cap_file, _type, values)
 
-    def to_bytes(self) -> bytes:
-        pass
+    def to_bytes(self) -> bytearray:
+        raw = bytearray()
+        raw.append(self._type)
+        raw.extend(int.to_bytes(self.count, 2))
+        raw.extend(bytes(self.values))
+        return raw
 
     def __str__(self):
         return (f"Type: {self._type}\n"
@@ -72,21 +77,14 @@ class StaticFieldComponent(Component):
 
         reference_count = int.from_bytes(raw[5:7])
         array_init_count = int.from_bytes(raw[7:9])
-        array_init = []
-        offset = 9
-        for _ in range(array_init_count):
-            array_init_info = ArrayInitInfo.load(cap_file, raw, offset)
-            offset += array_init_info.size
-            array_init.append(array_init_info)
+        offset, array_init = Utils.load_structure_array(cap_file, raw, 9, array_init_count, ArrayInitInfo)
 
         default_value_count = int.from_bytes(raw[offset : offset + 2])
         offset += 2
         non_default_value_count = int.from_bytes(raw[offset : offset + 2])
         offset +=2
-        non_default_values = []
-        for _ in range(non_default_value_count):
-            non_default_values.append(raw[offset])
-            offset +=1
+        non_default_values = list(raw[offset : offset + non_default_value_count])
+
         return StaticFieldComponent(cap_file, reference_count, array_init, default_value_count, non_default_values)
 
     def pretty_print(self) -> None:
@@ -102,7 +100,16 @@ class StaticFieldComponent(Component):
 
     @property
     def size(self) -> int:
-        return 6 + sum([array_init_info.size for array_init_info in self.array_init]) + 4 + self.non_default_value_count
+        return 6 + Utils.size_of_structure_array(self.array_init) + 4 + self.non_default_value_count
 
-    def to_bytes(self) -> bytes:
-        pass
+    def to_bytes(self) -> bytearray:
+        raw = super().to_bytes()
+        raw.extend(int.to_bytes(self.image_size, 2))
+        raw.extend(int.to_bytes(self.reference_count, 2))
+        raw.extend(int.to_bytes(self.array_init_count, 2))
+        for array_init_info in self.array_init:
+            raw.extend(array_init_info.to_bytes())
+        raw.extend(int.to_bytes(self.default_value_count, 2))
+        raw.extend(int.to_bytes(self.non_default_value_count, 2))
+        raw.extend(bytes(self.non_default_values))
+        return raw

@@ -4,10 +4,13 @@ import textwrap
 from abc import abstractmethod, ABC
 from typing import TYPE_CHECKING
 
+from api_specification.api_specification import JCMethodType
+from cap_parser.cap_parser_utils import Utils
+
 if TYPE_CHECKING:
     from cap_parser.cap_file import CapFile
 from cap_parser.component import Component, Structure
-from cap_parser.constants import ComponentTags, CpInfoTags
+from cap_parser.constants import ComponentTags, CpInfoTags, API_SPECIFICATION
 
 
 class Info(Structure, ABC):
@@ -15,7 +18,6 @@ class Info(Structure, ABC):
 
 
 class CpInfo(Structure, ABC):
-
     size = 1 + Info.size
 
     def __init__(self, cap_file: CapFile, info: Info):
@@ -41,14 +43,29 @@ class CpInfo(Structure, ABC):
         print(f"CpInfo tag {tag} not implemented")
         return None
 
+    def to_bytes(self) -> bytearray:
+        raw = bytearray()
+        raw.append(self.tag)
+        raw.extend(self.info.to_bytes())
+        return raw
+
+    def __str__(self):
+        return (f"{self.__class__.__name__}\n"
+                f"{self.info}\n")
+
 
 class ClassRef(Info, ABC):
-    size = 2
+
     class Internal(Info):
+        size = 2
 
         def __init__(self, cap_file: CapFile, internal_class_ref: int):
             super().__init__(cap_file)
             self.internal_class_ref = internal_class_ref
+
+        @property
+        def is_external(self):
+            return False
 
         @staticmethod
         def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassRef.Internal:
@@ -62,14 +79,20 @@ class ClassRef(Info, ABC):
             return bytes(raw)
 
         def __str__(self):
-            return f"Internal class ref: {self.internal_class_ref}"
+            return f"Internal class ref: {self.internal_class_ref}\n"
 
     class External(Info):
+        size = 2
+
 
         def __init__(self, cap_file: CapFile, package_token: int, class_token: int):
             super().__init__(cap_file)
             self.package_token = package_token
             self.class_token = class_token
+
+        @property
+        def is_external(self):
+            return True
 
         @staticmethod
         def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassRef.External:
@@ -85,8 +108,17 @@ class ClassRef(Info, ABC):
             return bytes(raw)
 
         def __str__(self):
-            return (f"Package token: {self.package_token}\n"
-                    f"Class token: {self.class_token}")
+            package_aid = self.cap_file.import_component.get_package_by_token(self.package_token).aid_hex
+            package_from_jc_api = API_SPECIFICATION.get_package_by_aid(package_aid)
+            if package_from_jc_api is None:
+                package_name = "not found in JC API"
+                class_name = ""
+            else:
+                package_name = package_from_jc_api.name
+                class_from_jc_api = package_from_jc_api.get_class_by_token(self.class_token)
+                class_name = class_from_jc_api.name if class_from_jc_api is not None else "not found in JC API"
+            return (f"Package token: {self.package_token} ({package_name})\n"
+                    f"Class token: {self.class_token} ({class_name})\n")
 
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> ClassRef.External | ClassRef.Internal:
@@ -122,11 +154,6 @@ class ClassRefInfo(CpInfo):
         return bytes(raw)
 
 
-    def __str__(self):
-        return (f"Classref_info\n"
-                f"{self.info}\n")
-
-
 class InstanceFieldRef(Info):
 
     def __init__(self, cap_file: CapFile, class_ref: ClassRef.External | ClassRef.Internal, token: int):
@@ -148,14 +175,14 @@ class InstanceFieldRef(Info):
         return bytes(raw)
 
     def __str__(self):
-        return (f"{self.class_ref}\n"
+        return (f"{self.class_ref}"
                 f"Token: {self.token}\n")
 
 
 class InstanceFieldRefInfo(CpInfo):
     tag = CpInfoTags.CONSTANT_InstanceFieldref
 
-    def __init__(self, cap_file: CapFile,  info: InstanceFieldRef):
+    def __init__(self, cap_file: CapFile, info: InstanceFieldRef):
         super().__init__(cap_file, info)
 
     @staticmethod
@@ -165,15 +192,6 @@ class InstanceFieldRefInfo(CpInfo):
         instance_field_ref = InstanceFieldRef.load(cap_file, raw[1:])
         return InstanceFieldRefInfo(cap_file, instance_field_ref)
 
-    def to_bytes(self) -> bytes:
-        raw = bytearray()
-        raw.append(CpInfoTags.CONSTANT_InstanceFieldref)
-        raw.extend(self.info.to_bytes())
-        return bytes(raw)
-
-    def __str__(self):
-        return (f"InstanceFieldref_info\n"
-                f"{self.info}")
 
 class VirtualMethodRef(InstanceFieldRef):
     @staticmethod
@@ -182,6 +200,26 @@ class VirtualMethodRef(InstanceFieldRef):
         class_ref = ClassRef.load(cap_file, raw)
         token = raw[2]
         return VirtualMethodRef(cap_file, class_ref, token)
+
+    def __str__(self):
+        if not self.class_ref.is_external:
+            return (f"{self.class_ref}"
+                    f"Token: {self.token}\n")
+
+        package_aid = self.cap_file.import_component.get_package_by_token(self.class_ref.package_token).aid_hex
+        package_from_jc_api = API_SPECIFICATION.get_package_by_aid(package_aid)
+        if package_from_jc_api is None:
+            method_name = ""
+        else:
+            class_from_jc_api = package_from_jc_api.get_class_by_token(self.class_ref.class_token)
+            if class_from_jc_api is None:
+                method_name = ""
+            else:
+                method_from_jc_api = class_from_jc_api.get_method_by_token_and_type(self.token, JCMethodType.VIRTUAL)
+                method_name = method_from_jc_api.name if method_from_jc_api is not None else "not found in JC API"
+
+        return (f"{self.class_ref}"
+                f"Token: {self.token} ({method_name})\n")
 
 
 class VirtualMethodRefInfo(CpInfo):
@@ -197,15 +235,7 @@ class VirtualMethodRefInfo(CpInfo):
         virtual_method_ref = VirtualMethodRef.load(cap_file, raw[1:])
         return VirtualMethodRefInfo(cap_file, virtual_method_ref)
 
-    def to_bytes(self) -> bytes:
-        raw = bytearray()
-        raw.append(CpInfoTags.CONSTANT_VirtualMethodref)
-        raw.extend(self.info.to_bytes())
-        return bytes(raw)
 
-    def __str__(self):
-        return (f"VirtualMethodref_info\n"
-                f"{self.info}")
 
 class StaticMethodRef(Info, ABC):
     class Internal(Info):
@@ -255,15 +285,32 @@ class StaticMethodRef(Info, ABC):
             return bytes(raw)
 
         def __str__(self):
-            return (f"Package token: {self.package_token}\n"
-                    f"Class token: {self.class_token}\n"
-                    f"Method token: {self.token}\n")
+            package_aid = self.cap_file.import_component.get_package_by_token(self.package_token).aid_hex
+            package_from_jc_api = API_SPECIFICATION.get_package_by_aid(package_aid)
+            if package_from_jc_api is None:
+                package_name = "not found in JC API"
+                class_name = ""
+                method_name = ""
+            else:
+                package_name = package_from_jc_api.name
+                class_from_jc_api = package_from_jc_api.get_class_by_token(self.class_token)
+                if class_from_jc_api is None:
+                    class_name = "not found in JC API"
+                    method_name = ""
+                else:
+                    class_name = class_from_jc_api.name
+                    method_from_jc_api = class_from_jc_api.get_method_by_token_and_type(self.token, JCMethodType.STATIC)
+                    method_name = method_from_jc_api.name if method_from_jc_api is not None else "not found in JC API"
+            return (f"Package token: {self.package_token} ({package_name})\n"
+                    f"Class token: {self.class_token} ({class_name})\n"
+                    f"Method token: {self.token} ({method_name})\n")
 
     @staticmethod
-    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticMethodRef.Internal | StaticMethodRef.External:
+    def load(cap_file: CapFile, raw: bytes,
+             start_offset: int = 0) -> StaticMethodRef.Internal | StaticMethodRef.External:
         raw = raw[start_offset:]
 
-        if raw[0] >= 128: # high bit is one
+        if raw[0] >= 128:  # high bit is one
             return StaticMethodRef.External.load(cap_file, raw)
         else:
             return StaticMethodRef.Internal.load(cap_file, raw)
@@ -272,7 +319,7 @@ class StaticMethodRef(Info, ABC):
 class StaticMethodRefInfo(CpInfo):
     tag = CpInfoTags.CONSTANT_StaticMethodref
 
-    def __init__(self,cap_file:CapFile, info: StaticMethodRef.Internal | StaticMethodRef.External):
+    def __init__(self, cap_file: CapFile, info: StaticMethodRef.Internal | StaticMethodRef.External):
         super().__init__(cap_file, info)
 
     @staticmethod
@@ -282,16 +329,33 @@ class StaticMethodRefInfo(CpInfo):
         static_method_ref = StaticMethodRef.load(cap_file, raw[1:])
         return StaticMethodRefInfo(cap_file, static_method_ref)
 
-    def to_bytes(self) -> bytes:
-        raw = bytearray()
-        raw.append(CpInfoTags.CONSTANT_StaticMethodref)
-        raw.extend(self.info.to_bytes())
-        return bytes(raw)
+class StaticFieldRef(StaticMethodRef, ABC):
 
-    def __str__(self):
-        return (f"StaticMethodref_info\n"
-                f"{self.info}")
+    class External(StaticMethodRef.External):
+        def __str__(self):
+            package_aid = self.cap_file.import_component.get_package_by_token(self.package_token).aid_hex
+            package_from_jc_api = API_SPECIFICATION.get_package_by_aid(package_aid)
+            if package_from_jc_api is None:
+                package_name = "not found in JC API"
+                class_name = ""
+            else:
+                package_name = package_from_jc_api.name
+                class_from_jc_api = package_from_jc_api.get_class_by_token(self.class_token)
+                class_name = class_from_jc_api.name if class_from_jc_api is not None else "not found in JC API"
 
+            return (f"Package token: {self.package_token} ({package_name})\n"
+                    f"Class token: {self.class_token} ({class_name})\n"
+                    f"Token: {self.token}\n")
+
+
+class StaticFieldRefInfo(StaticMethodRefInfo):
+    tag = CpInfoTags.CONSTANT_StaticFieldref
+    @staticmethod
+    def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticFieldRefInfo:
+        raw = raw[start_offset:]
+        assert raw[0] == StaticFieldRefInfo.tag
+        static_method_ref = StaticMethodRef.load(cap_file, raw[1:])
+        return StaticFieldRefInfo(cap_file, static_method_ref)
 
 
 
@@ -313,12 +377,7 @@ class ConstantPoolComponent(Component):
         assert raw[0] == ConstantPoolComponent.tag
 
         count = int.from_bytes(raw[3:5])
-        constant_pool = []
-        offset = 0
-        for _ in range(count):
-            cp_info = CpInfo.load(cap_file, raw[5:], offset)
-            offset += cp_info.size
-            constant_pool.append(cp_info)
+        _, constant_pool = Utils.load_structure_array(cap_file, raw, 5, count, CpInfo)
 
         return ConstantPoolComponent(cap_file, constant_pool)
 
@@ -334,18 +393,9 @@ class ConstantPoolComponent(Component):
     def size(self) -> int:
         return 2 + CpInfo.size * self.count
 
-
     def to_bytes(self) -> bytes:
-        raw = bytearray()
-        raw.append(ConstantPoolComponent.tag)
-        raw.extend(int.to_bytes(self.size, 2))
+        raw = super().to_bytes()
         raw.extend(int.to_bytes(self.count, 2))
         for cp_info in self.constant_pool:
             raw.extend(cp_info.to_bytes())
         return bytes(raw)
-
-
-# constant_pool_component = ConstantPoolComponent.load_from_file("../template_method/applets/javacard/ConstantPool.cap")
-# constant_pool_component.export_to_file("../ConstantPool.cap")
-# constant_pool_component = ConstantPoolComponent.load_from_file("../ConstantPool.cap")
-# constant_pool_component.pretty_print()

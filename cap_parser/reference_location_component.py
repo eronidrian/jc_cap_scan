@@ -1,15 +1,12 @@
 from __future__ import annotations
 
-import textwrap
-from abc import abstractmethod, ABC
-from typing import TYPE_CHECKING
 
-from api_specification.api_specification import JCMethodType
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from cap_parser.cap_file import CapFile
-from cap_parser.component import Component, Structure
-from cap_parser.constants import ComponentTags, CpInfoTags, API_SPECIFICATION
+from cap_parser.component import Component
+from cap_parser.constants import ComponentTags
 
 class ReferenceLocationComponent(Component):
 
@@ -55,7 +52,7 @@ class ReferenceLocationComponent(Component):
         return 2 + self.byte_index_count + 2 + self.byte2_index_count
 
     def to_bytes(self) -> bytes:
-        raw = bytearray()
+        raw = super().to_bytes()
         raw.extend(int.to_bytes(self.byte_index_count, 2))
         raw.extend(bytes(self.offsets_to_byte_indices))
         raw.extend(int.to_bytes(self.byte2_index_count, 2))

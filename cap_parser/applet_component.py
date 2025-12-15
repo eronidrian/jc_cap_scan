@@ -4,6 +4,8 @@ import textwrap
 
 from typing import TYPE_CHECKING
 
+from cap_parser.cap_parser_utils import Utils
+
 if TYPE_CHECKING:
     from cap_parser.cap_file import CapFile
 from cap_parser.component import Component, Structure
@@ -72,7 +74,7 @@ class AppletComponent(Component):
 
     @property
     def size(self) -> int:
-        return 1 + sum([applet.size for applet in self.applets])
+        return 1 + Utils.size_of_structure_array(self.applets)
 
 
     @staticmethod
@@ -81,20 +83,13 @@ class AppletComponent(Component):
         assert raw[0] == AppletComponent.tag
 
         count = raw[3]
-        offset = 0
-        applets = []
-        for _ in range(count):
-            applet = AppletComponent.Applet.load(cap_file, raw[4:], offset)
-            offset += applet.size
-            applets.append(applet)
+        _, applets = Utils.load_structure_array(cap_file, raw, 4, count, AppletComponent.Applet)
 
         return AppletComponent(cap_file, applets)
 
-    def to_bytes(self) -> bytes:
-        raw = bytearray()
-        raw.append(AppletComponent.tag)
-        raw.extend(int.to_bytes(self.size, 2))
+    def to_bytes(self) -> bytearray:
+        raw = super().to_bytes()
         raw.append(self.count)
         for applet in self.applets:
             raw.extend(applet.to_bytes())
-        return bytes(raw)
+        return raw
