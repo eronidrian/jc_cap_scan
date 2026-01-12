@@ -1,7 +1,7 @@
 import csv
 
 
-directory_name = f"/home/petr/Downloads/diplomka/new_results/smartcafe_6/"
+directory_name = f"/home/petr/Downloads/diplomka/aid_results/smartcafe_6/"
 
 result_file = open(directory_name + "all.csv", "w")
 csv_writer = csv.writer(result_file)
@@ -22,7 +22,10 @@ for i in range(9):
                 csv_reader = csv.reader(f)
                 rows = list(csv_reader)
                 rows = [row for row in rows if row[0] != 'modification']
-                new_rows[i].extend(rows[i][1:])
+                try:
+                    new_rows[i].extend(rows[i][1:])
+                except IndexError:
+                    continue
 
 for row in new_rows:
     csv_writer.writerow(row)
