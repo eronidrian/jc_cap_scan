@@ -25,11 +25,17 @@ AID_NAME_MAP = {
     "A0000000620203": "javacardx.external",
     "A0000000620204": "javacardx.biometry1toN",
     "A0000000620205": "javacardx.security",
+    "A000000062020501": "javacardx.security.cert",
+    "A000000062020502" : "javacardx.security.derivation",
+    "A000000062020503": "javacardx.security.util",
     "A000000062020801": "javacardx.framework.util",
     "A00000006202080101": "javacardx.framework.util.intx",
     "A000000062020802": "javacardx.framework.math",
     "A000000062020803": "javacardx.framework.tlv",
     "A000000062020804": "javacardx.framework.string",
+    "A000000062020805": "javacardx.framework.event",
+    "A000000062020806": "javacardx.framework.nio",
+    "A000000062020807" : "javacardx.framework.time",
     "A0000000620209": "javacardx.apdu",
     "A000000062020901": "javacardx.apdu.util",
     "A00000015100": "org.globalplatform",
@@ -44,9 +50,7 @@ AID_NAME_MAP = {
 
 
 measurements_for_one_aid = 100
-major = 1
-minor = 0
-card_name = "nxp_jcop_241"
+card_name = "smartcafe_6"
 
 index_to_extract = -1
 
@@ -63,23 +67,27 @@ result_file = open(f"aid_list_len_{card_name}.csv", "w")
 result_file_writer = csv.writer(result_file)
 
 for aid in AID_NAME_MAP:
-    cap_file_name = generate_cap_for_package_aid(bytes.fromhex(aid), major, minor, 0, AID_NAME_MAP[aid].replace(".", "_"))
-    print(f"Measuring {AID_NAME_MAP[aid]}")
-    supported = is_installation_successful(cap_file_name)
+    for major in range(3):
+        for minor in range(10):
+            cap_file_name = generate_cap_for_package_aid(bytes.fromhex(aid), major, minor, 0, AID_NAME_MAP[aid].replace(".", "_"))
+            print(f"Measuring {AID_NAME_MAP[aid]}")
+            supported = is_installation_successful(cap_file_name)
 
-    if not supported:
-        print(f"{AID_NAME_MAP[aid]} not supported")
-        os.remove(cap_file_name)
-        continue
-    print(f"{AID_NAME_MAP[aid]} is supported")
-    uninstall_package(cap_file_name)
+            if not supported:
+                print(f"{AID_NAME_MAP[aid]} not supported")
+                os.remove(cap_file_name)
+                continue
+            print(f"{AID_NAME_MAP[aid]} is supported")
+            uninstall_package(cap_file_name)
 
-    measure_cap_file(cap_file_name, measurements_for_one_aid, "tmp_traces")
-    times = extract_from_single_trs_file(measurements_for_one_aid,"tmp_traces/traces_aid_list_len.trs", index_to_extract)
+            measure_cap_file(cap_file_name, measurements_for_one_aid, "tmp_traces")
+            times = extract_from_single_trs_file(measurements_for_one_aid,"tmp_traces/traces_aid_list_len.trs", index_to_extract)
 
-    mean_time = mean(times)
-    print(f"AID: {aid}\n"
-          f"Mean time: {mean_time}\n\n")
-    result_file_writer.writerow([aid] + times)
-    os.remove(cap_file_name)
-    os.remove("tmp_traces/traces_aid_list_len.trs")
+            mean_time = mean(times)
+            print(f"AID: {aid}\n"
+                  f"Major: {major}\n"
+                  f"Minor: {minor}\n"
+                  f"Mean time: {mean_time}\n\n")
+            result_file_writer.writerow([aid, major, minor] + times)
+            os.remove(cap_file_name)
+            os.remove("tmp_traces/traces_aid_list_len.trs")
