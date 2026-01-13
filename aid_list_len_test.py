@@ -18,6 +18,7 @@ AID_NAME_MAP = {
     "A0000000620001": "java.lang",
     "A0000000620002": "java.io",
     "A0000000620003": "java.rmi",
+    "A0000000620101" : "javacard.framework",
     "A000000062010101": "javacard.framework.service",
     "A0000000620102": "javacard.security",
     "A0000000620201": "javacardx.crypto",
