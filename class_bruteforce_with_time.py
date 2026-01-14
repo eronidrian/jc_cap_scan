@@ -90,6 +90,9 @@ def extract_load_time(gp_log: str) -> tuple[int, int]:
     load_line = gp_log[25]
     match_2 = re.search(r'([0-9]+)ns', load_line)
 
+    for i in range(len(gp_log)):
+        print(i, gp_log[i])
+
     if match_1 is None and match_2 is None:
         for i in range(len(gp_log)):
             print(i, gp_log[i])
@@ -98,7 +101,7 @@ def extract_load_time(gp_log: str) -> tuple[int, int]:
         return 0, match_2.group(1)
     if match_2 is None:
         return match_1.group(1), 0
-    return match_1.group(1), match_2.group(2)
+    return match_1.group(1), match_2.group(1)
 
 
 
@@ -110,7 +113,7 @@ def install_package(cap_file_name) -> tuple[bool, tuple[int, int]]:
 
     result = result.stdout.decode("utf-8")
     duration = extract_load_time(result)
-    if result.find("6A80") == -1:
+    if result.find("6A80") == -1 and result.find("6985") == -1:
         success = True
         uninstall_package(cap_file_name)
 
@@ -130,14 +133,14 @@ def test_aid_and_class_token(aid: bytearray, major: int, minor: int, class_token
     return result, duration
 
 def test_class_token_range(aid: bytearray, major: int, minor: int, class_token_range: tuple[int, int]):
-    result_file = open(f"nxp_jcop_241_{aid.hex().upper()}.csv", "w")
+    result_file = open(f"nxp_jcop_3_{aid.hex().upper()}.csv", "w")
     csv_writer = csv.writer(result_file)
     for class_token in range(class_token_range[0], class_token_range[1]):
         durations_1 = []
         durations_2 = []
         for _ in range(100):
             result, duration = test_aid_and_class_token(aid, major, minor, class_token)
-            print(f"class token: {class_token}, success: {result}, duration_1: {duration[0]}, duration_2: {duration[1]}")
+            print(f"class token: {class_token}, success: {result}, duration_1: {duration[0]}, duration_2: {duration[1]}\n\n")
             durations_1.append(duration[0])
             durations_2.append(duration[1])
         csv_writer.writerow([class_token] + durations_1)
