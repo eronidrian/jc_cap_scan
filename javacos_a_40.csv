@@ -1,10 +1,53 @@
-byte(), CAP loaded 
-short(), CAP loaded 
-short(byte[];short), CAP loaded 
-void(byte[];short;short), CAP loaded 
-boolean(), CAP loaded 
-void(), CAP loaded 
-void(short), CAP loaded 
-short(byte[];short;short), CAP loaded 
-byte[](), CAP loaded 
-short(byte[];short;short;byte[];short), CAP loaded 
+0,CAP loaded,00 9000
+1,CAP loaded,6F00
+2,CAP loaded,6F00
+3,CAP loaded,6F00
+4,CAP loaded,00 9000
+5,CAP loaded,10 9000
+6,CAP loaded,6F00
+15,CAP loaded,6F00
+34,CAP loaded,6F00
+35,CAP loaded,6F00
+67,CAP loaded,6F00
+68,CAP loaded,6F00
+70,CAP loaded,6F00
+71,CAP loaded,6F00
+74,CAP loaded,6F00
+77,CAP loaded,6F00
+91,CAP loaded,6F00
+111,CAP loaded,6F00
+115,CAP loaded,6F00
+122,CAP loaded,6F00
+123,CAP loaded,6F00
+124,CAP loaded,6F00
+128,CAP loaded,6F00
+137,CAP loaded,6F00
+139,CAP loaded,SCARD_E_NOT_TRANSACTED
+147,CAP loaded,6F00
+148,CAP loaded,6F00
+151,CAP loaded,SCARD_E_NOT_TRANSACTED
+158,CAP loaded,6F00
+159,CAP loaded,SCARD_E_NOT_TRANSACTED
+164,CAP loaded,6F00
+175,CAP loaded,6F00
+178,CAP loaded,6F00
+180,CAP loaded,SCARD_E_NOT_TRANSACTED
+184,CAP loaded,6F00
+187,CAP loaded,6F00
+194,CAP loaded,6F00
+197,CAP loaded,6F00
+202,CAP loaded,6F00
+203,CAP loaded,6F00
+204,CAP loaded,6F00
+205,CAP loaded,6F00
+206,CAP loaded,6F00
+207,CAP loaded,6F00
+208,CAP loaded,6F00
+209,CAP loaded,6F00
+211,CAP loaded,6F00
+212,CAP loaded,6F00
+223,CAP loaded,6F00
+228,CAP loaded,6F00
+243,CAP loaded,6F00
+248,CAP loaded,6F00
+249,CAP loaded,6F00
