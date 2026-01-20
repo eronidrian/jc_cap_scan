@@ -34,6 +34,9 @@ def install_package(cap_file_name) -> str:
     message = message.replace('\n', ' ')
     message = message.strip()
 
+    if "STRICT WARNING" in message:
+        exit(1)
+
     return message
 
 def call_package(debug: bool = False) -> str:
@@ -163,7 +166,7 @@ def is_template_correct(template_location: str) -> bool:
         return False
 
     uninstall_package(cap_name)
-    # os.remove(cap_name)
+    os.remove(cap_name)
     return True
 
 def reset_fault_counter() -> None:
@@ -171,7 +174,7 @@ def reset_fault_counter() -> None:
     uninstall_package("good_package.cap")
 
 def method_test(card_name: str) -> None:
-    for entry in os.scandir("templates"):
+    for i, entry in enumerate(os.scandir("templates")):
         if not entry.is_dir():
             continue
 
@@ -180,6 +183,7 @@ def method_test(card_name: str) -> None:
         if not is_template_correct(entry.path):
             print(f"Skipping template {entry.name}")
             continue
+        print("Template is correct")
 
         result_file = open(f"{card_name}_{entry.name}.csv", "w")
         csv_writer = csv.writer(result_file)
@@ -188,7 +192,7 @@ def method_test(card_name: str) -> None:
         constant_pool_entry = template_loaded.constant_pool_component.get_cp_info_by_method_name(method_name)
         for method_token in range(256):
             constant_pool_entry.info.token = method_token
-            template_loaded.export_to_directory(f"{entry.name}_{method_token}")
+            template_loaded.export_to_directory(os.path.join(f"{entry.name}_{method_token}", "applets", "javacard"))
             cap_file_name = f"{entry.name}_{method_token}.cap"
             pack_directory_to_cap_file(cap_file_name, f"{entry.name}_{method_token}")
 
@@ -204,23 +208,27 @@ def method_test(card_name: str) -> None:
             if method_token % 5 == 0:
                 print("Resetting fault counter...")
                 reset_fault_counter()
-            # os.remove(cap_file_name)
-            # shutil.rmtree(f"{entry.name}_{method_token}")
+            os.remove(cap_file_name)
+            shutil.rmtree(f"{entry.name}_{method_token}")
 
 
 if __name__ == "__main__":
-    card_name = "javacos_a_40"
+    card_name = "nxp_jcop_3"
 
-    method_test(card_name)
+    # method_test(card_name)
 
     # token_list = []
     #
     # bruteforce_method_tokens(token_list, card_name)
     # categorise_results(card_name)
 
-    # cap_file = CapFile.load_from_directory("template_method/applets/javacard")
-    # cap_file.constant_pool_component.pretty_print()
+    cap_file_1 = CapFile.load_from_directory("templates/template_static_jcsystem_lookupaid_call/applets/javacard")
+    # cap_file_1.method_component.pretty_print()
 
+    cap_file_2 = CapFile.load_from_directory("templates/template_static_checksum_getinstance_call/applets/javacard")
+    # cap_file_2.method_component.pretty_print()
+
+    CapFile.diff(cap_file_1, cap_file_2)
 
 # iterate over templates in 'templates' directory
     # for each

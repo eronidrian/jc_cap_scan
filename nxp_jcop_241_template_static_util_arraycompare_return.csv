@@ -1,0 +1,241 @@
+0,CAP loaded,FF 9000
+1,CAP loaded,03 9000
+2,CAP loaded,03 9000
+3,CAP loaded,6F00
+4,CAP loaded,6F00
+5,CAP loaded,6F00
+6,CAP loaded,6F00
+7,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+8,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+9,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+10,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+11,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+12,CAP loaded,6F00
+13,CAP loaded,SCARD_E_NOT_TRANSACTED
+14,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+15,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+16,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+17,CAP loaded,6F00
+18,CAP loaded,6F00
+19,CAP loaded,SCARD_E_NOT_TRANSACTED
+20,CAP loaded,SCARD_E_NOT_TRANSACTED
+21,CAP loaded,3CC8
+22,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+23,CAP loaded,6F00
+24,CAP loaded,6F00
+25,CAP loaded,SCARD_E_NOT_TRANSACTED
+26,CAP loaded,6F00
+27,CAP loaded,6F00
+28,CAP loaded,SCARD_E_NOT_TRANSACTED
+29,CAP loaded,SCARD_E_NOT_TRANSACTED
+30,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+31,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+32,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+33,CAP loaded,6F00
+34,CAP loaded,SCARD_E_NOT_TRANSACTED
+35,CAP loaded,SCARD_E_NOT_TRANSACTED
+36,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+37,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+38,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+39,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+40,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+41,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+42,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+43,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+44,CAP loaded,6F00
+45,CAP loaded,SCARD_E_NOT_TRANSACTED
+46,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+47,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+48,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+49,CAP loaded,6F00
+50,CAP loaded,SCARD_E_NOT_TRANSACTED
+51,CAP loaded,SCARD_E_NOT_TRANSACTED
+52,CAP loaded,6985
+53,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+54,CAP loaded,6F00
+55,CAP loaded,6F00
+56,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+57,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+58,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+59,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+60,CAP loaded,SCARD_E_NOT_TRANSACTED
+61,CAP loaded,SCARD_E_NOT_TRANSACTED
+62,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+63,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+64,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+65,CAP loaded,6F00
+66,CAP loaded,SCARD_E_NOT_TRANSACTED
+67,CAP loaded,SCARD_E_NOT_TRANSACTED
+68,CAP loaded,6F00
+69,CAP loaded,6F00
+70,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+71,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+72,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+73,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+74,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+75,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+76,CAP loaded,6F00
+77,CAP loaded,SCARD_E_NOT_TRANSACTED
+78,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+79,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+80,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+81,CAP loaded,6F00
+82,CAP loaded,SCARD_E_NOT_TRANSACTED
+83,CAP loaded,6F00
+84,CAP loaded,6F00
+85,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+86,CAP loaded,SCARD_E_NOT_TRANSACTED
+87,CAP loaded,6F00
+88,CAP loaded,6F00
+89,CAP loaded,6F00
+90,CAP loaded,6F00
+91,CAP loaded,6F00
+92,CAP loaded,6F00
+93,CAP loaded,6F00
+94,CAP loaded,6F00
+95,CAP loaded,6F00
+96,CAP loaded,6F00
+97,CAP loaded,6F00
+98,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+99,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+100,CAP loaded,SCARD_E_NOT_TRANSACTED
+101,CAP loaded,SCARD_E_NOT_TRANSACTED
+102,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+103,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+104,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+105,CAP loaded,6F00
+106,CAP loaded,SCARD_E_NOT_TRANSACTED
+107,CAP loaded,6F00
+108,CAP loaded,6F00
+109,CAP loaded,SCARD_E_NOT_TRANSACTED
+110,CAP loaded,SCARD_E_NOT_TRANSACTED
+111,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+112,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+113,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+114,CAP loaded,SCARD_E_NOT_TRANSACTED
+115,CAP loaded,6F00
+116,CAP loaded,6F00
+117,CAP loaded,6F00
+118,CAP loaded,6A81
+119,CAP loaded,6F00
+120,CAP loaded,6F00
+121,CAP loaded,6F00
+122,CAP loaded,6F00
+123,CAP loaded,6F00
+124,CAP loaded,6F00
+125,CAP loaded,SCARD_E_NOT_TRANSACTED
+126,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+127,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+128,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+129,CAP loaded,SCARD_E_NOT_TRANSACTED
+130,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5f7d5680}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+131,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{522156fc}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+132,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6bd43c7d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+133,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{64caad2c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+134,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3aeaf744}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+135,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4732502e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+136,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{22b7658f}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+137,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{24358a6d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+138,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{28bc3b}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+139,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4b1cbf83}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+140,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{246e47e2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+141,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{54cfa722}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+142,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4f1eb3b3}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+143,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1823cade}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+144,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{13677b9f}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+145,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{76ca38dd}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+146,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7a61db35}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+147,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3bb91e59}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+148,CAP loaded,SCARD_E_NOT_TRANSACTED
+149,CAP loaded,SCARD_E_NOT_TRANSACTED
+150,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{54701e94}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+151,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1fce50b0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+152,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5ccc6e7c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+153,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2325dc7f}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+154,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4d18eacf}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+155,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2485d0a0}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+156,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{79b2aaf}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+157,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6133d55e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+158,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{7766207d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+159,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2774a788}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+160,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{52f0876c}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+161,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{36e51414}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+162,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{522b9835}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+163,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{543c96ac}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+164,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{18c2f681}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+165,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{79aea6af}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+166,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{43ea8be4}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+167,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4a114f0a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+168,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{246ec43e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+169,CAP loaded,SCARD_E_NOT_TRANSACTED
+170,CAP loaded,6F00
+171,CAP loaded,6F00
+172,CAP loaded,6F00
+173,CAP loaded,6F00
+174,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+175,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+176,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+177,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+178,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+179,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+180,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+181,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+182,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+183,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+184,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+185,CAP loaded,SCARD_E_NOT_TRANSACTED
+186,CAP loaded,6F00
+187,CAP loaded,6F00
+188,CAP loaded,6F00
+189,CAP loaded,SCARD_E_NOT_TRANSACTED
+190,CAP loaded,6F00
+191,CAP loaded,6F00
+192,CAP loaded,6F00
+193,CAP loaded,6F00
+194,CAP loaded,SCARD_E_NOT_TRANSACTED
+195,CAP loaded,6F00
+196,CAP loaded,6F00
+197,CAP loaded,SCARD_E_NOT_TRANSACTED
+198,CAP loaded,6F00
+199,CAP loaded,6F00
+200,CAP loaded,SCARD_E_NOT_TRANSACTED
+201,CAP loaded,6F00
+202,CAP loaded,6F00
+203,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+204,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+205,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+206,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+207,CAP loaded,SCARD_E_NOT_TRANSACTED
+208,CAP loaded,6F00
+209,CAP loaded,6F00
+210,CAP loaded,SCARD_E_NOT_TRANSACTED
+211,CAP loaded,6F00
+212,CAP loaded,6F00
+213,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+214,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+215,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+216,CAP loaded,6F00
+217,CAP loaded,6F00
+218,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+219,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+220,CAP loaded,SCARD_E_NOT_TRANSACTED
+221,CAP loaded,SCARD_E_NOT_TRANSACTED
+222,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+223,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+224,Applet loading failed. Are you sure the card can handle it? LOAD failed: 0x6A80 (Wrong data/incorrect values in data),
+225,CAP loaded,6F00
+226,CAP loaded,SCARD_E_NOT_TRANSACTED
+227,CAP loaded,SCARD_E_NOT_TRANSACTED
+228,CAP loaded,SCARD_E_NOT_TRANSACTED
+229,CAP loaded,6F00
+230,CAP loaded,3D 9000
+231,CAP loaded,6F00
+232,CAP loaded,6F00
+233,CAP loaded,6F00
+234,CAP loaded,6F00
+235,CAP loaded,6F00
+236,STRICT WARNING: Card cryptogram invalid! Card: 259347A284E99D58 Host: 7305710F8472E589 !!! DO NOT RE-TRY THE SAME COMMAND/KEYS OR YOU MAY BRICK YOUR CARD !!!,
+237,STRICT WARNING: Card cryptogram invalid! Card: 324D64ACA2F6FD63 Host: CB29C0B4945AB6F6 !!! DO NOT RE-TRY THE SAME COMMAND/KEYS OR YOU MAY BRICK YOUR CARD !!!,
+238,STRICT WARNING: Card cryptogram invalid! Card: 021894C9FA31BDE6 Host: 0DC50D92C4E5845F !!! DO NOT RE-TRY THE SAME COMMAND/KEYS OR YOU MAY BRICK YOUR CARD !!!,
+239,STRICT WARNING: Card cryptogram invalid! Card: 09BAF4367A969357 Host: 39DCF910E5804C5A !!! DO NOT RE-TRY THE SAME COMMAND/KEYS OR YOU MAY BRICK YOUR CARD !!!,
+240,STRICT WARNING: Card cryptogram invalid! Card: 0AC9E12A22384FF1 Host: DFAEFA48D68BE564 !!! DO NOT RE-TRY THE SAME COMMAND/KEYS OR YOU MAY BRICK YOUR CARD !!!,

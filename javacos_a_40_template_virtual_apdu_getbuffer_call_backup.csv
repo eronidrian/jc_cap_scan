@@ -1,0 +1,51 @@
+0,CAP loaded,6F00
+1,CAP loaded,9000
+2,CAP loaded,9000
+3,CAP loaded,6F00
+4,CAP loaded,6F00
+5,CAP loaded,SCARD_E_NOT_TRANSACTED
+6,CAP loaded,9000
+7,CAP loaded,9000
+8,CAP loaded,103400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 9000
+9,CAP loaded,6F00
+10,CAP loaded,9000
+11,CAP loaded,9000
+12,CAP loaded,9000
+13,CAP loaded,9000
+14,CAP loaded,9000
+15,CAP loaded,6F00
+16,CAP loaded,6F00
+17,CAP loaded,9000
+18,CAP loaded,6F00
+19,CAP loaded,6F00
+20,CAP loaded,SCARD_E_NOT_TRANSACTED
+21,CAP loaded,SCARD_E_NOT_TRANSACTED
+22,CAP loaded,SCARD_E_NOT_TRANSACTED
+23,CAP loaded,6F00
+24,CAP loaded,6F00
+25,CAP loaded,6F00
+26,CAP loaded,SCARD_E_NOT_TRANSACTED
+27,CAP loaded,6F00
+28,CAP loaded,6F00
+29,CAP loaded,6F00
+30,CAP loaded,SCARD_E_NOT_TRANSACTED
+31,CAP loaded,SCARD_E_NOT_TRANSACTED
+32,CAP loaded,SCARD_E_NOT_TRANSACTED
+33,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{63954d66}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+34,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2bfa2b58}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+35,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3f34d84e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+36,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{3b41951a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+37,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4731e441}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+38,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{637d16ed}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+39,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{47f85e50}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+40,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{4b43b5ff}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+41,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{6f0c6919}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+42,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{bdffaf2}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+43,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{45b89b62}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+44,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{2c62bc90}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+45,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{50fe8ac9}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+46,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{5cef583a}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+47,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1bacc80e}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+48,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{addcdf6}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+49,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{1a89a13d}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
+50,"Failed to communicate with card in JnaCardTerminal{scardHandle=SCardContext{c4fef79}, name=ACS ACR1281 1S Dual Reader 00 00}: SCARD_E_NOT_TRANSACTED",
