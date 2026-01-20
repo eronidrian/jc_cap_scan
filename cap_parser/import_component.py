@@ -103,9 +103,12 @@ class ImportComponent(Component):
             raw.extend(package_info.to_bytes())
         return bytes(raw)
 
-    def pretty_print(self) -> None:
-        print("Import component")
-        print()
-        print("Packages:")
+    def __str__(self):
+        result_string = "Import Component\n\n"
+        result_string += "Packages:\n"
         for package_info in self.packages:
-            print(textwrap.indent(str(package_info), "\t"))
+            result_string += textwrap.indent(str(package_info), "\t") + "\n"
+        return result_string
+
+    def pretty_print(self) -> None:
+        print(self.__str__())

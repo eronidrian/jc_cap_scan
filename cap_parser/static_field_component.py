@@ -87,16 +87,19 @@ class StaticFieldComponent(Component):
 
         return StaticFieldComponent(cap_file, reference_count, array_init, default_value_count, non_default_values)
 
-    def pretty_print(self) -> None:
-        print("Static field component")
-        print()
-        print(f"Image size: {self.image_size}")
-        print(f"Reference count: {self.reference_count}")
-        print("Array init:")
+    def __str__(self):
+        result_string = "Static field component:\n\n"
+        result_string += f"Image size: {self.image_size}\n"
+        result_string += f"Reference count: {self.reference_count}\n"
+        result_string += "Array init:\n"
         for array_init_info in self.array_init:
-            print(textwrap.indent(str(array_init_info), "\t"))
-        print(f"Default value count: {self.default_value_count}")
-        print(f"Non default values: {self.non_default_values}")
+            result_string += textwrap.indent(str(array_init_info), "\t") + "\n"
+        result_string += f"Default value count: {self.default_value_count}\n"
+        result_string += f"Non default values: {self.non_default_values}\n"
+        return result_string
+
+    def pretty_print(self) -> None:
+        print(self.__str__())
 
     @property
     def size(self) -> int:

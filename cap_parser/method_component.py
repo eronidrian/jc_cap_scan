@@ -136,8 +136,8 @@ class MethodInfo(Structure):
         result_string = "Method header:\n"
         result_string += textwrap.indent(str(self.method_header), "\t")
         result_string += f"Bytecodes:\n"
-        # for bytecode in self.bytecodes:
-        #     result_string += f"{textwrap.indent(BYTECODE_MAP.get(bytecode, hex(bytecode)), '\t')}\n"
+        for bytecode in self.bytecodes:
+            result_string += f"{textwrap.indent(BYTECODE_MAP.get(bytecode, hex(bytecode)), '\t')}\n"
         return result_string
 
 
@@ -171,15 +171,18 @@ class MethodComponent(Component):
 
         return MethodComponent(cap_file, exception_handlers, methods)
 
-    def pretty_print(self) -> None:
-        print("Method component")
-        print("")
-        print("Exception handlers:")
+    def __str__(self):
+        result_string = "Method component\n\n"
+        result_string += "Exception handlers:\n"
         for exception_handler in self.exception_handlers:
-            print(textwrap.indent(str(exception_handler), "\t"))
-        print("Methods:")
+            result_string += textwrap.indent(str(exception_handler), "\t") + "\n"
+        result_string += "Methods:\n"
         for method in self.methods:
-            print(textwrap.indent(str(method), "\t"))
+            result_string += textwrap.indent(str(method), "\t") + "\n"
+        return result_string
+
+    def pretty_print(self) -> None:
+        print(self.__str__())
 
     @property
     def size(self) -> int:

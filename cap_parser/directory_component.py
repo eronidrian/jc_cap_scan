@@ -123,20 +123,21 @@ class DirectoryComponent(Component):
             result_string += f"{component_name}: {self.component_sizes[i]}\n"
         return result_string
 
+    def __str__(self):
+        result_string = "Directory component\n\n"
+        result_string += "Component sizes:\n"
+        result_string += textwrap.indent(self.component_sizes_pretty, "\t")
+        result_string += "Static field size:\n"
+        result_string += textwrap.indent(str(self.static_field_size), "\t")
+        result_string += f"Import count: {self.import_count}\n"
+        result_string += f"Applet count: {self.applet_count}\n"
+        result_string += "Custom components:\n"
+        for custom_component in self.custom_components:
+            result_string += textwrap.indent(str(custom_component), "\t") + "\n"
+        return result_string
 
     def pretty_print(self) -> None:
-        print("Directory component")
-        print()
-        print("Component sizes:")
-        print(textwrap.indent(self.component_sizes_pretty, "\t"))
-        print("Static field size:")
-        print(textwrap.indent(str(self.static_field_size), "\t"))
-        print(f"Import count: {self.import_count}")
-        print(f"Applet count: {self.applet_count}")
-        print("Custom components:")
-        for custom_component in self.custom_components:
-            print(textwrap.indent(str(custom_component), "\t"))
-        print()
+        print(self.__str__())
 
 
     @property

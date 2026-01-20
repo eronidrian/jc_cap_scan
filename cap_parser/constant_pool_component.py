@@ -392,13 +392,15 @@ class ConstantPoolComponent(Component):
 
         return ConstantPoolComponent(cap_file, constant_pool)
 
-    def pretty_print(self) -> None:
-        print("Constant pool component")
-        print()
-        print("Constant pool:")
+    def __str__(self):
+        result_string = "Constant pool component\n\n"
+        result_string += "Constant pool:\n"
         for cp_info in self.constant_pool:
-            print(textwrap.indent(str(cp_info), "\t"))
-        pass
+            result_string += textwrap.indent(str(cp_info), "\t") + "\n"
+        return result_string
+
+    def pretty_print(self) -> None:
+        print(self.__str__())
 
     @property
     def size(self) -> int:

@@ -421,17 +421,18 @@ class ClassComponent(Component):
 
         return ClassComponent(cap_file, interfaces, classes)
 
-    def pretty_print(self) -> None:
-        print("Class component")
-        print()
-        print("Interfaces:")
+    def __str__(self):
+        result_string = "Class component\n\n"
+        result_string += "Interfaces:\n"
         for interface in self.interfaces:
-            print(textwrap.indent(str(interface), "\t"))
-        print("Classes:")
+            result_string += textwrap.indent(str(interface), "\t") + "\n"
+        result_string += "Classes:\n"
         for jc_class in self.classes:
-            print(textwrap.indent(str(jc_class), "\t"))
+            result_string += textwrap.indent(str(jc_class), "\t") + "\n"
+        return result_string
 
-        pass
+    def pretty_print(self) -> None:
+        print(self.__str__())
 
     @property
     def size(self) -> int:

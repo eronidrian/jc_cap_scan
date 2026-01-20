@@ -65,12 +65,15 @@ class AppletComponent(Component):
     def count(self) -> int:
         return len(self.applets)
 
-    def pretty_print(self) -> None:
-        print("Applet component")
-        print()
-        print("Applets:")
+    def __str__(self):
+        result_string = "Applet component\n\n"
+        result_string += "Applets:\n"
         for applet in self.applets:
-            print(textwrap.indent(str(applet), "\t"))
+            result_string += textwrap.indent(str(applet), "\t") + "\n"
+        return result_string
+
+    def pretty_print(self) -> None:
+        print(self.__str__())
 
     @property
     def size(self) -> int:

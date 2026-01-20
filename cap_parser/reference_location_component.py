@@ -41,11 +41,14 @@ class ReferenceLocationComponent(Component):
         offsets_to_byte2_indices = list(raw[offset : offset + byte2_index_count])
         return ReferenceLocationComponent(cap_file, offsets_to_byte_indices, offsets_to_byte2_indices)
 
+    def __str__(self):
+        result_string = "Reference location component\n\n"
+        result_string += f"Offsets to byte indices: {self.offsets_to_byte_indices}\n"
+        result_string += f"Offsets to byte2 indices: {self.offsets_to_byte2_indices}\n"
+        return result_string
+
     def pretty_print(self) -> None:
-        print("Reference location component")
-        print()
-        print(f"Offsets to byte indices: {self.offsets_to_byte_indices}")
-        print(f"Offsets to byte2 indices: {self.offsets_to_byte2_indices}")
+        print(self.__str__())
 
     @property
     def size(self) -> int:

@@ -40,15 +40,17 @@ class HeaderComponent(Component):
                 flags_str.append(flag_name)
         return ",".join(flags_str)
 
+    def __str__(self):
+        results_string = "Header Component:\n\n"
+        results_string += f"CAP format minor version: {self.cap_format_minor_version}\n"
+        results_string += f"CAP format major version: {self.cap_format_major_version}\n"
+        results_string += f"Flags: {self.flags} ({self.flags_str})\n"
+        results_string += "Package:\n"
+        results_string += textwrap.indent(str(self.package), "\t")
+        return results_string
 
     def pretty_print(self) -> None:
-        print("Header component")
-        print()
-        print(f"CAP format minor version: {self.cap_format_minor_version}")
-        print(f"CAP format major version: {self.cap_format_major_version}")
-        print(f"Flags: {self.flags} ({self.flags_str})")
-        print("Package:")
-        print(textwrap.indent(str(self.package), "\t"))
+        print(self.__str__())
 
     @property
     def size(self) -> int:

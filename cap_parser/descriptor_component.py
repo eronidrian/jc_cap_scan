@@ -345,14 +345,17 @@ class DescriptorComponent(Component):
         types = TypeDescriptorInfo.load(cap_file, raw, offset)
         return DescriptorComponent(cap_file, classes, types)
 
-    def pretty_print(self) -> None:
-        print("Descriptor component")
-        print()
-        print("Classes:")
+    def __str__(self):
+        result_string = "Descriptor component\n\n"
+        result_string += "Classes:\n"
         for _class in self.classes:
-            print(textwrap.indent(str(_class), "\t"))
-        print("Types:")
-        print(textwrap.indent(str(self.types), "\t"))
+            result_string += textwrap.indent(str(_class), "\t") + "\n"
+        result_string += "Types:\n"
+        result_string += textwrap.indent(str(self.types), "\t") + "\n"
+        return result_string
+
+    def pretty_print(self) -> None:
+        print(self.__str__())
 
     @property
     def size(self) -> int:

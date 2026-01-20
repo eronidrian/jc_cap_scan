@@ -26,6 +26,10 @@ class Structure(ABC):
     def to_bytes(self) -> bytearray:
         pass
 
+    @abstractmethod
+    def __str__(self):
+        pass
+
 
 class Component(Structure):
 

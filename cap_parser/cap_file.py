@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os.path
+import sys
+from difflib import context_diff
 
 from cap_parser.applet_component import AppletComponent
 from cap_parser.class_component import ClassComponent
@@ -25,7 +27,7 @@ class CapFile:
         ("static_field_component", StaticFieldComponent),
         ("constant_pool_component", ConstantPoolComponent),
         ("reference_location_component", ReferenceLocationComponent),
-        ("descriptor_component", DescriptorComponent),
+        # ("descriptor_component", DescriptorComponent),
     ]
 
     def __init__(self):
@@ -52,11 +54,17 @@ class CapFile:
             setattr(cap_file, attr, component)
         return cap_file
 
-    def pretty_print(self) -> None:
+    def __str__(self):
+        result_string = ""
         for attr, _ in self.components:
             component = getattr(self, attr)
-            component.pretty_print()
-            print("-" * 50)
+            result_string += str(component)
+            result_string += "-" * 50 + "\n"
+        return result_string
+
+
+    def pretty_print(self) -> None:
+        print(self.__str__())
 
 
     def export_to_directory(self, directory_name: str) -> None:
@@ -65,6 +73,26 @@ class CapFile:
             component = getattr(self, attr)
             component.export_to_file(os.path.join(directory_name, component.filename))
 
+    @staticmethod
+    def diff(cap_file_1: CapFile, cap_file_2: CapFile) -> None:
+        cap_file_1_lines = []
+        for line in str(cap_file_1).splitlines(keepends=True):
+            if line == "\n" or "-" * 50 in line:
+                continue
+            line = line.replace("\t", "")
+            cap_file_1_lines.append(line)
+
+
+        cap_file_2_lines = []
+        for line in str(cap_file_2).splitlines(keepends=True):
+            if line == "\n" or "-" * 50 in line:
+                continue
+            line = line.replace("\t", "")
+            cap_file_2_lines.append(line)
+
+        difference = context_diff(cap_file_1_lines, cap_file_2_lines, fromfile="CAP file 1", tofile="CAP file 2")
+
+        sys.stdout.writelines(difference)
 
 if __name__ == "__main__":
     cap_file = CapFile.load_from_directory("../simple_applet/applets/javacard")
