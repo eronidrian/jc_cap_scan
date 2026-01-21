@@ -113,9 +113,9 @@ def install_package(cap_file_name) -> tuple[bool, tuple[int, int]]:
 
     result = result.stdout.decode("utf-8")
     duration = extract_load_time(result)
-    if result.find("6A80") == -1 and result.find("6985") == -1:
+    if result.find("0x6A80") == -1 and result.find("0x6985") == -1:
         success = True
-        uninstall_package(cap_file_name)
+    uninstall_package(cap_file_name)
 
     return success, duration
 
@@ -133,7 +133,7 @@ def test_aid_and_class_token(aid: bytearray, major: int, minor: int, class_token
     return result, duration
 
 def test_class_token_range(aid: bytearray, major: int, minor: int, class_token_range: tuple[int, int]):
-    result_file = open(f"nxp_jcop_3_{aid.hex().upper()}.csv", "w")
+    result_file = open(f"nxp_jcop_4_{aid.hex().upper()}.csv", "w")
     csv_writer = csv.writer(result_file)
     for class_token in range(class_token_range[0], class_token_range[1]):
         durations_1 = []
@@ -157,5 +157,5 @@ class_token = 18
 # # generate_cap_for_aid_and_class_token(aid, major, minor, class_token)
 
 
-test_class_token_range(aid, major, minor, (0, 256))
+test_class_token_range(aid, major, minor, (31, 256))
 
