@@ -1,0 +1,136 @@
+// converted by version 1.3
+// on Wed Jan 21 08:55:05 UTC 2026
+
+.package applets {
+	.aid 0x73:0x69:0x6D:0x70:0x6C:0x65;
+	.version 0.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.3;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x2:0x1 1.3;		//javacardx/crypto
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+	}
+
+	.applet {
+		0x73:0x69:0x6D:0x70:0x6C:0x65:0x61:0x70:0x70:0x6C:0x65:0x74 SimpleApplet;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef 1.1 SimpleApplet/m_encryptCipher;
+		// 1
+		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 2
+		staticMethodRef 1.1.0(BZ)Ljavacardx/crypto/Cipher;;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+			.descriptor	Ljavacardx/crypto/Cipher;	1.1;
+
+		// 3
+		virtualMethodRef SimpleApplet/Check_static()V;
+		// 4
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 5
+		classRef SimpleApplet;
+		// 6
+		staticMethodRef SimpleApplet/<init>([BSB)V;
+		// 7
+		virtualMethodRef 0.10.1()[B;		// getBuffer()[B
+		// 8
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 9
+		staticMethodRef 0.8.3()Ljavacard/framework/AID;;		// javacard/framework/JCSystem.getAID()Ljavacard/framework/AID;
+			.descriptor	Ljavacard/framework/AID;	0.6;
+
+	}
+
+	.class public SimpleApplet 0 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private 1.1 m_encryptCipher 0;		// Ljavacardx/crypto/Cipher;
+		}
+
+		.publicMethodTable 6 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+			Check_static()V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method protected <init>([BSB)V 0 {
+			.stack 3;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 1;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					aconst_null;
+					putfield_a 0;		// reference applets/SimpleApplet.m_encryptCipher
+					aload_0;
+					sconst_1;
+					sconst_0;
+					invokestatic 2;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					putfield_a 0;		// reference applets/SimpleApplet.m_encryptCipher
+					aload_0;
+					invokevirtual 3;		// Check_static()V
+					aload_0;
+					invokevirtual 4;		// register()V
+					return;
+		}
+
+		.method public static install([BSB)V 1 {
+			.stack 5;
+			.locals 0;
+
+				L0:	new 5;		// applets/SimpleApplet
+					dup;
+					aload_0;
+					sload_1;
+					sload_2;
+					invokespecial 6;		// applets/SimpleApplet.<init>([BSB)V
+					pop;
+					return;
+		}
+
+		.method public select()Z 6 {
+			.stack 1;
+			.locals 0;
+
+				L0:	sconst_1;
+					sreturn;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 1;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+					aload_0;
+					invokevirtual 8;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	return;
+		}
+
+		.method public Check_static()V 8 {
+			.stack 1;
+			.locals 0;
+
+				L0:	invokestatic 9;		// javacard/framework/JCSystem.getAID()Ljavacard/framework/AID;
+					pop;
+					return;
+		}
+
+	}
+
+}

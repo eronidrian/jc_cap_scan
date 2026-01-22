@@ -12,7 +12,7 @@
 
   <target name="build" description="Builds the CAP file with SimpleApplet">
     <javacard jckit="${JC222}">
-      <cap output="!uploader/SimpleApplet.cap" sources="src/" aid="73696d706c65">
+      <cap output="!uploader/SimpleApplet.cap" sources="src/" aid="73696d706c65" jca="!uploader/SimpleApplet.jca">
         <applet class="applets.SimpleApplet" aid="73696d706c656170706c6574"/>
       </cap>
     </javacard>
