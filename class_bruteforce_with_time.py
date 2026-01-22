@@ -157,5 +157,5 @@ class_token = 18
 # # generate_cap_for_aid_and_class_token(aid, major, minor, class_token)
 
 
-test_class_token_range(aid, major, minor, (31, 256))
+test_class_token_range(aid, major, minor, (199, 256))
 
