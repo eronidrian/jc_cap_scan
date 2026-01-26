@@ -17,24 +17,24 @@ class JCAccessFlag(Enum):
     INTERFACE = 7
 
     @staticmethod
-    def from_string(type_string: str) -> list[JCAccessFlag]:
-        access_flags = []
+    def from_string(type_string: str) -> set[JCAccessFlag]:
+        access_flags = set()
         for access_flag in JCAccessFlag:
             if access_flag.name.lower() in type_string:
-                access_flags.append(access_flag)
+                access_flags.add(access_flag)
         return access_flags
 
     @staticmethod
-    def to_string(access_flags: list[JCAccessFlag]) -> str:
-        result = []
+    def to_string(access_flags: set[JCAccessFlag]) -> str:
+        result = set()
         for access_flag in JCAccessFlag:
             if access_flag in access_flags:
-                result.append(access_flag.name.lower())
+                result.add(access_flag.name.lower())
         return " ".join(result)
 
 
 class JCField:
-    def __init__(self, name: str, token: int, access_flags: list[JCAccessFlag], jc_type: str, value: int):
+    def __init__(self, name: str, token: int, access_flags: set[JCAccessFlag], jc_type: str, value: int):
         self.name = name
         self.token = token
         self.access_flags = access_flags
@@ -93,7 +93,7 @@ class JCField:
 
 
 class JCMethod:
-    def __init__(self, access_flags: list[JCAccessFlag], token: int, name: str, signature: str):
+    def __init__(self, access_flags: set[JCAccessFlag], token: int, name: str, signature: str):
         self.access_flags = access_flags
         self.token = token
         self.name = name
@@ -175,7 +175,7 @@ class JCMethod:
 
 
 class JCClass:
-    def __init__(self, token: int, name: str, access_flags: list[JCAccessFlag]):
+    def __init__(self, token: int, name: str, access_flags: set[JCAccessFlag]):
         self.token = token
         self.name = name
         self.access_flags = access_flags
@@ -190,17 +190,31 @@ class JCClass:
     def static_methods(self) -> list[JCMethod]:
         return [method for method in self.methods if JCAccessFlag.STATIC in method.access_flags]
 
-    def get_method_by_token_and_access_flags(self, token: int, access_flags: list[JCAccessFlag]) -> JCMethod | None:
+    def get_method_by_token_and_access_flags_subset(self, token: int, access_flags: set[JCAccessFlag]) -> JCMethod | None:
         for method in self.methods:
-            if method.token == token and method.access_flags == access_flags:
+            if method.token == token and access_flags.issubset(method.access_flags):
                 return method
         return None
 
+    def get_method_by_token_and_access_flags_match(self, token: int,
+                                                    access_flags: set[JCAccessFlag]) -> JCMethod | None:
+        for method in self.methods:
+            if method.token == token and access_flags == method.access_flags:
+                return method
+        return None
+
+
+
     def add_method(self, method: JCMethod) -> Exception | None:
-        found_method = self.get_method_by_token_and_access_flags(method.token, method.access_flags)
+        found_method = self.get_method_by_token_and_access_flags_match(method.token, method.access_flags)
         if found_method is not None and found_method.signature == method.signature:
+            print(str(method))
             raise KeyError(
                 f"Method with token {method.token}, access flags {method.access_flags} and signature {method.signature} is already present in the list of methods")
+        if method.name == "<init>":
+            method.access_flags.add(JCAccessFlag.STATIC)
+        elif not JCAccessFlag.STATIC in method.access_flags:
+            method.access_flags.add(JCAccessFlag.VIRTUAL)
         self.methods.append(method)
 
     def add_field(self, field: JCField) -> Exception | None:

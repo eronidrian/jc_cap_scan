@@ -1,6 +1,6 @@
 from enum import IntEnum
 
-from api_specification import ApiSpecification
+from api_specification.api_specification import ApiSpecification
 
 component_names = [
     "Header",
