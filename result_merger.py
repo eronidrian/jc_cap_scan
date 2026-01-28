@@ -1,7 +1,7 @@
 import csv
 
 
-directory_name = f"/home/petr/Downloads/diplomka/aid_results/smartcafe_6/"
+directory_name = f"/home/petr/Downloads/diplomka/aid_results/smartcafe_6/new_measurement/precise_measurements/"
 
 result_file = open(directory_name + "all.csv", "w")
 csv_writer = csv.writer(result_file)
@@ -9,11 +9,10 @@ csv_writer.writerow(["modification"] + [i for i in range(1, 401)])
 row_names = [f"AID {i}. byte" for i in range(1, 8)]
 row_names.extend([
     "Major version",
-    "Minor version",
 ])
 
 new_rows = [[row_name] for row_name in row_names]
-for i in range(9):
+for i in range(8):
     new_row = []
     for changed_byte in ["ee", "ff"]:
         for package_name in ["javacard_security", "javacardx_crypto"]:

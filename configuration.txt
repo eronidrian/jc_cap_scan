@@ -135,10 +135,10 @@ max gap 100 000
 min duration 1 000 000
 
 precise
-max gap - 50 000
+max gap - 190 000
 min duration - 200 000
 threshold - -10
-trace to extract - 4
+trace to extract - 3
 
 offset_invalid_x = 3_340_000
 offset_invalid_y = 3
