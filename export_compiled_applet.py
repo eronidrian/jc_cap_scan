@@ -1,8 +1,8 @@
 import shutil
 
-static_or_virtual = "virtual"
-class_name = "keypair"
-method_name = "getprivate"
+static_or_virtual = "static"
+class_name = "apdu"
+method_name = "getcurrentapdubuffer"
 call_or_return = "return"
 
 shutil.rmtree("template_method.zip", ignore_errors=True)

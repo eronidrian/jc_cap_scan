@@ -4,7 +4,7 @@ import textwrap
 from abc import abstractmethod, ABC
 from typing import TYPE_CHECKING
 
-from api_specification import JCMethodType, JCPackage, JCClass, JCMethod
+from api_specification import JCAccessFlag, JCPackage, JCClass, JCMethod
 from cap_parser.cap_parser_utils import Utils
 
 if TYPE_CHECKING:
@@ -212,7 +212,7 @@ class VirtualMethodRef(InstanceFieldRef):
     def _method(self) -> JCMethod | None:
         if not self.class_ref.is_external or self.class_ref._class is None:
             return None
-        return self.class_ref._class.get_method_by_token_and_type(self.token, JCMethodType.VIRTUAL)
+        return self.class_ref._class.get_method_by_token_and_access_flags_subset(self.token, {JCAccessFlag.VIRTUAL})
 
     def __str__(self):
         if not self.class_ref.is_external:
@@ -294,7 +294,7 @@ class StaticMethodRef(Info, ABC):
         def _method(self) -> JCMethod | None:
             if self._class is None:
                 return None
-            return self._class.get_method_by_token_and_type(self.token, JCMethodType.STATIC)
+            return self._class.get_method_by_token_and_access_flags_subset(self.token, {JCAccessFlag.STATIC})
 
         @staticmethod
         def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticMethodRef.External:

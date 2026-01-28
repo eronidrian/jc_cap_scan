@@ -25,12 +25,9 @@ public class SimpleApplet extends javacard.framework.Applet {
         byte[] buffer = apdu.getBuffer();
         short dataLen = apdu.setIncomingAndReceive();
 
-        KeyPair keyPair = new KeyPair(KeyPair.ALG_RSA_CRT, KeyBuilder.LENGTH_RSA_1024);
-        keyPair.genKeyPair();
-        PrivateKey privateKey = keyPair.getPrivate();
+        byte[] result = APDU.getCurrentAPDUBuffer(); // target method
 
-        byte[] result = {(byte) privateKey.getSize()};
-        Util.arrayCopyNonAtomic(result, (short) 0, buffer, ISO7816.OFFSET_CDATA, (short) 1);
-        apdu.setOutgoingAndSend(ISO7816.OFFSET_CDATA, (short) 1);
+        Util.arrayCopyNonAtomic(result, (short) 0, buffer, ISO7816.OFFSET_CDATA, (short) 127);
+        apdu.setOutgoingAndSend(ISO7816.OFFSET_CDATA, (short) 127);
     }
 }
