@@ -4,7 +4,7 @@ import subprocess
 from statistics import mean
 
 from cap_generator import generate_cap_for_package_aid
-from measurement_script import measure_cap_file, uninstall_package
+from measurement_script import measure_cap_file
 from trs_analyser import extract_from_single_trs_file
 
 # for every supported package AID (except javacard.framework)
@@ -55,10 +55,16 @@ card_name = "smartcafe_6"
 
 index_to_extract = -1
 
+def uninstall_package(cap_file_name):
+    return subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
+                           cap_file_name],
+                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+
 def is_installation_successful(cap_file_name: str) -> bool:
     result = subprocess.run(["java", "-jar", "gp.jar", "--install",
                            cap_file_name],
-                          stdout=subprocess.PIPE)
+                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     result = result.stdout.decode("utf-8")
     return result.find("CAP loaded") != -1
 
@@ -75,10 +81,10 @@ for aid in AID_NAME_MAP:
             supported = is_installation_successful(cap_file_name)
 
             if not supported:
-                print(f"{AID_NAME_MAP[aid]} not supported")
+                print(f"{AID_NAME_MAP[aid]} v{major}.{minor} not supported")
                 os.remove(cap_file_name)
-                continue
-            print(f"{AID_NAME_MAP[aid]} is supported")
+                break
+            print(f"{AID_NAME_MAP[aid]} v{major}.{minor} is supported")
             uninstall_package(cap_file_name)
 
             measure_cap_file(cap_file_name, measurements_for_one_aid, "tmp_traces")

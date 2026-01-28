@@ -31,7 +31,7 @@ def generate_cap_for_package_aid(aid: bytes, major: int, minor: int, identifier:
     import_section = format_import(imported_packages)
 
     # print(import_section)
-    f = open(path.join(BASE_PATH, 'template', 'test', 'javacard', 'Import.cap'), 'wb')
+    f = open(path.join(BASE_PATH, 'template', 'applets', 'javacard', 'Import.cap'), 'wb')
     f.write(bytes.fromhex(import_section))
     f.close()
 
