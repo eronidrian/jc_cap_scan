@@ -73,7 +73,7 @@ def extract_from_single_trs_file(traces_in_file: int, filename: str, index_to_ex
 
         periods = find_high_consumption_periods(trace)
         times = [period[1] - period[0] for period in periods]
-        if len(times) <= abs(index_to_extract):
+        if len(times) < abs(index_to_extract):
             result.append(0)
         else:
             result.append(times[index_to_extract])
