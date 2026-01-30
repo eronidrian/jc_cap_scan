@@ -12,6 +12,7 @@ precise
 max gap - 10 000
 min duration - 50 000
 threshold - 0
+trace to extract - -1
 
 NXP JCOP4
 ---
