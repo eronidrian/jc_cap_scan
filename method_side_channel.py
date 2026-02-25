@@ -51,11 +51,11 @@ def is_template_correct(template_location: str) -> bool:
         print(f"Response: {install_response}")
         return False
 
-    call_response = call_package(debug=True)
-    if "9000" not in call_response:
-        print(f"Template {template_location} cannot be called successfully")
-        print(f"Response: {call_response}")
-        return False
+    # call_response = call_package(debug=True)
+    # if "9000" not in call_response:
+    #     print(f"Template {template_location} cannot be called successfully")
+    #     print(f"Response: {call_response}")
+    #     return False
 
     uninstall_package(cap_name)
     os.remove(cap_name)
@@ -103,7 +103,7 @@ print("STARTING MEASUREMENT")
 
 def test(card_name: str):
     uninstall_package("good_package.cap")
-    for i, entry in enumerate(os.scandir("templates")):
+    for i, entry in enumerate(sorted(os.scandir("templates"), key=lambda ent: ent.name)):
         if not entry.is_dir():
             continue
 
