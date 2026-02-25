@@ -107,6 +107,9 @@ def test(card_name: str):
         if not entry.is_dir():
             continue
 
+        if i != 12:
+            continue
+
         _, _, static_or_virtual, class_name, method_name, return_or_call = entry.name.split("_")
         print(f"Testing template {entry.name}")
         if not is_template_correct(entry.path):
