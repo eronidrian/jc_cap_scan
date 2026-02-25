@@ -17,9 +17,11 @@ PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the doc
 THRESHOLD = 1  # mv
 SAMPLE_INTERVAL = 25  # ns
 NUMBER_OF_SAMPLES = 25 * 10 ** 6
-POSTTRIGGER_DELAY = 2900  # ms
+POSTTRIGGER_DELAY = 100  # ms
 
 VALID_CAP_FILE_PATH = "good_package.cap"
+auth = []
+
 
 # PicoScope setup and capture functions
 def setup_picoscope():
@@ -112,6 +114,7 @@ def uninstall_package(cap_file_name):
                            cap_file_name],
                           stdout=subprocess.PIPE)
 
+
 def reset_fault_counter():
     result = install_package(VALID_CAP_FILE_PATH)
 
@@ -123,8 +126,16 @@ def reset_fault_counter():
     uninstall_package(VALID_CAP_FILE_PATH)
 
 
-def run_installation_and_capture(chandle, status, trs_writer, cap_file_name, index,
-                                 save_to_trs=True, folder=""):
+def call_package():
+    command_apdu = "1234000000"
+    return subprocess.run(["java", "-jar", "gp.jar", "--apdu",
+                           "00A404000C73696D706C656170706C657400", "--apdu", command_apdu,
+                           "-d"] + auth,
+                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+
+def run_installation_capture(chandle, status, trs_writer, cap_file_name, index,
+                             save_to_trs=True, folder=""):
     capture_done_event = threading.Event()
 
     # Start capture in a separate thread
@@ -137,11 +148,31 @@ def run_installation_and_capture(chandle, status, trs_writer, cap_file_name, ind
     time.sleep(0.1)
 
     # Perform installation (this is what we want to capture)
-
     install_package(cap_file_name)
 
     # Wait for capture to complete
     capture_done_event.wait()
+
+
+def run_call_capture(chandle, status, trs_writer, cap_file_name, index,
+                     save_to_trs=True, folder=""):
+    capture_done_event = threading.Event()
+
+    # Start capture in a separate thread
+    capture_thread = threading.Thread(target=capture_trace,
+                                      args=(chandle, status, trs_writer, capture_done_event, index,
+                                            save_to_trs, folder))
+    capture_thread.start()
+
+    # Wait a short time to ensure capture has started
+    time.sleep(0.1)
+
+    # Perform installation (this is what we want to capture)
+    call_package()
+
+    # Wait for capture to complete
+    capture_done_event.wait()
+
 
 def setup():
     chandle, status = setup_picoscope()
@@ -161,20 +192,36 @@ def setup():
     return chandle, status, header
 
 
+def measure_cap_file_call(cap_file_name: str, num_of_measurements: int, result_folder: str):
+    chandle, status, header = setup()
+    install_package(cap_file_name)
 
-def measure_cap_file(cap_file_name: str, num_of_measurements: int, result_folder: str):
+    try:
+        run_call_capture(chandle, status, None, cap_file_name, "dummy", save_to_trs=False, folder=result_folder)
+        trs_file_path = os.path.join(result_folder, f"traces_{cap_file_name}.trs")
+        with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
+            for measurement in range(num_of_measurements):
+                print(f"Measurement: {measurement + 1}/{num_of_measurements}")
+                run_call_capture(chandle, status, trs_writer, cap_file_name, measurement, folder=result_folder)
+    finally:
+        uninstall_package(cap_file_name)
+        ps.ps6000Stop(chandle)
+        ps.ps6000CloseUnit(chandle)
+
+
+def measure_cap_file_install(cap_file_name: str, num_of_measurements: int, result_folder: str):
     chandle, status, header = setup()
 
     try:
         reset_fault_counter()
-        run_installation_and_capture(chandle, status, None, cap_file_name,
-                                     "dummy", save_to_trs=False, folder=result_folder)
+        run_installation_capture(chandle, status, None, cap_file_name,
+                                 "dummy", save_to_trs=False, folder=result_folder)
         uninstall_package(cap_file_name)
         trs_file_path = os.path.join(result_folder, f"traces_{cap_file_name}.trs")
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
             for measurement in range(num_of_measurements):
                 print(f"Measurement: {measurement + 1}/{num_of_measurements}")
-                run_installation_and_capture(chandle, status, trs_writer, cap_file_name, measurement, folder=result_folder)
+                run_installation_capture(chandle, status, trs_writer, cap_file_name, measurement, folder=result_folder)
                 uninstall_package(cap_file_name)
     finally:
         ps.ps6000Stop(chandle)

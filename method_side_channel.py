@@ -4,7 +4,7 @@ import shutil
 from os import DirEntry
 from statistics import median
 
-from measurement_script import measure_cap_file
+from measurement_script import measure_cap_file_install, measure_cap_file_call
 from trs_analyser import extract_from_single_trs_file
 import subprocess
 from cap_parser.cap_file import CapFile
@@ -51,18 +51,18 @@ def is_template_correct(template_location: str) -> bool:
         print(f"Response: {install_response}")
         return False
 
-    # call_response = call_package(debug=True)
-    # if "9000" not in call_response:
-    #     print(f"Template {template_location} cannot be called successfully")
-    #     print(f"Response: {call_response}")
-    #     return False
+    call_response = call_package(debug=True)
+    if "9000" not in call_response:
+        print(f"Template {template_location} cannot be called successfully")
+        print(f"Response: {call_response}")
+        return False
 
     uninstall_package(cap_name)
     os.remove(cap_name)
     return True
 
 def call_package(debug: bool = False) -> str:
-    command_apdu = "12340000"
+    command_apdu = "1234000000"
     call_response_lines = subprocess.run(["java", "-jar", "gp.jar", "--apdu",
                                           "00A404000C73696D706C656170706C657400", "--apdu", command_apdu,
                                           "-d"] + auth,
@@ -126,7 +126,8 @@ def test(card_name: str):
             cap_file_name = f"{entry.name}_{method_token}.cap"
             pack_directory_to_cap_file(cap_file_name, f"{entry.name}_{method_token}")
 
-            measure_cap_file(cap_file_name, measurements_for_one_byte, "traces")
+            # measure_cap_file_install(cap_file_name, measurements_for_one_byte, "traces_install")
+            measure_cap_file_call(cap_file_name, measurements_for_one_byte, "traces_call")
 
             #times = extract_from_single_trs_file(measurements_for_one_byte, f"traces/traces_{cap_file_name}.trs",
             #                                     index_to_extract)
@@ -136,7 +137,7 @@ def test(card_name: str):
             #       f"Median time: {median_time}\n\n")
             # csv_writer.writerow([method_token] + times)
             # os.remove(cap_file_name)
-            break
+        break
 
 if __name__ == '__main__':
     test(card_name)
