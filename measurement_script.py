@@ -14,10 +14,19 @@ import subprocess
 PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
 PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 
+# install setup
+# THRESHOLD = 1  # mv
+# SAMPLE_INTERVAL = 25  # ns
+# NUMBER_OF_SAMPLES = 25 * 10 ** 6
+# POSTTRIGGER_DELAY = 2900  # ms
+# RANGE = 6
+
+# call setup
 THRESHOLD = 1  # mv
-SAMPLE_INTERVAL = 25  # ns
-NUMBER_OF_SAMPLES = 25 * 10 ** 6
-POSTTRIGGER_DELAY = 100  # ms
+SAMPLE_INTERVAL = 10
+NUMBER_OF_SAMPLES = 250_000
+POSTTRIGGER_DELAY = 1125
+RANGE = 5
 
 VALID_CAP_FILE_PATH = "good_package.cap"
 auth = []
@@ -32,7 +41,7 @@ def setup_picoscope():
     assert_pico_ok(status["openunit"])
 
     # Set up channel B with -150 mV offset
-    chBRange = 6  # PS6000_RANGE["PS6000_1V"]
+    chBRange = RANGE  # PS6000_RANGE["PS6000_1V"]
     offset_b_mv = -0.150  # -150 mV in volts
     status["setChB"] = ps.ps6000SetChannel(chandle, 1, 1, 1, chBRange, offset_b_mv, 0)
     assert_pico_ok(status["setChB"])
