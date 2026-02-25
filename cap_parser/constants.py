@@ -36,4 +36,4 @@ class CpInfoTags(IntEnum):
     CONSTANT_StaticFieldref = 5
     CONSTANT_StaticMethodref = 6
 
-API_SPECIFICATION = ApiSpecification.load_from_csv("/home/petr/Downloads/diplomka/jc_api_tables/overview_table_305_new.csv")
+API_SPECIFICATION = ApiSpecification.load_from_csv("../api_specification/overview_table_305_new.csv")
