@@ -62,7 +62,7 @@ def is_template_correct(template_location: str) -> bool:
     return True
 
 def call_package(debug: bool = False) -> str:
-    command_apdu = "1234000000"
+    command_apdu = "12340000 00"
     call_response_lines = subprocess.run(["java", "-jar", "gp.jar", "--apdu",
                                           "00A404000C73696D706C656170706C657400", "--apdu", command_apdu,
                                           "-d"] + auth,
