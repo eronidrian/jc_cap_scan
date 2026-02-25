@@ -17,9 +17,9 @@ PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the doc
 THRESHOLD = 1  # mv
 SAMPLE_INTERVAL = 25  # ns
 NUMBER_OF_SAMPLES = 25 * 10 ** 6
-POSTTRIGGER_DELAY = 3700  # ms
+POSTTRIGGER_DELAY = 2900  # ms
 
-VALID_CAP_FILE_PATH = "templates_ff/test_javacardx_crypto_9.cap"
+VALID_CAP_FILE_PATH = "good_package.cap"
 
 # PicoScope setup and capture functions
 def setup_picoscope():

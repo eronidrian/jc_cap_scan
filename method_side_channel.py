@@ -1,6 +1,7 @@
 import csv
 import os
 import shutil
+from os import DirEntry
 from statistics import median
 
 from measurement_script import measure_cap_file
@@ -10,7 +11,7 @@ from cap_parser.cap_file import CapFile
 
 # configuration
 auth = []
-measurements_for_one_byte = 10
+measurements_for_one_byte = 1
 num_of_dummy_measurements = 20
 index_to_extract = 2
 card_name = "javacos_a_40"
@@ -106,19 +107,20 @@ def test(card_name: str):
         if not entry.is_dir():
             continue
 
-        _, static_or_virtual, class_name, method_name, return_or_call = entry.name.split("_")
+        _, _, static_or_virtual, class_name, method_name, return_or_call = entry.name.split("_")
         print(f"Testing template {entry.name}")
         if not is_template_correct(entry.path):
             print(f"Skipping template {entry.name}")
             continue
         print("Template is correct")
 
-        result_file = open(f"{card_name}_{entry.name}.csv", "w")
-        csv_writer = csv.writer(result_file)
+        # result_file = open(f"{card_name}_{entry.name}.csv", "w")
+        # csv_writer = csv.writer(result_file)
 
         template_loaded = CapFile.load_from_directory(os.path.join(entry.path, "applets", "javacard"))
         constant_pool_entry = template_loaded.constant_pool_component.get_cp_info_by_method_name(method_name)
-        for method_token in range(256):
+        #for method_token in range(256):
+        for method_token in [0]:
             constant_pool_entry.info.token = method_token
             template_loaded.export_to_directory(os.path.join(f"{entry.name}_{method_token}", "applets", "javacard"))
             cap_file_name = f"{entry.name}_{method_token}.cap"
@@ -126,14 +128,15 @@ def test(card_name: str):
 
             measure_cap_file(cap_file_name, measurements_for_one_byte, "traces")
 
-            times = extract_from_single_trs_file(measurements_for_one_byte, f"traces/traces_{cap_file_name}.trs",
-                                                 index_to_extract)
-            median_time = median(times)
-            print(f"Current template: {entry.name}\n"
-                  f"Times: {times}\n"
-                  f"Median time: {median_time}\n\n")
-            csv_writer.writerow([method_token] + times)
-            os.remove(cap_file_name)
+            #times = extract_from_single_trs_file(measurements_for_one_byte, f"traces/traces_{cap_file_name}.trs",
+            #                                     index_to_extract)
+            #median_time = median(times)
+            # print(f"Current template: {entry.name}\n"
+            #       f"Times: {times}\n"
+            #       f"Median time: {median_time}\n\n")
+            # csv_writer.writerow([method_token] + times)
+            # os.remove(cap_file_name)
+            break
 
 if __name__ == '__main__':
     test(card_name)
