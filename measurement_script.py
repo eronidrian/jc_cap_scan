@@ -169,12 +169,13 @@ def measure_cap_file(cap_file_name: str, num_of_measurements: int, result_folder
         reset_fault_counter()
         run_installation_and_capture(chandle, status, None, cap_file_name,
                                      "dummy", save_to_trs=False, folder=result_folder)
-        trs_file_path = os.path.join(result_folder, "traces_bruteforce.trs")
+        uninstall_package(cap_file_name)
+        trs_file_path = os.path.join(result_folder, f"traces_{cap_file_name}.trs")
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
             for measurement in range(num_of_measurements):
                 print(f"Measurement: {measurement + 1}/{num_of_measurements}")
                 run_installation_and_capture(chandle, status, trs_writer, cap_file_name, measurement, folder=result_folder)
-
+                uninstall_package(cap_file_name)
     finally:
         ps.ps6000Stop(chandle)
         ps.ps6000CloseUnit(chandle)
