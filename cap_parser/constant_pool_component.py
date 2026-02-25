@@ -4,7 +4,7 @@ import textwrap
 from abc import abstractmethod, ABC
 from typing import TYPE_CHECKING
 
-from api_specification import JCAccessFlag, JCPackage, JCClass, JCMethod
+from api_specification.api_specification import JCAccessFlag, JCPackage, JCClass, JCMethod
 from cap_parser.cap_parser_utils import Utils
 
 if TYPE_CHECKING:
