@@ -1,9 +1,11 @@
 import os
+import re
 import shutil
 import subprocess
 
-from api_specification import ApiSpecification
+from measurement_script import measure_cap_file_install
 
+NUM_OF_MEASUREMENTS = 1
 
 class PackageAID:
     aid = []
@@ -81,48 +83,21 @@ def generate_cap_for_aid_and_class_token(aid: bytearray, major: int, minor: int,
     return cap_name
 
 
-def install_package(cap_file_name) -> bool:
-    success = False
-    result = subprocess.run(["java", "-jar", "gp.jar", "--install",
-                           cap_file_name],
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    result = result.stdout.decode("utf-8")
-    if result.find("CAP loaded") != -1:
-        success = True
-        uninstall_package(cap_file_name)
-
-    return success
-
-
-def uninstall_package(cap_file_name):
-    return subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-                           cap_file_name],
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-
-def test_aid_and_class_token(aid: bytearray, major: int, minor: int, class_token: int) -> bool:
-    cap_name = generate_cap_for_aid_and_class_token(aid, major, minor, class_token)
-    result = install_package(cap_name)
-    os.remove(cap_name)
-    return result
-
-def test_class_token_range(aid: bytearray, major: int, minor: int, class_token_range: tuple[int, int]) -> list[bool]:
-    results = []
+def test_class_token_range(aid: bytearray, major: int, minor: int, class_token_range: tuple[int, int]):
+    # result_file = open(f"nxp_jcop_4_{aid.hex().upper()}.csv", "w")
+    # csv_writer = csv.writer(result_file)
     for class_token in range(class_token_range[0], class_token_range[1]):
-        result = test_aid_and_class_token(aid, major, minor, class_token)
-        print(f"class token: {class_token}, success: {result}")
-        results.append(result)
+        cap_name = generate_cap_for_aid_and_class_token(aid, major, minor, class_token)
+        measure_cap_file_install(cap_name, NUM_OF_MEASUREMENTS, "traces")
+        os.remove(cap_name)
+    # extract times
+    # store results
 
-    return results
 
-aid = bytearray.fromhex("A0000000620101")
+aid = bytearray.fromhex("A0000000620102")
 major = 1
 minor = 0
-class_token = 18
-
-generate_cap_for_aid_and_class_token(aid, major, minor, class_token)
 
 
-# print(test_class_token_range(aid, major, minor, (0, 256)))
+test_class_token_range(aid, major, minor, (0, 1))
 
