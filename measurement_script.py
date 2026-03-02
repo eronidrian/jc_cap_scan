@@ -25,7 +25,7 @@ PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the doc
 THRESHOLD = 1  # mv
 SAMPLE_INTERVAL = 10
 NUMBER_OF_SAMPLES = 250_000
-POSTTRIGGER_DELAY = 1125
+POSTTRIGGER_DELAY = 15 * 10 ** 6
 RANGE = 5
 
 VALID_CAP_FILE_PATH = "good_package.cap"
