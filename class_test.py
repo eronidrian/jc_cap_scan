@@ -60,8 +60,9 @@ def format_constant_pool(class_token: int):
     f.close()
     hex_array = bytearray(bytes.fromhex(hexdata))
 
-    hex_array[41] = 1
-    hex_array[43] = int(class_token)
+    hex_array[25] = 1
+    hex_array[27] = int(class_token)
+    hex_array[28] = 0
     f = open(os.path.join('template_class', 'test', 'javacard', 'ConstantPool.cap'), 'wb')
     f.write(hex_array)
     f.close()
