@@ -59,13 +59,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         prog="Window resample"
     )
-    parser.add_argument("-w", "--window", help="Length of the window", required=True)
-    parser.add_argument("--overlap", help="Overlap of the windows", required=False)
+    parser.add_argument("-w", "--window", help="Length of the window", required=True, type=int)
+    parser.add_argument("--overlap", help="Overlap of the windows", required=False, type=float)
     parser.add_argument("--abs", help="Use absolute window resample", action="store_true", required=False)
-    parser.add_argument("-s", "--step", help="Step size", required=True)
+    parser.add_argument("-s", "--step", help="Step size", required=True, type=int)
     parser.add_argument("-i", "--input", help="Path to input .trs file", required=True)
     parser.add_argument("-o", "--output", help="Path to output .trs file", required=True)
-    parser.add_argument("-t", "--trace_index", help="Index of the trace from .trs file to process", required=False, default=0)
+    parser.add_argument("-t", "--trace_index", help="Index of the trace from .trs file to process", required=False, default=0, type=int)
 
     args = parser.parse_args()
 
