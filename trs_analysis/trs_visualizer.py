@@ -1,16 +1,13 @@
 # provided by Lukasz Chmielewski
+import argparse
 
 import trsfile
 from trsfile.parametermap import TraceSetParameterMap
-import trsfile.traceparameter as tp
 import matplotlib.pyplot as plt
 import sys
 
 
 def visualize_trace(trace_path: str, trace_index: int):
-
-    parameters = TraceSetParameterMap()
-    #print(parameters)
 
     zoomS=0
     zoomE=-1
@@ -23,17 +20,7 @@ def visualize_trace(trace_path: str, trace_index: int):
     repeat = 1
     together = False
 
-    dataName='CHANGED'
-
-
-
     with trsfile.open(trace_path, 'r') as traces:
-        print(traces.get_headers())
-        # Show all headers
-        for header, value in traces.get_headers().items():
-            print(header, '=', value)
-        print()
-
         if together:
             fig, ax = plt.subplots(repeat, sharex=True, sharey=True)
         else:
@@ -43,30 +30,24 @@ def visualize_trace(trace_path: str, trace_index: int):
             #print(start+(r*number))
             #print(start+(r*number)+number-1)
             for i, trace in enumerate(traces[(start+(r*number)):(start+(r*number)+number)]):
-                print("aaaa ")
-                print('Trace {0:d} contains {1:d} samples'.format((i+start), len(trace)))
-                print(trace.samples)
-                print((max(trace.samples), min(trace.samples)))
-                print(trace.parameters[dataName])
                 if i<number:
                     samples = trace.samples
-                    data = trace.parameters[dataName]
                     if i < displayLabels:
                         if displayData:
                             if not together:
-                                plt.plot(samples[zoomS:zoomE], label="Trace["+str(i+start+(r*number))+"]:"+str(data)[dataStart:dataEnd]+"...")
+                                plt.plot(samples[zoomS:zoomE])
                             else:
                                 #ax[i].set_title("Trace " + str(start+(r*number)+i))
-                                ax[r].plot(samples[zoomS:zoomE], label="Trace["+str(i+start+(r*number))+"]:"+str(data)[dataStart:dataEnd]+"...")
+                                ax[r].plot(samples[zoomS:zoomE])
                         else:
                             if not together:
-                                plt.plot(samples[zoomS:zoomE], label="Trace["+str(i+start+(r*number))+"]")
+                                plt.plot(samples[zoomS:zoomE])
                             else:
                                 #ax[i].set_title("Trace " + str(start+(r*number)+i))
-                                ax[r].plot(samples[zoomS:zoomE], label="Trace["+str(i+start+(r*number))+"]")
+                                ax[r].plot(samples[zoomS:zoomE])
                     elif i == displayLabels:
                         if not together:
-                            plt.plot(samples[zoomS:zoomE], label="...")
+                            plt.plot(samples[zoomS:zoomE])
                         else:
                             #ax[i].set_title("Trace" + str(start+(r*number)+i))
                             ax[r].plot(samples[zoomS:zoomE])
@@ -102,4 +83,10 @@ def visualize_trace(trace_path: str, trace_index: int):
             plt.show()
 
 if __name__ == '__main__':
-    visualize_trace(sys.argv[1], int(sys.argv[2]))
+    parser = argparse.ArgumentParser(
+        prog="TRS visualizer"
+    )
+    parser.add_argument("-f", "--trs_file", help="Path to .trs file", required=True)
+    parser.add_argument("-i", "--trace_index", help="Index of trace to visualize. Default 0", required=False, default=0)
+    args = parser.parse_args()
+    visualize_trace(args.trs_file, args.trace_index)
