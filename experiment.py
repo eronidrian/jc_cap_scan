@@ -9,16 +9,16 @@ cap_file.method_component.pretty_print()
 # cap_file.header_component.package.aid = bytearray.fromhex("ffff")
 
 # cap_file.export_to_directory("load_enumeration/header_component/test/javacard")
-f = open("load_enumeration/method_component/test/javacard/Method.cap", "rb")
+f = open("load_enumeration/staticfield_component/test/javacard/StaticField.cap", "rb")
 content = bytearray(f.read())
 content[2] = 0x00
 f.close()
 print(content.hex())
 
-fw = open("load_enumeration/method_component/test/javacard/Method.cap", "wb")
+fw = open("load_enumeration/staticfield_component/test/javacard/StaticField.cap", "wb")
 fw.write(bytes(content))
 fw.close()
-pack_directory_to_cap_file("method_component.cap", "load_enumeration/method_component")
+pack_directory_to_cap_file("staticfield_component.cap", "load_enumeration/staticfield_component")
 
 
 
