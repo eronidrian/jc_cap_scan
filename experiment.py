@@ -10,7 +10,7 @@ from utils.cap_manipulation_utils import generate_cap_for_package_aid
 # cap_file.export_to_directory("load_enumeration/header_component/test/javacard")
 f = open("load_enumeration/applet_component/test/javacard/Applet.cap", "rb")
 content = bytearray(f.read())
-content[3] = 0x00
+content[2] = 0x00
 f.close()
 print(content.hex())
 
