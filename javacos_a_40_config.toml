@@ -1,9 +1,9 @@
 title = "Javacos A40 config"
 
 [measurement]
-trigger_threshold = 20
-posttrigger_delay = 50_000_000
-number_of_samples = 50_000_000
+trigger_threshold = 25
+posttrigger_delay = 100_000_000
+number_of_samples = 30_000_000
 sample_interval = 25
 channel_range = 200
 
