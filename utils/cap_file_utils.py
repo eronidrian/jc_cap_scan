@@ -2,24 +2,26 @@ import os
 import shutil
 import subprocess
 
+GP_PATH = "gp.jar"
+GOOD_PACKAGE_PATH = "templates/good_package.cap"
 
 def reset_fault_counter(auth: list[str] | None = None):
-    success, result = is_installation_successful("templates/good_package.cap", auth)
+    success, result = is_installation_successful(GOOD_PACKAGE_PATH, auth)
     if not success:
         print(result)
         print("CARD UNRESPONSIVE! ABORTING!")
         exit(1)
 
-    uninstall("templates/good_package.cap", auth)
+    uninstall(GOOD_PACKAGE_PATH, auth)
 
 
 def install(cap_file_name: str, auth: list[str] | None = None) -> str:
     if auth is None:
-        message = subprocess.run(["java", "-jar", "tools/gp.jar", "--install",
+        message = subprocess.run(["java", "-jar", GP_PATH, "--install",
                                   cap_file_name],
                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     else:
-        message = subprocess.run(["java", "-jar", "tools/gp.jar", "--install",
+        message = subprocess.run(["java", "-jar", GP_PATH, "--install",
                                   cap_file_name] + auth,
                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
@@ -42,11 +44,11 @@ def is_installation_successful(cap_file_name: str, auth: list[str] | None = None
 
 def uninstall(cap_file_name: str, auth: list[str] | None = None) -> str:
     if auth is None:
-        result = subprocess.run(["java", "-jar", "tools/gp.jar", "--uninstall",
+        result = subprocess.run(["java", "-jar", GP_PATH, "--uninstall",
                                  cap_file_name],
                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     else:
-        result = subprocess.run(["java", "-jar", "tools/gp.jar", "--uninstall",
+        result = subprocess.run(["java", "-jar", GP_PATH, "--uninstall",
                                  cap_file_name] + auth,
                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return result.stdout.decode("utf-8")
@@ -54,7 +56,7 @@ def uninstall(cap_file_name: str, auth: list[str] | None = None) -> str:
 
 def call(debug: bool = False, auth: list[str] | None = None) -> str:
     command_apdu = "12340000"
-    call_response_lines = subprocess.run(["java", "-jar", "gp.jar", "--apdu",
+    call_response_lines = subprocess.run(["java", "-jar", GP_PATH, "--apdu",
                                           "00A404000C73696D706C656170706C657400", "--apdu", command_apdu,
                                           "-d"] + auth,
                                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
