@@ -10,11 +10,13 @@ from utils.cap_manipulation_utils import generate_cap_for_package_aid
 # cap_file.export_to_directory("load_enumeration/header_component/test/javacard")
 f = open("load_enumeration/directory_component/test/javacard/Directory.cap", "rb")
 content = bytearray(f.read())
-content[-1] = 0x00
+content[-1] = 0xff
+f.close()
 print(content.hex())
 
 fw = open("load_enumeration/directory_component/test/javacard/Directory.cap", "wb")
-fw.write(content)
+fw.write(bytes(content))
+fw.close()
 pack_directory_to_cap_file("directory_component.cap", "load_enumeration/directory_component")
 
 

@@ -78,8 +78,9 @@ def call(debug: bool = False, auth: list[str] | None = None) -> str:
 
 
 def pack_directory_to_cap_file(cap_file_name: str, directory_name: str) -> None:
-    shutil.make_archive(cap_file_name, 'zip', os.path.join(directory_name))
+    shutil.make_archive(cap_file_name, 'zip', directory_name)
 
     if os.path.exists(cap_file_name):
-        os.remove(cap_file_name)
+        print("CAP file with the same name already exists")
+        exit(1)
     os.rename(f'{cap_file_name}.zip', cap_file_name)
