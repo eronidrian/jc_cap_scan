@@ -35,25 +35,25 @@ def window_resample(window: int, overlap: float | None, abs: bool, step: int, in
             live_update = True
         ) as wrtraces:
 
-            for i, trace in enumerate(traces[trace_index]):
-                trace_array = trace.samples
-                length = math.ceil(lengthSamples / step)
-                processed = np.zeros(length,float)
+            trace = traces[trace_index]
+            trace_array = trace.samples[0:lengthSamples]
+            length = math.ceil(lengthSamples / step)
+            processed = np.zeros(length,float)
 
-                for j in range(length):
-                    start = j*step
-                    if abs:
-                        chunk = np.abs(trace_array[start:(start+window)])
-                    else:
-                        chunk = trace_array[start:(start+window)]
-                    processed[j]= np.sum(chunk)/len(chunk)
+            for j in range(length):
+                start = j*step
+                if abs:
+                    chunk = np.abs(trace_array[start:(start+window)])
+                else:
+                    chunk = trace_array[start:(start+window)]
+                processed[j]= np.sum(chunk)/len(chunk)
 
-                wrtraces.append(
-                    trsfile.Trace(
-                        trsfile.SampleCoding.FLOAT,
-                        processed
-                    )
+            wrtraces.append(
+                trsfile.Trace(
+                    trsfile.SampleCoding.FLOAT,
+                    processed
                 )
+            )
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
