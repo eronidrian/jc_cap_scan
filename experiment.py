@@ -11,7 +11,7 @@ cap_file.method_component.pretty_print()
 # cap_file.export_to_directory("load_enumeration/header_component/test/javacard")
 f = open("load_enumeration/method_component/test/javacard/Method.cap", "rb")
 content = bytearray(f.read())
-content[5] = 0xff
+content[2] = 0x00
 f.close()
 print(content.hex())
 
