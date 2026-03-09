@@ -13,7 +13,7 @@ def class_bruteforce(result_file: str, class_token_range: tuple[int, int], base_
 
     for class_token in range(class_token_range[0], class_token_range[1]):
         cap_name = generate_cap_for_package_aid_and_class_token(base_aid, major, minor, "templates/generic_template", class_token, cp_info_type, f"class_{base_aid.hex()}_{class_token}.cap")
-        success = is_installation_successful(cap_name, auth)
+        success, _ = is_installation_successful(cap_name, auth)
         result_writer.writerow([class_token, success])
         if tidy_up:
             os.remove(cap_name)

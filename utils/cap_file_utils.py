@@ -4,8 +4,9 @@ import subprocess
 
 
 def reset_fault_counter(auth: list[str] | None = None):
-    success = is_installation_successful("templates/good_package.cap", auth)
+    success, result = is_installation_successful("templates/good_package.cap", auth)
     if not success:
+        print(result)
         print("CARD UNRESPONSIVE! ABORTING!")
         exit(1)
 
@@ -34,9 +35,9 @@ def install(cap_file_name: str, auth: list[str] | None = None) -> str:
     return message
 
 
-def is_installation_successful(cap_file_name: str, auth: list[str] | None = None) -> bool:
+def is_installation_successful(cap_file_name: str, auth: list[str] | None = None) -> tuple[bool, str]:
     result = install(cap_file_name, auth)
-    return result.find("CAP loaded") != -1
+    return result.find("CAP loaded") != -1, result
 
 
 def uninstall(cap_file_name: str, auth: list[str] | None = None) -> str:

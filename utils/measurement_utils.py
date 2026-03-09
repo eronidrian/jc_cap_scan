@@ -4,7 +4,7 @@ import os
 import ctypes
 
 import numpy as np
-# from picosdk.ps6000 import ps6000 as ps
+from picosdk.ps6000 import ps6000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok
 from trsfile import trs_open, Trace, SampleCoding, Header
 
