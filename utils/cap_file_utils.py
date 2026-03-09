@@ -3,6 +3,15 @@ import shutil
 import subprocess
 
 
+def reset_fault_counter(auth: list[str] | None = None):
+    success = is_installation_successful("templates/good_package.cap", auth)
+    if not success:
+        print("CARD UNRESPONSIVE! ABORTING!")
+        exit(1)
+
+    uninstall("templates/good_package.cap", auth)
+
+
 def install(cap_file_name: str, auth: list[str] | None = None) -> str:
     if auth is None:
         message = subprocess.run(["java", "-jar", "tools/gp.jar", "--install",
@@ -40,6 +49,29 @@ def uninstall(cap_file_name: str, auth: list[str] | None = None) -> str:
                                  cap_file_name] + auth,
                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return result.stdout.decode("utf-8")
+
+
+def call(debug: bool = False, auth: list[str] | None = None) -> str:
+    command_apdu = "12340000"
+    call_response_lines = subprocess.run(["java", "-jar", "gp.jar", "--apdu",
+                                          "00A404000C73696D706C656170706C657400", "--apdu", command_apdu,
+                                          "-d"] + auth,
+                                         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    call_response_lines = call_response_lines.stdout.decode("utf-8").splitlines()
+
+    if debug:
+        for i in range(len(call_response_lines)):
+            print(i, call_response_lines[i])
+
+    command_line_num = 0
+    for i, line in enumerate(call_response_lines):
+        if command_apdu in line:
+            command_line_num = i
+            break
+    response_line_num = command_line_num + 1
+    call_response = call_response_lines[response_line_num].split(")")[-1].strip()
+
+    return call_response
 
 
 def pack_directory_to_cap_file(cap_file_name: str, directory_name: str) -> None:
