@@ -43,9 +43,9 @@ if __name__ == '__main__':
     offset_invalid_x = valid_anchor - invalid_anchor
     offset_invalid_y = valid_average - invalid_average
 
-    ax.plot(samples_valid, label="Successful LOAD")
+    ax.plot(samples_valid, label=args.valid)
     ax.plot(range(offset_invalid_x, len(samples_invalid) + offset_invalid_x), samples_invalid + offset_invalid_y,
-            label="First unsuccessful LOAD")
+            label=args.invalid)
 
     if args.invalid_2:
         with trsfile.open(args.invalid_2, 'r') as traces_invalid:
@@ -57,7 +57,7 @@ if __name__ == '__main__':
         offset_invalid_2_y = valid_average - invalid_average_2
         ax.plot(range(offset_invalid_2_x, len(samples_invalid_2) + offset_invalid_2_x),
                 samples_invalid_2 + offset_invalid_2_y,
-                label="Second unsuccessful LOAD")
+                label=args.invalid_2)
 
     if args.invalid_3:
         with trsfile.open(args.invalid_3, 'r') as traces_invalid:
@@ -69,7 +69,7 @@ if __name__ == '__main__':
         offset_invalid_3_y = valid_average - invalid_average_3
         ax.plot(range(offset_invalid_3_x, len(samples_invalid_3) + offset_invalid_3_x),
                 samples_invalid_3 + offset_invalid_3_y,
-                label="Third unsuccessful LOAD")
+                label=args.invalid_3)
 
 
     ax.add_patch(Rectangle((highlight_start, ax.get_ylim()[0]), highlight_end - highlight_start,
