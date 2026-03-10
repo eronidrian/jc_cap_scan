@@ -23,7 +23,7 @@ if __name__ == '__main__':
     highlight_start = 10_518_000
     highlight_end = 10_763_000
 
-    alignment_threshold = -5
+    alignment_threshold = -1
     align_to_start = True
     ignore_last = 5_000_000
     average_first = 100_000
