@@ -1,71 +1,11 @@
 import csv
 import shutil
-import subprocess
 import os
 
 from cap_parser.cap_file import CapFile
 from utils.cap_file_utils import uninstall, pack_directory_to_cap_file, install, call, reset_fault_counter
 
 
-# auth = []
-# # auth = ["-key", "404142434445464748494A4B4C4D4E4F404142434445464748494A4B4C4D4E4F"]
-#
-# def uninstall_package(cap_file_name):
-#     return subprocess.run(["java", "-jar", "gp.jar", "--uninstall",
-#                            cap_file_name] + auth,
-#                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-#
-#
-# def install_package(cap_file_name) -> str:
-#     message = subprocess.run(["java", "-jar", "gp.jar", "--install",
-#                               cap_file_name] + auth,
-#                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-#     # uninstall_package(cap_file_name)
-#
-#     message = message.stdout.decode("utf-8")
-#     message = message.replace('Warning: no keys given, using default test key 404142434445464748494A4B4C4D4E4F', '')
-#     message = message.replace(
-#         '[WARN] GPSession - GET STATUS failed for 80F21000024F0000 with 0x6A81 (Function not supported e.g. card Life Cycle State is CARD_LOCKED)',
-#         '')
-#     message = message.replace('\n', ' ')
-#     message = message.strip()
-#
-#     if "STRICT WARNING" in message:
-#         exit(1)
-#
-#     return message
-#
-# def call_package(debug: bool = False) -> str:
-#     command_apdu = "12340000"
-#     call_response_lines = subprocess.run(["java", "-jar", "gp.jar", "--apdu",
-#                                           "00A404000C73696D706C656170706C657400", "--apdu", command_apdu,
-#                                           "-d"] + auth,
-#                                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-#     call_response_lines = call_response_lines.stdout.decode("utf-8").splitlines()
-#
-#     if debug:
-#         for i in range(len(call_response_lines)):
-#             print(i, call_response_lines[i])
-#
-#     command_line_num = 0
-#     for i, line in enumerate(call_response_lines):
-#         if command_apdu in line:
-#             command_line_num = i
-#             break
-#     response_line_num = command_line_num + 1
-#     call_response = call_response_lines[response_line_num].split(")")[-1].strip()
-#
-#     return call_response
-#
-#
-# def pack_directory_to_cap_file(cap_name: str, directory_name: str) -> None:
-#     shutil.make_archive(cap_name, 'zip', os.path.join(directory_name))
-#
-#     # remove zip suffix
-#     if os.path.exists(cap_name):
-#         os.remove(cap_name)
-#     os.rename(f'{cap_name}.zip', cap_name)
-#
 def is_template_correct(template_location: str, auth: list[str] | None = None) -> bool:
     cap_name = "template_test.cap"
     pack_directory_to_cap_file(cap_name, template_location)
