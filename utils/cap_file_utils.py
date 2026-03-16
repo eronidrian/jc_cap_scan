@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 
-GP_PATH = "./gp.jar"
+GP_PATH = "gp.jar"
 GOOD_PACKAGE_PATH = "templates/good_package.cap"
 
 def reset_fault_counter(auth: list[str] | None = None):
