@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 
-GP_PATH = "gp.jar"
+GP_PATH = "utils/gp.jar"
 GOOD_PACKAGE_PATH = "templates/good_package.cap"
 
 def reset_fault_counter(auth: list[str] | None = None):
@@ -39,6 +39,7 @@ def install(cap_file_name: str, auth: list[str] | None = None) -> str:
 
 def is_installation_successful(cap_file_name: str, auth: list[str] | None = None) -> tuple[bool, str]:
     result = install(cap_file_name, auth)
+    uninstall(cap_file_name, auth)
     return result.find("CAP loaded") != -1, result
 
 

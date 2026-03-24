@@ -4,7 +4,7 @@ import os
 import ctypes
 
 import numpy as np
-from picosdk.ps6000 import ps6000 as ps
+from picosdk.ps4000 import ps4000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok
 from trsfile import trs_open, Trace, SampleCoding, Header
 
@@ -13,27 +13,28 @@ from utils.cap_file_utils import install, uninstall, call, reset_fault_counter
 
 # Constants and configurations
 
-# Manually define the constants if not available in the ps6000 module
-PS6000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
-PS6000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
+# Manually define the constants if not available in the ps4000 module
+PS4000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
+PS4000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
+PS4000_MAX_VALUE = 32_764
 
 VALID_CAP_FILE_PATH = "templates/good_package.cap"
 
 
 def channel_range_to_str(channel_range: int) -> str | None:
     channel_range_map = {
-        10: "PS6000A_10MV",
-        20: "PS6000_20MV",
-        50: "PS6000_50MV",
-        100: "PS6000_100MV",
-        200: "PS6000_200MV",
-        500: "PS6000_500MV",
-        1000: "PS6000_1V",
-        2000: "PS6000_2V",
-        5000: "PS6000_5V",
-        10_000: "PS6000_10V",
-        20_000: "PS6000_20V",
-        50_000: "PS6000_50V",
+        10: "PS4000A_10MV",
+        20: "PS4000_20MV",
+        50: "PS4000_50MV",
+        100: "PS4000_100MV",
+        200: "PS4000_200MV",
+        500: "PS4000_500MV",
+        1000: "PS4000_1V",
+        2000: "PS4000_2V",
+        5000: "PS4000_5V",
+        10_000: "PS4000_10V",
+        20_000: "PS4000_20V",
+        50_000: "PS4000_50V",
     }
     range_str = channel_range_map.get(channel_range)
     if range_str is None:
@@ -45,18 +46,18 @@ def setup_picoscope(trigger_threshold: int, posttrigger_delay: int, channel_rang
     chandle = ctypes.c_int16()
     status = {}
 
-    status["openunit"] = ps.ps6000OpenUnit(ctypes.byref(chandle), None)
+    status["openunit"] = ps.ps4000OpenUnit(ctypes.byref(chandle), None)
     assert_pico_ok(status["openunit"])
 
-    chBRange = ps.PS6000_RANGE[channel_range_to_str(channel_range)]
+    chARange = ps.PS4000_RANGE[channel_range_to_str(channel_range)]
     offset_b_mv = -0.150  # -150 mV in volts
-    status["setChB"] = ps.ps6000SetChannel(chandle, 1, 1, 1, chBRange, offset_b_mv, 0)
-    assert_pico_ok(status["setChB"])
+    status["setChA"] = ps.ps4000SetChannel(chandle, 0, 1, 1, chARange)
+    assert_pico_ok(status["setChA"])
 
     # Set up single trigger on AUX IN
-    threshold = int(32512/channel_range * trigger_threshold)
-    status["trigger"] = ps.ps6000SetSimpleTrigger(chandle, 1, PS6000_TRIGGER_AUX, threshold, PS6000_RISING, posttrigger_delay,
-                                                  100)
+    threshold = int(PS4000_MAX_VALUE/channel_range * trigger_threshold)
+    status["trigger"] = ps.ps4000SetSimpleTrigger(chandle, 1, 0, threshold, PS4000_RISING, posttrigger_delay,
+                                                  1)
     assert_pico_ok(status["trigger"])
 
     return chandle, status
@@ -74,20 +75,20 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, number_of_sam
         bufferBMin = (ctypes.c_int16 * maxSamples)()
 
         # Set data buffer location for data collection from channel B
-        status["setDataBuffersB"] = ps.ps6000SetDataBuffers(chandle, 1, ctypes.byref(bufferBMax),
+        status["setDataBuffersA"] = ps.ps4000SetDataBuffers(chandle, 0, ctypes.byref(bufferBMax),
                                                             ctypes.byref(bufferBMin), maxSamples, 0)
-        assert_pico_ok(status["setDataBuffersB"])
+        assert_pico_ok(status["setDataBuffersA"])
 
         # Run block capture
         timebase = round(sample_interval / 10 ** 9 * 156250000) + 4
         print(f"ACTUAL SAMPLE INTERVAL: {(timebase - 4) / 156250000 * 10 ** 9} ns")
         timeIntervalns = ctypes.c_float()
         returnedMaxSamples = ctypes.c_int32()
-        status["getTimebase2"] = ps.ps6000GetTimebase2(chandle, timebase, maxSamples, ctypes.byref(timeIntervalns), 1,
+        status["getTimebase2"] = ps.ps4000GetTimebase2(chandle, timebase, maxSamples, ctypes.byref(timeIntervalns), 1,
                                                        ctypes.byref(returnedMaxSamples), 0)
         assert_pico_ok(status["getTimebase2"])
 
-        status["runBlock"] = ps.ps6000RunBlock(chandle, preTriggerSamples, postTriggerSamples, timebase, 0, None, 0,
+        status["runBlock"] = ps.ps4000RunBlock(chandle, preTriggerSamples, postTriggerSamples, timebase, 0, None, 0,
                                                None, None)
         assert_pico_ok(status["runBlock"])
 
@@ -95,12 +96,12 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, number_of_sam
         ready = ctypes.c_int16(0)
         check = ctypes.c_int16(0)
         while ready.value == check.value:
-            status["isReady"] = ps.ps6000IsReady(chandle, ctypes.byref(ready))
+            status["isReady"] = ps.ps4000IsReady(chandle, ctypes.byref(ready))
 
         # Retrieve data from scope
         overflow = ctypes.c_int16()
         cmaxSamples = ctypes.c_int32(maxSamples)
-        status["getValues"] = ps.ps6000GetValues(chandle, 0, ctypes.byref(cmaxSamples), 1, 0, 0, ctypes.byref(overflow))
+        status["getValues"] = ps.ps4000GetValues(chandle, 0, ctypes.byref(cmaxSamples), 1, 0, 0, ctypes.byref(overflow))
         assert_pico_ok(status["getValues"])
 
         # Convert ADC counts data to mV
@@ -187,8 +188,8 @@ def measure_cap_file_call(cap_file_name: str, num_of_measurements: int, result_f
                 run_call_capture(chandle, status, trs_writer, cap_file_name, config.number_of_samples, config.sample_interval, auth)
     finally:
         uninstall(cap_file_name, auth)
-        ps.ps6000Stop(chandle)
-        ps.ps6000CloseUnit(chandle)
+        ps.ps4000Stop(chandle)
+        ps.ps4000CloseUnit(chandle)
 
 
 def measure_cap_file_install(cap_file_name: str, num_of_measurements: int, trs_file_path: str, config: MeasurementConfig, auth: list[str] | None = None):
@@ -204,5 +205,5 @@ def measure_cap_file_install(cap_file_name: str, num_of_measurements: int, trs_f
                 run_installation_capture(chandle, status, trs_writer, cap_file_name, config.number_of_samples, config.sample_interval, auth)
                 uninstall(cap_file_name, auth)
     finally:
-        ps.ps6000Stop(chandle)
-        ps.ps6000CloseUnit(chandle)
+        ps.ps4000Stop(chandle)
+        ps.ps4000CloseUnit(chandle)

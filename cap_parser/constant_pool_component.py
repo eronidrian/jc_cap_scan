@@ -359,8 +359,12 @@ class StaticFieldRef(StaticMethodRef, ABC):
                     f"Token: {self.token}\n")
 
 
-class StaticFieldRefInfo(StaticMethodRefInfo):
+class StaticFieldRefInfo(CpInfo):
     tag = CpInfoTags.CONSTANT_StaticFieldref
+
+    def __init__(self, cap_file: CapFile, info: StaticFieldRef):
+        super().__init__(cap_file, info)
+
     @staticmethod
     def load(cap_file: CapFile, raw: bytes, start_offset: int = 0) -> StaticFieldRefInfo:
         raw = raw[start_offset:]
