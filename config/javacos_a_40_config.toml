@@ -1,0 +1,14 @@
+title = "Javacos A40 config"
+
+[measurement]
+trigger_threshold = 1000
+posttrigger_delay = 3100
+number_of_samples = 10_000_000
+sample_interval = 25
+channel_range = 500
+
+[extraction]
+max_gap = 10_000
+min_duration = 50_000
+threshold = 40
+index_to_extract = -1
