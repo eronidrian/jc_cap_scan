@@ -9,7 +9,7 @@ from picosdk.functions import adc2mV, assert_pico_ok, mV2adcpl1000
 from trsfile import trs_open, Trace, SampleCoding, Header
 
 from jc_cap_scan.config.config import MeasurementConfig
-from jc_cap_scan.utils.cap_file_utils import install, uninstall, call, reset_fault_counter
+from jc_cap_scan.utils.cap_file_utils import install, uninstall, call, reset_fault_counter, is_installation_successful
 
 # Constants and configurations
 
@@ -146,7 +146,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, number_of_sam
 
 
 
-def run_installation_capture(chandle, status, trs_writer, cap_file_name,  number_of_samples, sample_interval, auth):
+def run_installation_capture(chandle, status, trs_writer, cap_file_name,  number_of_samples, sample_interval, auth) -> tuple[bool, str]:
     capture_done_event = threading.Event()
 
     # Start capture in a separate thread
@@ -158,10 +158,12 @@ def run_installation_capture(chandle, status, trs_writer, cap_file_name,  number
     time.sleep(0.1)
 
     # Perform installation (this is what we want to capture)
-    install(cap_file_name, auth)
+    success, result = is_installation_successful(cap_file_name, auth)
 
     # Wait for capture to complete
     capture_done_event.wait()
+
+    return success, result
 
 
 def run_call_capture(chandle, status, trs_writer, cap_file_name,  number_of_samples, sample_interval, auth):
@@ -217,18 +219,18 @@ def measure_cap_file_call(cap_file_name: str, num_of_measurements: int, result_f
         ps.ps4000CloseUnit(chandle)
 
 
-def measure_cap_file_install(cap_file_name: str, num_of_measurements: int, trs_file_path: str, config: MeasurementConfig, auth: list[str] | None = None):
+def measure_cap_file_install(cap_file_name: str, num_of_measurements: int, trs_file_path: str, config: MeasurementConfig, auth: list[str] | None = None) -> tuple[bool, str]:
     chandle, status, header = setup(config.trigger_threshold, config.posttrigger_delay, config.number_of_samples, config.channel_range)
 
     try:
         reset_fault_counter(auth)
-        run_installation_capture(chandle, status, None, cap_file_name, config.number_of_samples, config.sample_interval, auth)
-        uninstall(cap_file_name, auth)
+        # run_installation_capture(chandle, status, None, cap_file_name, config.number_of_samples, config.sample_interval, auth)
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
             for measurement in range(num_of_measurements):
                 print(f"Measurement: {measurement + 1}/{num_of_measurements}")
-                run_installation_capture(chandle, status, trs_writer, cap_file_name, config.number_of_samples, config.sample_interval, auth)
+                success, result = run_installation_capture(chandle, status, trs_writer, cap_file_name, config.number_of_samples, config.sample_interval, auth)
                 uninstall(cap_file_name, auth)
     finally:
         ps.ps4000Stop(chandle)
         ps.ps4000CloseUnit(chandle)
+    return success, result

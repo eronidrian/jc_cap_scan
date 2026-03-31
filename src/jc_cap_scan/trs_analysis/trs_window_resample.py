@@ -5,6 +5,9 @@ import trsfile
 import numpy as np
 import math
 
+from numpy.lib.stride_tricks import sliding_window_view
+
+
 # window = 1000
 # overlap = 0.99
 # ABS = False
@@ -19,7 +22,6 @@ def window_resample(window: int, overlap: float | None, abs: bool, step: int, in
     with trsfile.open(input_trs_file, 'r') as traces:
         scale_X = traces.get_headers().get(trsfile.Header.SCALE_X)
         scale_Y = traces.get_headers().get(trsfile.Header.SCALE_Y)
-        lengthSamples = traces.get_headers().get(trsfile.Header.NUMBER_SAMPLES)
 
         with trsfile.trs_open(
             output_trs_file,
@@ -35,25 +37,21 @@ def window_resample(window: int, overlap: float | None, abs: bool, step: int, in
             live_update = True
         ) as wrtraces:
 
-            trace = traces[trace_index]
-            trace_array = trace.samples[0:lengthSamples]
-            length = math.ceil(lengthSamples / step)
-            processed = np.zeros(length,float)
+            trace_array = traces[trace_index].samples
 
-            for j in range(length):
-                start = j*step
-                if abs:
-                    chunk = np.abs(trace_array[start:(start+window)])
-                else:
-                    chunk = trace_array[start:(start+window)]
-                processed[j]= np.sum(chunk)/len(chunk)
+            sw = sliding_window_view(trace_array, window_shape=window)
+            if step > 1:
+                sw = sw[::step]
+            if abs:
+                sw = np.abs(sw)
+            processed = sw.mean(axis=1)
 
             wrtraces.append(
-                trsfile.Trace(
-                    trsfile.SampleCoding.FLOAT,
-                    processed
+                    trsfile.Trace(
+                        trsfile.SampleCoding.FLOAT,
+                        processed
+                    )
                 )
-            )
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(

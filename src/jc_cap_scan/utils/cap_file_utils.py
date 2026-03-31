@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 
-GP_PATH = "utils/gp.jar"
+GP_PATH = "src/jc_cap_scan/utils/gp.jar"
 GOOD_PACKAGE_PATH = "templates/good_package.cap"
 
 def reset_fault_counter(auth: list[str] | None = None):
@@ -27,7 +27,7 @@ def install(cap_file_name: str, auth: list[str] | None = None) -> str:
 
     # remove lines without much added value
     message = message.stdout.decode("utf-8")
-    message = message.replace('Warning: no keys given, using default test key 404142434445464748494A4B4C4D4E4F', '')
+    message = message.replace('# Warning: no keys given, defaulting to 404142434445464748494A4B4C4D4E4F', '')
     message = message.replace(
         '[WARN] GPSession - GET STATUS failed for 80F21000024F0000 with 0x6A81 (Function not supported e.g. card Life Cycle State is CARD_LOCKED)',
         '')
@@ -40,7 +40,7 @@ def install(cap_file_name: str, auth: list[str] | None = None) -> str:
 def is_installation_successful(cap_file_name: str, auth: list[str] | None = None) -> tuple[bool, str]:
     result = install(cap_file_name, auth)
     uninstall(cap_file_name, auth)
-    return result.find("CAP loaded") != -1, result
+    return result.find(f"{cap_file_name} loaded") != -1, result
 
 
 def uninstall(cap_file_name: str, auth: list[str] | None = None) -> str:
