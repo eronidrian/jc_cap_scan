@@ -37,20 +37,60 @@
 #
 # # header magic not checked
 # # directory custom components not checked
+# import csv
+#
+# from config import Config
+# from trs_analysis.trs_extractor import extract_times_from_trs_file
+#
+# config = Config.load_from_toml("javacos_a_40_config.toml")
+# f = open("results.csv", "w")
+# csv_writer = csv.writer(f)
+#
+# for byte_number in range(9):
+#     aid = bytearray.fromhex("a00000006202080101")
+#     aid[byte_number] = 255
+#     filename = f"traces/test_{aid.hex()}.trs"
+#     print(filename)
+#     times = extract_times_from_trs_file(filename, config.extraction)
+#     print(times)
+#     csv_writer.writerow([byte_number + 1] + times)
 import csv
+import os
 
-from config import Config
-from trs_analysis.trs_extractor import extract_times_from_trs_file
+from jc_cap_scan.trs_analysis.trs_diff import get_diff_2
 
-config = Config.load_from_toml("javacos_a_40_config.toml")
-f = open("results.csv", "w")
+component_names = [
+    "Header",
+    "Directory",
+    "Applet",
+    "Import",
+    "ConstantPool",
+    "Class",
+    "Method",
+    "StaticField",
+    "RefLocation",
+]
+
+f = open("results_javacos_periods.csv", "a")
 csv_writer = csv.writer(f)
 
-for byte_number in range(9):
-    aid = bytearray.fromhex("a00000006202080101")
-    aid[byte_number] = 255
-    filename = f"traces/test_{aid.hex()}.trs"
-    print(filename)
-    times = extract_times_from_trs_file(filename, config.extraction)
-    print(times)
-    csv_writer.writerow([byte_number + 1] + times)
+for component in component_names:
+    print(f"Testing {component} component")
+    component_name = f"{component}.cap"
+    component_path = os.path.join("templates", "generic_template", "test", "javacard", component_name)
+    if not os.path.exists(component_path):
+        print("Component does not exists in the template and will not be tested")
+        continue
+    component_length = os.path.getsize(component_path)
+    traces_directory = "traces_javacos"
+    for byte_number in range(component_length):
+        trace_path = os.path.join(traces_directory, f"{component}_{byte_number}_resampled_2000.trs")
+        print(f"Processing {trace_path}")
+        if not os.path.exists(trace_path):
+            continue
+        first_diff = get_diff_2(os.path.join(traces_directory, "base_install_resampled_2000.trs"),
+                                          os.path.join(traces_directory, f"{component}_{byte_number}_resampled_2000.trs"),
+                                          1.5)
+        print(first_diff)
+        csv_writer.writerow([component, byte_number, first_diff])
+

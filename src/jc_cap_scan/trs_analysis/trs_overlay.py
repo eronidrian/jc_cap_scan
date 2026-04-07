@@ -4,21 +4,21 @@ from matplotlib.patches import Rectangle
 import argparse
 import numpy as np
 
-def get_alignment_parameters(samples_valid: np.ndarray, samples_invalid: np.ndarray, alignment_threshold: int, average_first: int, align_to_start: bool) -> tuple[int | None, int | None]:
+def get_alignment_parameters(samples_valid: np.ndarray, samples_invalid: np.ndarray, alignment_threshold: float, align_to_start: bool) -> int | None:
     anchor_index = 0 if align_to_start else -1
 
-    valid_average = np.average(samples_valid[:average_first])
-    invalid_average = np.average(samples_invalid[:average_first])
-    offset_invalid_y = valid_average - invalid_average
+    # valid_average = np.average(samples_valid[:average_first])
+    # invalid_average = np.average(samples_invalid[:average_first])
+    # offset_invalid_y = valid_average - invalid_average
 
     try:
         valid_anchor = np.where(samples_valid >= alignment_threshold)[0][anchor_index]
-        invalid_anchor = np.where(samples_invalid + offset_invalid_y >= alignment_threshold)[0][anchor_index]
+        invalid_anchor = np.where(samples_invalid >= alignment_threshold)[0][anchor_index]
     except IndexError:
-        return None, None
+        return None
     offset_invalid_x = valid_anchor - invalid_anchor
 
-    return offset_invalid_x, offset_invalid_y
+    return offset_invalid_x
 
 def main():
     parser = argparse.ArgumentParser(

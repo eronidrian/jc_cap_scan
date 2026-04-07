@@ -8,6 +8,8 @@ import csv
 import os.path
 import shutil
 
+import pandas as pd
+
 from jc_cap_scan.config.config import Config
 from jc_cap_scan.trs_analysis.trs_diff import get_first_difference
 from jc_cap_scan.trs_analysis.trs_window_resample import window_resample
@@ -25,14 +27,15 @@ def change_byte_in_component(file_path: str, byte_number: int, new_value: int) -
         f.write(content)
 
 component_names = [
+    "Header",
+    "Directory",
+    "Applet",
     "Import",
     "ConstantPool",
     "Class",
     "Method",
     "StaticField",
-    "ReferenceLocation",
-    "Export",
-    "Descriptor",
+    "RefLocation",
 ]
 
 def main(config: Config, auth: list[str] | None, changed_byte_value: int, traces_directory: str, results_file: str, tidy_up: bool):
@@ -58,13 +61,22 @@ def main(config: Config, auth: list[str] | None, changed_byte_value: int, traces
             change_byte_in_component(component_path, byte_number, changed_byte_value)
             cap_name = f"{component}_{byte_number}.cap"
             pack_directory_to_cap_file(cap_name, "tmp")
+            uninstall(cap_name)
             success, result = measure_cap_file_install(cap_name, 1, os.path.join(traces_directory, f"{component}_{byte_number}.trs"), config.measurement, auth)
+
             if result == f"{cap_name} loaded: test 73696D706C65":
                 result = "CAP loaded"
+                # print(f"Component: {component}\n"
+                #       f"Byte number: {byte_number}\n"
+                #       f"Install response: {result}\n"
+                #       f"First diff: {None}")
+                # csv_writer.writerow([component, byte_number, result, None])
+                # continue
+
             print("Resampling...")
-            window_resample(1000, None, False, 1, os.path.join(traces_directory, f"{component}_{byte_number}.trs"), os.path.join(traces_directory, f"{component}_{byte_number}_resampled.trs"))
+            window_resample(2000, None, False, 1, os.path.join(traces_directory, f"{component}_{byte_number}.trs"), os.path.join(traces_directory, f"{component}_{byte_number}_resampled.trs"))
             print("Getting diff..")
-            first_diff = get_first_difference(os.path.join(traces_directory, "base_install_resampled.trs"), os.path.join(traces_directory, f"{component}_{byte_number}_resampled.trs"), 15)
+            first_diff = get_first_difference(os.path.join(traces_directory, "base_install_resampled.trs"), os.path.join(traces_directory, f"{component}_{byte_number}_resampled.trs"), 0.5)
             print(f"Component: {component}\n"
                   f"Byte number: {byte_number}\n"
                   f"Install response: {result}\n"
@@ -85,5 +97,5 @@ def main(config: Config, auth: list[str] | None, changed_byte_value: int, traces
 
 
 if __name__ == '__main__':
-    config = Config.load_from_toml("config/javacos_a_40_config.toml")
+    config = Config.load_from_toml("config/jcop_4_config.toml")
     main(config, None, 0xff, "traces", "results.csv", True)
