@@ -1,6 +1,6 @@
 title = "NXP JCOP 4 config"
 
-[measurement]
+[capture]
 trigger_threshold = 1000
 posttrigger_delay = 3900
 number_of_samples = 15_000_000

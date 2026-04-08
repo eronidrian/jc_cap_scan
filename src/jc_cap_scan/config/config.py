@@ -19,7 +19,7 @@ class ExtractionConfig:
                                 content["index_to_extract"])
 
 
-class MeasurementConfig:
+class CaptureConfig:
     def __init__(self, trigger_threshold: int, posttrigger_delay: int, number_of_samples: int, sample_interval: int,
                  channel_range: int):
         self.trigger_threshold = trigger_threshold
@@ -29,20 +29,20 @@ class MeasurementConfig:
         self.channel_range = channel_range
 
     @staticmethod
-    def load_from_toml(toml_path: str) -> MeasurementConfig:
+    def load_from_toml(toml_path: str) -> CaptureConfig:
         with open(toml_path, "rb") as f:
             content = tomllib.load(f)
-        content = content["measurement"]
+        content = content["capture"]
 
-        return MeasurementConfig(content["trigger_threshold"], content["posttrigger_delay"],
-                                 content["number_of_samples"], content["sample_interval"], content["channel_range"])
+        return CaptureConfig(content["trigger_threshold"], content["posttrigger_delay"],
+                             content["number_of_samples"], content["sample_interval"], content["channel_range"])
 
 
 class Config:
-    def __init__(self, measurement: MeasurementConfig, extraction: ExtractionConfig):
-        self.measurement = measurement
+    def __init__(self, capture: CaptureConfig, extraction: ExtractionConfig):
+        self.capture = capture
         self.extraction = extraction
 
     @staticmethod
     def load_from_toml(toml_path: str) -> Config:
-        return Config(MeasurementConfig.load_from_toml(toml_path), ExtractionConfig.load_from_toml(toml_path))
+        return Config(CaptureConfig.load_from_toml(toml_path), ExtractionConfig.load_from_toml(toml_path))

@@ -3,7 +3,6 @@ import argparse
 
 import trsfile
 import numpy as np
-import math
 
 from numpy.lib.stride_tricks import sliding_window_view
 

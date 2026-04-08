@@ -4,7 +4,7 @@ from matplotlib.patches import Rectangle
 import argparse
 import numpy as np
 
-def get_alignment_parameters(samples_valid: np.ndarray, samples_invalid: np.ndarray, alignment_threshold: float, align_to_start: bool) -> int | None:
+def get_alignment_offset(samples_valid: np.ndarray, samples_invalid: np.ndarray, alignment_threshold: float, align_to_start: bool) -> int | None:
     anchor_index = 0 if align_to_start else -1
 
     # valid_average = np.average(samples_valid[:average_first])
@@ -20,28 +20,16 @@ def get_alignment_parameters(samples_valid: np.ndarray, samples_invalid: np.ndar
 
     return offset_invalid_x
 
-def main():
-    parser = argparse.ArgumentParser(
-        prog="TRS analyser",
-        description=""
-    )
+def trs_overlay():
 
-    parser.add_argument('-v', '--valid', help='TRS file with valid LOAD', required=True)
-    parser.add_argument('-i', '--invalid', help='TRS file with invalid LOAD', required=True)
-    parser.add_argument('-i_2', '--invalid_2', help='Another TRS file with invalid LOAD', required=False)
-    parser.add_argument('-i_3', '--invalid_3', help='Another TRS file with invalid LOAD', required=False)
-
-    args = parser.parse_args()
 
     fig, ax = plt.subplots()
 
-    highlight_start = 10_518_000
-    highlight_end = 10_763_000
+
 
     alignment_threshold = 35
     align_to_start = True
     ignore_last = 1_000_000
-    average_first = 10_000
 
     with trsfile.open(args.valid, 'r') as traces_valid:
         samples_valid = traces_valid[0].samples[:-ignore_last]
@@ -49,8 +37,7 @@ def main():
     with trsfile.open(args.invalid, 'r') as traces_invalid:
         samples_invalid = traces_invalid[0].samples[:-ignore_last]
 
-    offset_invalid_x, offset_invalid_y = get_alignment_parameters(samples_valid, samples_invalid, alignment_threshold,
-                                                                  average_first, align_to_start)
+    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, alignment_threshold, align_to_start)
     if offset_invalid_x is None:
         return None
 
@@ -82,9 +69,7 @@ def main():
     #             samples_invalid_3 + offset_invalid_3_y,
     #             label=args.invalid_3)
 
-    ax.add_patch(Rectangle((highlight_start, ax.get_ylim()[0]), highlight_end - highlight_start,
-                           abs(ax.get_ylim()[0] - ax.get_ylim()[1]), facecolor="xkcd:pale pink",
-                           label="Measurement range"))
+
 
     plt.xlabel("Sample number")
     plt.ylabel("Values")
@@ -93,4 +78,15 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(
+        prog="TRS analyser",
+        description=""
+    )
+
+    parser.add_argument('-v', '--valid', help='TRS file with valid LOAD', required=True)
+    parser.add_argument('-i', '--invalid', help='TRS file with invalid LOAD', required=True)
+    parser.add_argument('-i_2', '--invalid_2', help='Another TRS file with invalid LOAD', required=False)
+    parser.add_argument('-i_3', '--invalid_3', help='Another TRS file with invalid LOAD', required=False)
+
+    args = parser.parse_args()
+    trs_overlay()

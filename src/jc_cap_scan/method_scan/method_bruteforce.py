@@ -1,6 +1,8 @@
+import argparse
 import csv
 import shutil
 import os
+import sys
 
 from cap_parser.cap_file import CapFile
 from jc_cap_scan.utils.cap_file_utils import uninstall, pack_directory_to_cap_file, install, call, reset_fault_counter
@@ -68,4 +70,29 @@ def method_bruteforce(result_file: str, tidy_up: bool, template_number: int | No
             if tidy_up:
                 os.remove(cap_file_name)
                 shutil.rmtree(f"{entry.name}_{method_token}")
+
+
+def main(argv: list[str]):
+    parser = argparse.ArgumentParser(
+        prog="Method bruteforce"
+    )
+
+    parser.add_argument('--auth',
+                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro",
+                        type=str)
+    parser.add_argument('--tidy_up', help="Whether to delete the captured traces and created CAP files",
+                        action='store_true', default=False)
+    parser.add_argument('-r', '--results_file', help="File to store the results", required=True, type=str)
+    parser.add_argument('--template_number', help="Template CAP file number to use", required=False,
+                                    type=int)
+    parser.add_argument('--method_token_range', help="Range of method tokens to test, e.g. 0 255",
+                                    required=False, nargs=2, default=(0, 255), type=int)
+
+    args = parser.parse_args(argv)
+
+    method_bruteforce(args.results_file, args.tidy_up, args.template_number, args.method_token_range, args.auth)
+
+
+if __name__ == '__main__':
+    main(sys.argv)
 

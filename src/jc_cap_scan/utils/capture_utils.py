@@ -8,7 +8,7 @@ from picosdk.ps4000 import ps4000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok, mV2adcpl1000
 from trsfile import trs_open, Trace, SampleCoding, Header
 
-from jc_cap_scan.config.config import MeasurementConfig
+from jc_cap_scan.config.config import CaptureConfig
 from jc_cap_scan.utils.cap_file_utils import install, uninstall, call, reset_fault_counter, is_installation_successful
 
 # Constants and configurations
@@ -21,6 +21,9 @@ PS4000_MAX_SAMPLES_PER_S = 80_000_000
 
 VALID_CAP_FILE_PATH = "templates/good_package.cap"
 
+def get_actual_sample_interval(target_sample_interval: float) -> float:
+    timebase = ns_to_timebase(target_sample_interval)
+    return timebase_to_ns(timebase)
 
 def channel_range_to_str(channel_range: int) -> str | None:
     channel_range_map = {
@@ -106,7 +109,6 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, number_of_sam
 
         # Run block capture
         timebase = ns_to_timebase(sample_interval)
-        print(f"ACTUAL SAMPLE INTERVAL: {timebase_to_ns(timebase)} ns")
         timeIntervalns = ctypes.c_float()
         returnedMaxSamples = ctypes.c_int32()
         status["getTimebase2"] = ps.ps4000GetTimebase2(chandle, timebase, maxSamples, ctypes.byref(timeIntervalns), 1,
@@ -202,7 +204,7 @@ def setup(trigger_threshold, posttrigger_delay, number_of_samples, channel_range
     return chandle, status, header
 
 
-def measure_cap_file_call(cap_file_name: str, num_of_measurements: int, result_folder: str, config: MeasurementConfig, auth: list[str] | None = None):
+def capture_call_trace(cap_file_name: str, num_of_traces: int, result_folder: str, config: CaptureConfig, auth: list[str] | None = None):
     chandle, status, header = setup(config.trigger_threshold, config.posttrigger_delay, config.number_of_samples, config.channel_range)
     install(cap_file_name, auth)
 
@@ -210,8 +212,8 @@ def measure_cap_file_call(cap_file_name: str, num_of_measurements: int, result_f
         run_call_capture(chandle, status, None, cap_file_name, config.number_of_samples, config.sample_interval, auth)
         trs_file_path = os.path.join(result_folder, f"traces_{cap_file_name}.trs")
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
-            for measurement in range(num_of_measurements):
-                print(f"Measurement: {measurement + 1}/{num_of_measurements}")
+            for trace_num in range(num_of_traces):
+                print(f"Trace: {trace_num + 1}/{num_of_traces}")
                 run_call_capture(chandle, status, trs_writer, cap_file_name, config.number_of_samples, config.sample_interval, auth)
     finally:
         uninstall(cap_file_name, auth)
@@ -219,15 +221,15 @@ def measure_cap_file_call(cap_file_name: str, num_of_measurements: int, result_f
         ps.ps4000CloseUnit(chandle)
 
 
-def measure_cap_file_install(cap_file_name: str, num_of_measurements: int, trs_file_path: str, config: MeasurementConfig, auth: list[str] | None = None) -> tuple[bool, str]:
+def capture_install_trace(cap_file_name: str, num_of_traces: int, trs_file_path: str, config: CaptureConfig, auth: list[str] | None = None) -> tuple[bool, str]:
     chandle, status, header = setup(config.trigger_threshold, config.posttrigger_delay, config.number_of_samples, config.channel_range)
 
     try:
         reset_fault_counter(auth)
         # run_installation_capture(chandle, status, None, cap_file_name, config.number_of_samples, config.sample_interval, auth)
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
-            for measurement in range(num_of_measurements):
-                print(f"Measurement: {measurement + 1}/{num_of_measurements}")
+            for trace_num in range(num_of_traces):
+                print(f"Trace: {trace_num + 1}/{num_of_traces}")
                 success, result = run_installation_capture(chandle, status, trs_writer, cap_file_name, config.number_of_samples, config.sample_interval, auth)
                 uninstall(cap_file_name, auth)
     finally:

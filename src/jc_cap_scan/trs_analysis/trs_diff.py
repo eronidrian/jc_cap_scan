@@ -1,21 +1,23 @@
 import argparse
+from typing import Literal
 
 import numpy as np
 import trsfile
 from matplotlib import pyplot as plt
 from numpy import ndarray, mean
-from scipy import signal
 from sklearn.preprocessing import minmax_scale
 
-from jc_cap_scan.config.config import Config
+from jc_cap_scan.config.config import ExtractionConfig
 from jc_cap_scan.trs_analysis.trs_extractor import find_high_consumption_periods
-from jc_cap_scan.trs_analysis.trs_overlay import get_alignment_parameters
+from jc_cap_scan.trs_analysis.trs_overlay import get_alignment_offset
+from jc_cap_scan.utils.trs_utils import load_trs_file
 
 align_to_start = True
 anchor_index = 0 if align_to_start else -1
 alignment_threshold = 0.6
 align_to_start = True
 ignore_last = 1_000_000
+IGNORE_FIRST = 750_000
 
 
 def ratio_diff(number_1: float, number_2: float) -> float:
@@ -25,19 +27,11 @@ def ratio_diff(number_1: float, number_2: float) -> float:
         return number_2 / number_1
     return 1
 
-def get_diff_2(path_1: str, path_2: str, threshold: float) -> float | None:
-    with trsfile.open(path_1, 'r') as traces_valid:
-        samples_valid = traces_valid[0].samples[:-ignore_last]
 
-    with trsfile.open(path_2, 'r') as traces_invalid:
-        samples_invalid = traces_invalid[0].samples[:-ignore_last]
-
-    samples_valid = minmax_scale(np.abs(samples_valid))
-    samples_invalid = minmax_scale(np.abs(samples_invalid))
-
-    config = Config.load_from_toml("config/javacos_a_40_config.toml")
-    periods_valid = find_high_consumption_periods(samples_valid, config.extraction.threshold, config.extraction.min_duration, config.extraction.max_gap)
-    periods_invalid = find_high_consumption_periods(samples_invalid, config.extraction.threshold, config.extraction.min_duration, config.extraction.max_gap)
+def get_diff_periods(samples_valid: ndarray, samples_invalid: ndarray, threshold: float,
+                     config: ExtractionConfig) -> float | None:
+    periods_valid = find_high_consumption_periods(samples_valid, config)
+    periods_invalid = find_high_consumption_periods(samples_invalid, config)
     for i in range(len(periods_valid)):
         if i >= len(periods_invalid):
             return None
@@ -49,18 +43,9 @@ def get_diff_2(path_1: str, path_2: str, threshold: float) -> float | None:
     return None
 
 
-
-def get_diff(path_1: str, path_2: str, show: bool) -> ndarray | None:
-    with trsfile.open(path_1, 'r') as traces_valid:
-        samples_valid = traces_valid[0].samples[:-ignore_last]
-
-    with trsfile.open(path_2, 'r') as traces_invalid:
-        samples_invalid = traces_invalid[0].samples[:-ignore_last]
-
-    samples_valid = minmax_scale(np.abs(samples_valid))
-    samples_invalid = minmax_scale(np.abs(samples_invalid))
-
-    offset_invalid_x = get_alignment_parameters(samples_valid, samples_invalid, alignment_threshold, True)
+def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, threshold: float,
+                         show: bool) -> float | None:
+    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, alignment_threshold, True)
     if offset_invalid_x is None:
         return None
 
@@ -96,25 +81,37 @@ def get_diff(path_1: str, path_2: str, show: bool) -> ndarray | None:
     mask[overlap_start:overlap_end] = False
     diff[mask] = np.nan  # or leave as original values
 
+    diff = abs(diff)
+
     if show:
         fig, ax = plt.subplots()
-        ax.plot(samples_valid, label=path_1)
-        ax.plot(np.arange(start, end), samples_invalid, label=path_2)
-        ax.plot(abs(diff), label='diff')
+        ax.plot(samples_valid, label='samples_valid')
+        ax.plot(np.arange(start, end), samples_invalid, label='samples_invalid')
+        ax.plot(diff, label='diff')
         ax.legend(loc='upper left')
         plt.show()
 
-    return abs(diff)
-
-def get_first_difference(path_1: str, path_2: str, threshold: float) -> int | None:
-    diff = get_diff(path_1, path_2, False)
     if diff is None:
         return None
-    diff = diff[750_000:]
+    diff = diff[IGNORE_FIRST:]
     indices = np.where(diff >= threshold)[0]
     if not indices.size:
         return None
-    return indices[0] + 750_000
+    return indices[0] + IGNORE_FIRST
+
+
+def get_diff(path_valid: str, path_invalid: str, threshold: float, algorithm: Literal['subtraction', 'periods'],
+             config: ExtractionConfig | None = None) -> float | None:
+    assert algorithm in ['subtraction', 'periods']
+
+    samples_valid = load_trs_file(path_valid, True)
+    samples_invalid = load_trs_file(path_invalid, True)
+
+    if algorithm == 'subtraction':
+        return get_diff_subtraction(samples_valid, samples_invalid, threshold, False)
+    elif algorithm == 'periods':
+        return get_diff_periods(samples_valid, samples_invalid, threshold, config)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -131,10 +128,8 @@ if __name__ == '__main__':
 
     if args.algorithm == 'subtraction':
         if args.show:
-            get_diff(args.valid, args.invalid, True)
+            get_diff_subtraction(args.valid, args.invalid, args.threshold, True)
         elif not args.show:
-            print(get_first_difference(args.valid, args.invalid, args.threshold))
+            print(get_diff_subtraction(args.valid, args.invalid, args.threshold, False))
     elif args.algorithm == 'periods':
-        print(get_diff_2(args.valid, args.invalid, args.threshold))
-
-# TODO: add proper way to call the 'periods' algorithm
+        print(get_diff_periods(args.valid, args.invalid, args.threshold, args.config))

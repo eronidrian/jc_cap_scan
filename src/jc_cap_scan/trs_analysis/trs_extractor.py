@@ -27,10 +27,10 @@ def merge_gaps(starts, ends, max_gap):
     return result_starts, result_ends
 
 
-def find_high_consumption_periods(data, threshold: float, min_duration: int, max_gap: int):
+def find_high_consumption_periods(data: np.ndarray, config: ExtractionConfig) -> list[tuple[int, int]]:
 
     # data = np.fromiter(data, dtype=np.float16, count=len(data))
-    high = data > threshold
+    high = data > config.threshold
 
     # Detect rising and falling edges
     diff = np.diff(high.astype(np.int8))
@@ -44,13 +44,13 @@ def find_high_consumption_periods(data, threshold: float, min_duration: int, max
         ends = np.append(ends, len(high))
 
     # Merge small gaps
-    result_starts, result_ends = merge_gaps(starts, ends, max_gap)
+    result_starts, result_ends = merge_gaps(starts, ends, config.max_gap)
 
     # Filter by min_duration
     result_starts = np.array(result_starts)
     result_ends = np.array(result_ends)
     durations = result_ends - result_starts
-    valid = durations >= min_duration
+    valid = durations >= config.min_duration
 
     return list(zip(result_starts[valid], result_ends[valid] - 1))
 
@@ -61,7 +61,7 @@ def extract_times_from_trs_file(filename: str, config: ExtractionConfig) -> list
 
     for i, trace in enumerate(traces):
 
-        periods = find_high_consumption_periods(trace, config.threshold, config.min_duration, config.max_gap)
+        periods = find_high_consumption_periods(trace, config)
         times = [period[1] - period[0] for period in periods]
         if len(times) < abs(config.index_to_extract):
             time = 0

@@ -1,21 +1,64 @@
+import argparse
 import csv
 import os
+import sys
+from typing import Literal
 
 from jc_cap_scan.utils.cap_file_utils import is_installation_successful
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid_and_class_token
 
 
-def class_bruteforce(result_file: str, class_token_range: tuple[int, int], base_aid: bytearray, major: int, minor: int, cp_info_type: int,
+def class_bruteforce(result_file: str, class_token_range: tuple[int, int], base_aid: str, base_major: int,
+                     base_minor: int, cp_info_type: Literal['class', 'method'],
                      tidy_up: bool, auth: list[str] | None = None):
-
+    assert cp_info_type in ['static', 'class']
     f = open(result_file, "w")
     result_writer = csv.writer(f)
+    print("Starting measurement...")
 
     for class_token in range(class_token_range[0], class_token_range[1]):
-        cap_name = generate_cap_for_package_aid_and_class_token(base_aid, major, minor, "templates/generic_template", class_token, cp_info_type, f"class_{base_aid.hex()}_{class_token}.cap")
-        success, _ = is_installation_successful(cap_name, auth)
+        print(
+            f"Class token {class_token - class_token_range[0]}/{class_token_range[1] - class_token_range[0]} ({class_token})")
+        cp_info_number = 1 if cp_info_type == 'class' else 6
+        cap_name = f"class_{base_aid}_{class_token}.cap"
+        generate_cap_for_package_aid_and_class_token(bytearray.fromhex(base_aid),
+                                                     base_major,
+                                                     base_minor,
+                                                     "templates/generic_template",
+                                                     class_token,
+                                                     cp_info_number,
+                                                     cap_name)
+        success, response = is_installation_successful(cap_name, auth)
         result_writer.writerow([class_token, success])
         if tidy_up:
             os.remove(cap_name)
 
+        print(f"Class token: {class_token}\n"
+              f"Response: {response}\n"
+              f"Success: {success}")
 
+# TODO: add support for multiple AIDs
+
+def main(argv: list[str]):
+    parser = argparse.ArgumentParser(
+        prog="Class bruteforce"
+    )
+
+    parser.add_argument('--class_token_range', help="Range of class tokens to test, e.g. 0 255",
+                                   required=False, nargs=2, default=(0, 255), type=int)
+    parser.add_argument('-a', '--base_aid', help="AID(s) in hex to use as a base for the testing",
+                                   required=True, nargs='+')
+    parser.add_argument('--major', help="Major version to use for the base package", default=1, type=int)
+    parser.add_argument('--minor', help="Minor version to use for the base package", default=0, type=int)
+    parser.add_argument('--cp_info_type',
+                                   help="cpInfo type to use for testing. class - Classref, method - Staticmethodref",
+                                   required=False, type=str, default='class')
+
+    args = parser.parse_args(argv)
+
+    class_bruteforce(args.results_file, args.class_token_range, args.base_aid, args.major, args.minor,
+                     args.cp_info_type, args.tidy_up, args.auth)
+
+
+if __name__ == '__main__':
+    main(sys.argv)
