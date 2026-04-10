@@ -368,6 +368,12 @@ class ApiSpecification:
                 return package
         return None
 
+    def get_aid_name_map(self) -> dict[str, str]:
+        name_map = {}
+        for package in self.packages:
+            name_map[package.aid] = package.name
+        return name_map
+
     def add_package(self, package: JCPackage) -> Exception | None:
         if self.get_package_by_aid(package.aid) is not None:
             print(package.name)
@@ -450,10 +456,3 @@ class ApiSpecification:
 
 DATA_PATH = Path(__file__).resolve().parent / "overview_table_305_new.csv"
 API_305_SPECIFICATION = ApiSpecification.load_from_csv(str(DATA_PATH))
-
-
-if __name__ == "__main__":
-    specification = ApiSpecification.load_from_export_files(
-        ["/home/petr/Downloads/diplomka/deshmukh_thesis/jcAIDScan/jc212_kit/api_export_files/javacard/framework/javacard/framework_exp.tex"])
-    specification.export_to_csv("test_javacard_framework.csv")
-    new_specification = ApiSpecification.load_from_csv("test_javacard_framework.csv")
