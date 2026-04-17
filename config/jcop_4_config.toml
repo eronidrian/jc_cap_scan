@@ -2,13 +2,20 @@ title = "NXP JCOP 4 config"
 
 [capture]
 trigger_threshold = 1000
-posttrigger_delay = 3900
+autotrigger = 3900
+posttrigger_delay = 0
 number_of_samples = 15_000_000
 sample_interval = 50
 channel_range = 500
 
 [extraction]
-max_gap = 100
+max_gap = 500
 min_duration = 800
-threshold = 0.5
-index_to_extract = -1
+threshold = 0.65
+index_to_extract = 24
+
+#[extraction]
+#max_gap = 100
+#min_duration = 800
+#threshold = 0.5
+#index_to_extract = 24

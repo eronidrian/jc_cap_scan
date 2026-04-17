@@ -1,0 +1,26 @@
+title = "NXP JCOP 3 config"
+
+[capture]
+trigger_threshold = 1000
+autotrigger = 3100
+posttrigger_delay = 0
+number_of_samples = 15_000_000
+sample_interval = 50
+channel_range = 200
+
+## for trace without window resampling
+#[extraction]
+#max_gap = 1_000
+#min_duration = 1_500
+#threshold = 0.22
+#index_to_extract = 24
+
+
+# for trace with window resampling
+[extraction]
+max_gap = 1_000
+min_duration = 1_500
+threshold = 0.05
+index_to_extract = 24
+
+
