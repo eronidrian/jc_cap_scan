@@ -4,18 +4,55 @@ import os
 import sys
 from statistics import mean
 
+import pandas as pd
+from matplotlib import pyplot as plt
+
 from api_specification.api_specification import API_305_SPECIFICATION
-from jc_cap_scan.config.config import Config
+from jc_cap_scan.config.config import Config, CaptureConfig
 from jc_cap_scan.trs_analysis.trs_extractor import extract_times_from_trs_file
 from jc_cap_scan.utils.cap_file_utils import is_installation_successful, uninstall
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
-from jc_cap_scan.utils.capture_utils import capture_install_trace
+from jc_cap_scan.utils.capture_utils import capture_install_trace, get_actual_sample_interval
+
+aid_name_map = {
+    "A0000000620001": "java.lang",
+    "A0000000620002": "java.io",
+    "A0000000620003": "java.rmi",
+    "A0000000620101" : "javacard.framework",
+    "A0000000620201": "javacardx.crypto",
+    "A0000000620202": "javacardx.biometry",
+    "A0000000620203": "javacardx.external",
+    "A0000000620204": "javacardx.biometry1toN",
+    "A0000000620205": "javacardx.security",
+    "A000000062020501": "javacardx.security.cert",
+    "A000000062020502" : "javacardx.security.derivation",
+    "A000000062020503": "javacardx.security.util",
+    "A000000062020801": "javacardx.framework.util",
+    "A00000006202080101": "javacardx.framework.util.intx",
+    "A000000062020802": "javacardx.framework.math",
+    "A000000062020803": "javacardx.framework.tlv",
+    "A000000062020804": "javacardx.framework.string",
+    "A000000062020805": "javacardx.framework.event",
+    "A000000062020806": "javacardx.framework.nio",
+    "A000000062020807" : "javacardx.framework.time",
+    "A0000000620209": "javacardx.apdu",
+    "A000000062020901": "javacardx.apdu.util",
+    "A00000015100": "org.globalplatform",
+    "A00000015102": "org.globalplatform.contactless",
+    "A00000015103": "org.globalplatform.securechannel",
+    "A00000015104": "org.globalplatform.securechannel.provider",
+    "A00000015105": "org.globalplatform.privacy",
+    "A00000015106": "org.globalplatform.filesystem",
+    "A00000015107": "org.globalplatform.upgrade",
+    "A0000000030000": "visa.openplatform"
+}
 
 
-def aid_list_scan(results_file: str, major_range: tuple[int, int], minor_range: tuple[int, int], traces_for_one_cap: int, traces_dir: str, config: Config, tidy_up: bool, auth: list[str] | None = None):
+def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: int, major_range: tuple[int, int],
+                  minor_range: tuple[int, int], config: Config, tidy_up: bool, auth: list[str] | None = None):
 
-    aid_name_map = API_305_SPECIFICATION.get_aid_name_map()
-    f = open(results_file, "w")
+    # aid_name_map = API_305_SPECIFICATION.get_aid_name_map()
+    f = open(results_file, "a")
     csv_writer = csv.writer(f)
 
     print("Starting measurement...")
@@ -31,7 +68,7 @@ def aid_list_scan(results_file: str, major_range: tuple[int, int], minor_range: 
                 print(f"Minor versin {minor}")
                 cap_name = f"{aid_name_map[aid].replace(".", "_")}_{major}_{minor}.cap"
                 generate_cap_for_package_aid(bytearray.fromhex(aid), major, minor, os.path.join("templates", "generic_template"), cap_name)
-                supported, _ = is_installation_successful(cap_name)
+                supported, _ = is_installation_successful(cap_name, auth)
 
                 if not supported:
                     print(f"{aid_name_map[aid]} v{major}.{minor} not supported")
@@ -39,46 +76,50 @@ def aid_list_scan(results_file: str, major_range: tuple[int, int], minor_range: 
                         os.remove(cap_name)
                     break
                 print(f"{aid_name_map[aid]} v{major}.{minor} is supported")
-                uninstall(cap_name)
+                uninstall(cap_name, auth)
 
                 trs_file_name = f"{aid_name_map[aid].replace(".", "_")}_{major}_{minor}.trs"
-                capture_install_trace(cap_name, traces_for_one_cap, os.path.join(traces_dir, trs_file_name), config.capture, auth)
-                times = extract_times_from_trs_file(os.path.join(traces_dir, trs_file_name), config.extraction)
+                capture_install_trace(cap_name, traces_for_one_cap, os.path.join(traces_directory, trs_file_name), config.capture, auth)
+                times = extract_times_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
 
                 print(f"AID: {aid}\n"
                       f"Major: {major}\n"
                       f"Minor: {minor}\n"
-                      f"Mean time: {mean(times)}\n\n")
+                      f"Times: {times}\n\n")
                 csv_writer.writerow([aid, major, minor] + times)
                 if tidy_up:
                     os.remove(cap_name)
-                    os.remove(os.path.join(traces_dir, trs_file_name))
+                    os.remove(os.path.join(traces_directory, trs_file_name))
+
+
+
 
 def main(argv: list[str]):
     parser = argparse.ArgumentParser(
-        prog="AID list scan"
+        prog="AID list scan",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
-    parser.add_argument("--config", help="Configuration file", required=True, type=str)
-    parser.add_argument('--auth',
-                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro",
+    parser.add_argument('-r', '--results_file', help="File to store the results into", required=True, type=str)
+    parser.add_argument('--traces_dir', help="Directory to store the captured traces into", default="traces",
                         type=str)
-    parser.add_argument('--tidy_up', help="Whether to delete the captured traces and created CAP files",
-                        action='store_true', default=False)
-    parser.add_argument('-r', '--results_file', help="File to store the results", required=True, type=str)
+    parser.add_argument('--traces_for_one_cap', help="How many traces to capture for each CAP file", required=True,
+                        type=int)
     parser.add_argument('--major_range', help="Range of major versions to test, e.g. 0 5",
                         required=False, nargs=2, default=(0, 3), type=int)
     parser.add_argument('--minor_range', help="Range of minor versions to test, e.g. 0 5",
                         required=False, nargs=2, default=(0, 10), type=int)
-    parser.add_argument('--traces_for_one_cap', help="How many traces to capture for each CAP file", required=True,
-                        type=int)
-    parser.add_argument('--traces_dir', help="Directory to store the captured traces into", default="traces",
-                        type=str)
+    parser.add_argument("--config", help="Path to configuration file", required=True, type=str)
+    parser.add_argument('--tidy_up', help="Whether to delete the captured traces and created CAP files",
+                        action='store_true', default=False)
+    parser.add_argument('--auth',
+                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
+                        type=str, nargs='+')
 
     args = parser.parse_args(argv)
     config = Config.load_from_toml(args.config)
-    aid_list_scan(args.results_file, args.major_range, args.minor_range, args.traces_for_one_cap, args.traces_dir,
-                   args.config, args.tidy_up, args.auth)
+    aid_list_scan(args.results_file, args.traces_dir, args.traces_for_one_cap, args.major_range, args.minor_range,
+                  config, args.tidy_up, args.auth)
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main(sys.argv[1:])

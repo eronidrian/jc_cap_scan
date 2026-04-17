@@ -29,15 +29,16 @@ def is_template_correct(template_location: str, auth: list[str] | None = None) -
     return True
 
 
-def method_bruteforce(result_file: str, tidy_up: bool, template_number: int | None = None, method_token_range: tuple[int, int] = (0, 256), auth: list[str] | None = None) -> None:
+def method_bruteforce(results_file: str, method_token_range: tuple[int, int], template_number: int, tidy_up: bool,
+                      auth: list[str] | None = None) -> None:
     uninstall("templates/good_package.cap")
-    f = open(result_file, "w")
+    f = open(results_file, "w")
     csv_writer = csv.writer(f)
     for i, entry in enumerate(sorted(os.scandir("templates/method_templates"), key=lambda ent: ent.name)):
         if not entry.is_dir():
             continue
 
-        if template_number is not None and i != template_number:
+        if template_number != -1 and i != template_number:
             continue
 
         _, _, static_or_virtual, class_name, method_name, return_or_call = entry.name.split("_")
@@ -77,20 +78,20 @@ def main(argv: list[str]):
         prog="Method bruteforce"
     )
 
-    parser.add_argument('--auth',
-                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro",
-                        type=str)
-    parser.add_argument('--tidy_up', help="Whether to delete the captured traces and created CAP files",
-                        action='store_true', default=False)
     parser.add_argument('-r', '--results_file', help="File to store the results", required=True, type=str)
-    parser.add_argument('--template_number', help="Template CAP file number to use", required=False,
+    parser.add_argument('--template_number', help="Template CAP file number to use", required=False, default=-1,
                                     type=int)
     parser.add_argument('--method_token_range', help="Range of method tokens to test, e.g. 0 255",
                                     required=False, nargs=2, default=(0, 255), type=int)
+    parser.add_argument('--tidy_up', help="Whether to delete the captured traces and created CAP files",
+                        action='store_true', default=False)
+    parser.add_argument('--auth',
+                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
+                        type=str, nargs='+')
 
     args = parser.parse_args(argv)
 
-    method_bruteforce(args.results_file, args.tidy_up, args.template_number, args.method_token_range, args.auth)
+    method_bruteforce(args.results_file, args.method_token_range, args.template_number, args.tidy_up, args.auth)
 
 
 if __name__ == '__main__':

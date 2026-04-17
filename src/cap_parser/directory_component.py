@@ -170,7 +170,8 @@ class DirectoryComponent(Component):
 
     def to_bytes(self) -> bytes:
         raw = super().to_bytes()
-        raw.extend(self.actual_component_sizes())
+        for component_size in self.component_sizes:
+            raw.extend(int.to_bytes(component_size, 2))
         raw.extend(self.static_field_size.to_bytes())
         raw.append(self.import_count)
         raw.append(self.applet_count)

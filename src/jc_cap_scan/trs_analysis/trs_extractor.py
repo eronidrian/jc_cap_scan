@@ -3,6 +3,7 @@ import numpy as np
 import numba
 
 from jc_cap_scan.config.config import ExtractionConfig
+from jc_cap_scan.utils.trs_utils import load_trs_file
 
 
 @numba.njit
@@ -27,10 +28,10 @@ def merge_gaps(starts, ends, max_gap):
     return result_starts, result_ends
 
 
-def find_high_consumption_periods(data: np.ndarray, config: ExtractionConfig) -> list[tuple[int, int]]:
+def find_high_consumption_periods(data: np.ndarray, extraction_config: ExtractionConfig) -> list[tuple[int, int]]:
 
-    # data = np.fromiter(data, dtype=np.float16, count=len(data))
-    high = data > config.threshold
+    data = np.fromiter(data, dtype=np.float16, count=len(data))
+    high = data > extraction_config.threshold
 
     # Detect rising and falling edges
     diff = np.diff(high.astype(np.int8))
@@ -44,29 +45,31 @@ def find_high_consumption_periods(data: np.ndarray, config: ExtractionConfig) ->
         ends = np.append(ends, len(high))
 
     # Merge small gaps
-    result_starts, result_ends = merge_gaps(starts, ends, config.max_gap)
+    result_starts, result_ends = merge_gaps(starts, ends, extraction_config.max_gap)
 
     # Filter by min_duration
     result_starts = np.array(result_starts)
     result_ends = np.array(result_ends)
     durations = result_ends - result_starts
-    valid = durations >= config.min_duration
+    valid = durations >= extraction_config.min_duration
 
     return list(zip(result_starts[valid], result_ends[valid] - 1))
 
-def extract_times_from_trs_file(filename: str, config: ExtractionConfig) -> list[int]:
+def extract_times_from_trs_file(filename: str, extraction_config: ExtractionConfig) -> list[int]:
     traces = trsfile.open(filename, 'r')
 
     result = []
 
-    for i, trace in enumerate(traces):
+    for i, _ in enumerate(traces):
 
-        periods = find_high_consumption_periods(trace, config)
+        trace = load_trs_file(filename, True, i)
+
+        periods = find_high_consumption_periods(trace, extraction_config)
         times = [period[1] - period[0] for period in periods]
-        if len(times) < abs(config.index_to_extract):
+        if len(times) < abs(extraction_config.index_to_extract):
             time = 0
         else:
-            time = times[config.index_to_extract]
+            time = times[extraction_config.index_to_extract]
         print(f"Extracting {i + 1}/{len(traces)}")
         print(time)
         result.append(time)

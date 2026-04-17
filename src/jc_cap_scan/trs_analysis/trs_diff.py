@@ -2,22 +2,13 @@ import argparse
 from typing import Literal
 
 import numpy as np
-import trsfile
 from matplotlib import pyplot as plt
-from numpy import ndarray, mean
-from sklearn.preprocessing import minmax_scale
+from numpy import ndarray
 
 from jc_cap_scan.config.config import ExtractionConfig
 from jc_cap_scan.trs_analysis.trs_extractor import find_high_consumption_periods
 from jc_cap_scan.trs_analysis.trs_overlay import get_alignment_offset
 from jc_cap_scan.utils.trs_utils import load_trs_file
-
-align_to_start = True
-anchor_index = 0 if align_to_start else -1
-alignment_threshold = 0.6
-align_to_start = True
-ignore_last = 1_000_000
-IGNORE_FIRST = 750_000
 
 
 def ratio_diff(number_1: float, number_2: float) -> float:
@@ -29,9 +20,9 @@ def ratio_diff(number_1: float, number_2: float) -> float:
 
 
 def get_diff_periods(samples_valid: ndarray, samples_invalid: ndarray, threshold: float,
-                     config: ExtractionConfig) -> float | None:
-    periods_valid = find_high_consumption_periods(samples_valid, config)
-    periods_invalid = find_high_consumption_periods(samples_invalid, config)
+                     extraction_config: ExtractionConfig) -> float | None:
+    periods_valid = find_high_consumption_periods(samples_valid, extraction_config)
+    periods_invalid = find_high_consumption_periods(samples_invalid, extraction_config)
     for i in range(len(periods_valid)):
         if i >= len(periods_invalid):
             return None
@@ -39,11 +30,11 @@ def get_diff_periods(samples_valid: ndarray, samples_invalid: ndarray, threshold
         duration_invalid = periods_invalid[i][1] - periods_invalid[i][0]
         diff = ratio_diff(duration_valid, duration_invalid)
         if diff > threshold:
-            return mean(periods_valid[i])
+            return (periods_valid[i][1] + periods_valid[i][0])/2
     return None
 
 
-def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, threshold: float,
+def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_threshold: float, alignment_threshold: float, ignore_first_n: int,
                          show: bool) -> float | None:
     offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, alignment_threshold, True)
     if offset_invalid_x is None:
@@ -93,24 +84,26 @@ def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, thres
 
     if diff is None:
         return None
-    diff = diff[IGNORE_FIRST:]
-    indices = np.where(diff >= threshold)[0]
+    diff = diff[ignore_first_n:]
+    indices = np.where(diff >= diff_threshold)[0]
     if not indices.size:
         return None
-    return indices[0] + IGNORE_FIRST
+    return indices[0] + ignore_first_n
 
 
-def get_diff(path_valid: str, path_invalid: str, threshold: float, algorithm: Literal['subtraction', 'periods'],
-             config: ExtractionConfig | None = None) -> float | None:
+def get_diff(path_valid: str, path_invalid: str, diff_threshold: float, alignment_threshold: float, algorithm: Literal['subtraction', 'periods'], show: bool, ignore_first_n : int | None = None,
+             extraction_config: ExtractionConfig | None = None) -> float | None:
     assert algorithm in ['subtraction', 'periods']
 
     samples_valid = load_trs_file(path_valid, True)
     samples_invalid = load_trs_file(path_invalid, True)
 
     if algorithm == 'subtraction':
-        return get_diff_subtraction(samples_valid, samples_invalid, threshold, False)
+        assert ignore_first_n is not None
+        return get_diff_subtraction(samples_valid, samples_invalid, diff_threshold, alignment_threshold, ignore_first_n, show)
     elif algorithm == 'periods':
-        return get_diff_periods(samples_valid, samples_invalid, threshold, config)
+        assert extraction_config is not None
+        return get_diff_periods(samples_valid, samples_invalid, diff_threshold, extraction_config)
 
 
 if __name__ == '__main__':
@@ -119,7 +112,9 @@ if __name__ == '__main__':
     )
     parser.add_argument("-v", "--valid", help="Path to trsfile which will be static", type=str, required=True)
     parser.add_argument("-i", "--invalid", help="Path to trsfile which will be moved", type=str, required=True)
-    parser.add_argument("-t", "--threshold", help="Threshold for the diff", type=float)
+    parser.add_argument("--diff_threshold", help="Threshold for the diff", type=float, required=True)
+    parser.add_argument("--alignment_threshold", help="Threshold for the alignment", type=float, required=True)
+    parser.add_argument("--ignore_first_n", help="Ignore first n samples (for 'subtraction' algorithm)", type=int, required=False, default=0)
     parser.add_argument("--show", help="Show the resulting plot", action="store_true", required=False)
     parser.add_argument("--algorithm", help="One of 'subtraction' or 'periods'", required=True)
     parser.add_argument("--config", help="Path to config for the 'periods' algorithm", required=False)
@@ -128,8 +123,9 @@ if __name__ == '__main__':
 
     if args.algorithm == 'subtraction':
         if args.show:
-            get_diff_subtraction(args.valid, args.invalid, args.threshold, True)
+            get_diff(args.valid, args.invalid, args.diff_threshold, args.alignment_threshold, args.algorithm, True, args.ignore_first_n)
         elif not args.show:
-            print(get_diff_subtraction(args.valid, args.invalid, args.threshold, False))
+            print(get_diff(args.valid, args.invalid, args.diff_threshold, args.alignment_threshold, args.algorithm, False, args.ignore_first_n))
     elif args.algorithm == 'periods':
-        print(get_diff_periods(args.valid, args.invalid, args.threshold, args.config))
+        extraction_config = ExtractionConfig.load_from_toml(args.config)
+        print(get_diff(args.valid, args.invalid, args.diff_threshold, args.alignment_treshold, args.algorithm, False, extraction_config=extraction_config))

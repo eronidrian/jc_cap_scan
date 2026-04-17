@@ -68,14 +68,14 @@ def ns_to_timebase(ns: float) -> int:
 
 
 # PicoScope setup and capture functions
-def setup_picoscope(trigger_threshold: int, posttrigger_delay: int, channel_range: int):
+def setup_picoscope(capture_config: CaptureConfig):
     chandle = ctypes.c_int16()
     status = {}
 
     status["openunit"] = ps.ps4000OpenUnit(ctypes.byref(chandle), None)
     assert_pico_ok(status["openunit"])
 
-    chARange = ps.PS4000_RANGE[channel_range_to_str(channel_range)]
+    chARange = ps.PS4000_RANGE[channel_range_to_str(capture_config.channel_range)]
     status["setChA"] = ps.ps4000SetChannel(chandle, 0, 1, 1, chARange)
     assert_pico_ok(status["setChA"])
 
@@ -84,14 +84,14 @@ def setup_picoscope(trigger_threshold: int, posttrigger_delay: int, channel_rang
     assert_pico_ok(status["setChB"])
 
     # Set up single trigger on AUX IN
-    status["trigger"] = ps.ps4000SetSimpleTrigger(chandle, 1, 1, mV2adcpl1000(trigger_threshold, 1000, PS4000_MAX_VALUE), PS4000_RISING, 0,
-                                                  posttrigger_delay)
+    status["trigger"] = ps.ps4000SetSimpleTrigger(chandle, 1, 1, mV2adcpl1000(capture_config.trigger_threshold, 1000, PS4000_MAX_VALUE), PS4000_RISING, capture_config.posttrigger_delay,
+                                                  capture_config.autotrigger)
     assert_pico_ok(status["trigger"])
 
     return chandle, status
 
 
-def capture_trace(chandle, status, trs_writer, capture_done_event, number_of_samples, sample_interval):
+def capture_trace(chandle, status: dict, trs_writer, capture_done_event, number_of_samples: int, sample_interval: float):
     try:
         # Set number of pre and post trigger samples to be collected
         preTriggerSamples = 10
@@ -148,7 +148,7 @@ def capture_trace(chandle, status, trs_writer, capture_done_event, number_of_sam
 
 
 
-def run_installation_capture(chandle, status, trs_writer, cap_file_name,  number_of_samples, sample_interval, auth) -> tuple[bool, str]:
+def run_installation_capture(chandle, status: dict, trs_writer, cap_file_name: str,  number_of_samples: int, sample_interval: float, auth: list[str] | None = None) -> tuple[bool, str]:
     capture_done_event = threading.Event()
 
     # Start capture in a separate thread
@@ -168,7 +168,7 @@ def run_installation_capture(chandle, status, trs_writer, cap_file_name,  number
     return success, result
 
 
-def run_call_capture(chandle, status, trs_writer, cap_file_name,  number_of_samples, sample_interval, auth):
+def run_call_capture(chandle, status: dict, trs_writer, cap_name: str, number_of_samples: int, sample_interval: float, auth: list[str] | None):
     capture_done_event = threading.Event()
 
     # Start capture in a separate thread
@@ -180,14 +180,14 @@ def run_call_capture(chandle, status, trs_writer, cap_file_name,  number_of_samp
     time.sleep(0.1)
 
     # Perform installation (this is what we want to capture)
-    call(auth)
+    call(False, auth)
 
     # Wait for capture to complete
     capture_done_event.wait()
 
 
-def setup(trigger_threshold, posttrigger_delay, number_of_samples, channel_range):
-    chandle, status = setup_picoscope(trigger_threshold, posttrigger_delay, channel_range)
+def setup(capture_config: CaptureConfig):
+    chandle, status = setup_picoscope(capture_config)
 
     # Define the trace parameter definitions and header for the trs file
 
@@ -196,7 +196,7 @@ def setup(trigger_threshold, posttrigger_delay, number_of_samples, channel_range
         Header.SCALE_X: 1e-6,
         Header.SCALE_Y: 1e-3,
         Header.DESCRIPTION: 'PicoScope Full Data',
-        Header.NUMBER_SAMPLES: number_of_samples + 10,  # Pre-trigger + post-trigger samples
+        Header.NUMBER_SAMPLES: capture_config.number_of_samples + 10,  # Pre-trigger + post-trigger samples
         Header.SAMPLE_CODING: SampleCoding.BYTE,
         Header.TRACE_TITLE: 'PicoScope Data',
     }
@@ -204,34 +204,32 @@ def setup(trigger_threshold, posttrigger_delay, number_of_samples, channel_range
     return chandle, status, header
 
 
-def capture_call_trace(cap_file_name: str, num_of_traces: int, result_folder: str, config: CaptureConfig, auth: list[str] | None = None):
-    chandle, status, header = setup(config.trigger_threshold, config.posttrigger_delay, config.number_of_samples, config.channel_range)
+def capture_call_trace(cap_file_name: str, num_of_traces: int, result_folder: str, capture_config: CaptureConfig, auth: list[str] | None = None):
+    chandle, status, header = setup(capture_config)
     install(cap_file_name, auth)
 
     try:
-        run_call_capture(chandle, status, None, cap_file_name, config.number_of_samples, config.sample_interval, auth)
+        run_call_capture(chandle, status, None, cap_file_name, capture_config.number_of_samples, capture_config.sample_interval, auth)
         trs_file_path = os.path.join(result_folder, f"traces_{cap_file_name}.trs")
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
             for trace_num in range(num_of_traces):
                 print(f"Trace: {trace_num + 1}/{num_of_traces}")
-                run_call_capture(chandle, status, trs_writer, cap_file_name, config.number_of_samples, config.sample_interval, auth)
+                run_call_capture(chandle, status, trs_writer, cap_file_name, capture_config.number_of_samples, capture_config.sample_interval, auth)
     finally:
         uninstall(cap_file_name, auth)
         ps.ps4000Stop(chandle)
         ps.ps4000CloseUnit(chandle)
 
 
-def capture_install_trace(cap_file_name: str, num_of_traces: int, trs_file_path: str, config: CaptureConfig, auth: list[str] | None = None) -> tuple[bool, str]:
-    chandle, status, header = setup(config.trigger_threshold, config.posttrigger_delay, config.number_of_samples, config.channel_range)
+def capture_install_trace(cap_file_name: str, num_of_traces: int, trs_file_path: str, capture_config: CaptureConfig, auth: list[str] | None = None) -> tuple[bool, str]:
+    chandle, status, header = setup(capture_config)
 
     try:
         reset_fault_counter(auth)
-        # run_installation_capture(chandle, status, None, cap_file_name, config.number_of_samples, config.sample_interval, auth)
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
             for trace_num in range(num_of_traces):
                 print(f"Trace: {trace_num + 1}/{num_of_traces}")
-                success, result = run_installation_capture(chandle, status, trs_writer, cap_file_name, config.number_of_samples, config.sample_interval, auth)
-                uninstall(cap_file_name, auth)
+                success, result = run_installation_capture(chandle, status, trs_writer, cap_file_name, capture_config.number_of_samples, capture_config.sample_interval, auth)
     finally:
         ps.ps4000Stop(chandle)
         ps.ps4000CloseUnit(chandle)

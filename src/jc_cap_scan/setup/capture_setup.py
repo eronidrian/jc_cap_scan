@@ -1,5 +1,4 @@
 import argparse
-import sys
 
 from jc_cap_scan.config.config import CaptureConfig, Config
 from jc_cap_scan.trs_analysis.trs_visualizer import visualize_trace
@@ -19,7 +18,7 @@ def capture_sample_call_trace(trace_path: str, cap_file_path: str, estimated_con
     if show:
         visualize_trace(trace_path, 0, rescale)
 
-def main(argv: list[str]):
+def main():
     parser = argparse.ArgumentParser(
         prog="Setup trace capture"
     )
@@ -36,10 +35,15 @@ def main(argv: list[str]):
                                       help="Capture configuration file in toml format",
                                       required=False, type=str)
     parser.add_argument("--rescale", help="Rescale trace for visualization", action='store_true', default=False)
+    parser.add_argument('--auth',
+                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
+                        type=str, nargs='+')
 
-    args = parser.parse_args(argv)
+    args = parser.parse_args()
 
     config = CaptureConfig.load_from_toml(args.config)
+    if args.auth is not None:
+        args.auth[0] = f"--{args.auth[0]}"
     if args.install:
         capture_sample_install_trace(args.trs_file, args.cap_file, config, args.show, args.rescale, args.auth)
     if args.call:
@@ -48,4 +52,4 @@ def main(argv: list[str]):
 
 
 if __name__ == '__main__':
-     main(sys.argv)
+     main()

@@ -10,11 +10,12 @@ from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_ai
 from jc_cap_scan.utils.capture_utils import capture_install_trace
 
 
-def class_side_channel_discovery(result_file: str, class_token_range: tuple[int, int], base_aid: str, base_major: int,
-                     base_minor: int, traces_for_one_token: int, traces_directory: str, cp_info_type: Literal['class', 'method'],
-                     config: Config, tidy_up: bool, auth: list[str] | None = None):
+def class_side_channel_discovery(results_file: str, traces_directory: str, base_aid: str, base_major: int,
+                                 base_minor: int, traces_for_one_token: int, class_token_range: tuple[int, int],
+                                 cp_info_type: Literal['class', 'method'], config: Config, tidy_up: bool,
+                                 auth: list[str] | None = None):
     assert cp_info_type in ['static', 'class']
-    f = open(result_file, "w")
+    f = open(results_file, "w")
     result_writer = csv.writer(f)
     print("Starting measurement...")
 
@@ -48,12 +49,9 @@ def main(argv: list[str]):
         prog="Class side channel discovery"
     )
 
-    parser.add_argument('--auth',
-                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro",
-                        type=str)
-    parser.add_argument('--tidy_up', help="Whether to delete the captured traces and created CAP files",
-                        action='store_true', default=False)
     parser.add_argument('-r', '--results_file', help="File to store the results", required=True, type=str)
+    parser.add_argument('--traces_directory', help="Directory to store the captured traces", default="traces",
+                                 type=str)
     parser.add_argument('--class_token_range', help="Range of class tokens to test, e.g. 0 255",
                         required=False, nargs=2, default=(0, 255), type=int)
     parser.add_argument('-a', '--base_aid', help="AID in hex to use as a base for the testing",
@@ -63,21 +61,24 @@ def main(argv: list[str]):
     parser.add_argument('--cp_info_type',
                         help="cpInfo type to use for testing. class - Classref, method - Staticmethodref",
                         required=False, type=str, default='class')
+    parser.add_argument('--number_of_traces', help="Number of traces to capture for each installation",
+                                 required=True, type=int)
     parser.add_argument('-c', '--config',
                                  help="Configuration file", required=False,
                                  type=str)
-    parser.add_argument('--number_of_traces', help="Number of traces to capture for each installation",
-                                 required=True, type=int)
-    parser.add_argument('--traces_directory', help="Directory to store the captured traces", default="traces",
-                                 type=str)
+    parser.add_argument('--tidy_up', help="Whether to delete the captured traces and created CAP files",
+                        action='store_true', default=False)
+    parser.add_argument('--auth',
+                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
+                        type=str, nargs='+')
 
     args = parser.parse_args(argv)
 
     config = Config.load_from_toml(args.config)
-    class_side_channel_discovery(args.results_file, args.class_token_range, args.base_aid, args.major, args.minor,
-                                 args.number_of_traces, args.traces_directory, args.cp_info_type, config, args.tidy_up,
+    class_side_channel_discovery(args.results_file, args.traces_directory, args.base_aid, args.major, args.minor,
+                                 args.number_of_traces, args.class_token_range, args.cp_info_type, config, args.tidy_up,
                                  args.auth)
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main(sys.argv[1:])

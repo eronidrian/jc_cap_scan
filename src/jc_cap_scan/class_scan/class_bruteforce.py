@@ -8,36 +8,36 @@ from jc_cap_scan.utils.cap_file_utils import is_installation_successful
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid_and_class_token
 
 
-def class_bruteforce(result_file: str, class_token_range: tuple[int, int], base_aid: str, base_major: int,
+def class_bruteforce(results_file: str, class_token_range: tuple[int, int], base_aids: list[str], base_major: int,
                      base_minor: int, cp_info_type: Literal['class', 'method'],
                      tidy_up: bool, auth: list[str] | None = None):
     assert cp_info_type in ['static', 'class']
-    f = open(result_file, "w")
+    f = open(results_file, "w")
     result_writer = csv.writer(f)
     print("Starting measurement...")
 
-    for class_token in range(class_token_range[0], class_token_range[1]):
-        print(
-            f"Class token {class_token - class_token_range[0]}/{class_token_range[1] - class_token_range[0]} ({class_token})")
-        cp_info_number = 1 if cp_info_type == 'class' else 6
-        cap_name = f"class_{base_aid}_{class_token}.cap"
-        generate_cap_for_package_aid_and_class_token(bytearray.fromhex(base_aid),
-                                                     base_major,
-                                                     base_minor,
-                                                     "templates/generic_template",
-                                                     class_token,
-                                                     cp_info_number,
-                                                     cap_name)
-        success, response = is_installation_successful(cap_name, auth)
-        result_writer.writerow([class_token, success])
-        if tidy_up:
-            os.remove(cap_name)
+    for base_aid in base_aids:
+        print(f"Testing AID {base_aid}")
+        for class_token in range(class_token_range[0], class_token_range[1]):
+            print(
+                f"Class token {class_token - class_token_range[0]}/{class_token_range[1] - class_token_range[0]} ({class_token})")
+            cp_info_number = 1 if cp_info_type == 'class' else 6
+            cap_name = f"class_{base_aid}_{class_token}.cap"
+            generate_cap_for_package_aid_and_class_token(bytearray.fromhex(base_aid),
+                                                         base_major,
+                                                         base_minor,
+                                                         "templates/generic_template",
+                                                         class_token,
+                                                         cp_info_number,
+                                                         cap_name)
+            success, response = is_installation_successful(cap_name, auth)
+            result_writer.writerow([class_token, success])
+            if tidy_up:
+                os.remove(cap_name)
 
-        print(f"Class token: {class_token}\n"
-              f"Response: {response}\n"
-              f"Success: {success}")
-
-# TODO: add support for multiple AIDs
+            print(f"Class token: {class_token}\n"
+                  f"Response: {response}\n"
+                  f"Success: {success}")
 
 def main(argv: list[str]):
     parser = argparse.ArgumentParser(
@@ -61,4 +61,4 @@ def main(argv: list[str]):
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main(sys.argv[1:])

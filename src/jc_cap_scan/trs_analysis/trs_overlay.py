@@ -1,15 +1,12 @@
-import trsfile
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
 import argparse
 import numpy as np
 
+from jc_cap_scan.utils.trs_utils import load_trs_file
+
+
 def get_alignment_offset(samples_valid: np.ndarray, samples_invalid: np.ndarray, alignment_threshold: float, align_to_start: bool) -> int | None:
     anchor_index = 0 if align_to_start else -1
-
-    # valid_average = np.average(samples_valid[:average_first])
-    # invalid_average = np.average(samples_invalid[:average_first])
-    # offset_invalid_y = valid_average - invalid_average
 
     try:
         valid_anchor = np.where(samples_valid >= alignment_threshold)[0][anchor_index]
@@ -20,55 +17,20 @@ def get_alignment_offset(samples_valid: np.ndarray, samples_invalid: np.ndarray,
 
     return offset_invalid_x
 
-def trs_overlay():
+def trs_overlay(path_valid: str, path_invalid: str, alignment_threshold: float, align_to_start: bool) -> None:
 
-
-    fig, ax = plt.subplots()
-
-
-
-    alignment_threshold = 35
-    align_to_start = True
-    ignore_last = 1_000_000
-
-    with trsfile.open(args.valid, 'r') as traces_valid:
-        samples_valid = traces_valid[0].samples[:-ignore_last]
-
-    with trsfile.open(args.invalid, 'r') as traces_invalid:
-        samples_invalid = traces_invalid[0].samples[:-ignore_last]
+    samples_valid = load_trs_file(path_valid, True)
+    samples_invalid = load_trs_file(path_invalid, True)
 
     offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, alignment_threshold, align_to_start)
     if offset_invalid_x is None:
+        print("Traces cannot be aligned")
         return None
 
-    ax.plot(samples_valid, label=args.valid)
-    ax.plot(range(offset_invalid_x, len(samples_invalid) + offset_invalid_x), samples_invalid + offset_invalid_y,
-            label=args.invalid)
-
-    # if args.invalid_2:
-    #     with trsfile.open(args.invalid_2, 'r') as traces_invalid:
-    #         samples_invalid_2 = traces_invalid[0].samples[:-ignore_last]
-    #
-    #     invalid_anchor_2 = np.where(samples_invalid_2 >= alignment_threshold)[0][anchor_index]
-    #     offset_invalid_2_x = valid_anchor - invalid_anchor_2
-    #     invalid_average_2 = np.average(samples_invalid_2[:average_first])
-    #     offset_invalid_2_y = valid_average - invalid_average_2
-    #     ax.plot(range(offset_invalid_2_x, len(samples_invalid_2) + offset_invalid_2_x),
-    #             samples_invalid_2 + offset_invalid_2_y,
-    #             label=args.invalid_2)
-    #
-    # if args.invalid_3:
-    #     with trsfile.open(args.invalid_3, 'r') as traces_invalid:
-    #         samples_invalid_3 = traces_invalid[0].samples[:-ignore_last]
-    #
-    #     invalid_anchor_3 = np.where(samples_invalid_3 >= alignment_threshold)[0][anchor_index]
-    #     offset_invalid_3_x = valid_anchor - invalid_anchor_3
-    #     invalid_average_3 = np.average(samples_invalid_3[:average_first])
-    #     offset_invalid_3_y = valid_average - invalid_average_3
-    #     ax.plot(range(offset_invalid_3_x, len(samples_invalid_3) + offset_invalid_3_x),
-    #             samples_invalid_3 + offset_invalid_3_y,
-    #             label=args.invalid_3)
-
+    fig, ax = plt.subplots()
+    ax.plot(samples_valid, label=path_valid)
+    ax.plot(range(offset_invalid_x, len(samples_invalid) + offset_invalid_x), samples_invalid,
+            label=path_invalid)
 
 
     plt.xlabel("Sample number")
@@ -76,17 +38,20 @@ def trs_overlay():
     plt.legend(loc='upper left', )
     plt.show()
 
-
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(
-        prog="TRS analyser",
-        description=""
+        prog="TRS overlay",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
-    parser.add_argument('-v', '--valid', help='TRS file with valid LOAD', required=True)
-    parser.add_argument('-i', '--invalid', help='TRS file with invalid LOAD', required=True)
-    parser.add_argument('-i_2', '--invalid_2', help='Another TRS file with invalid LOAD', required=False)
-    parser.add_argument('-i_3', '--invalid_3', help='Another TRS file with invalid LOAD', required=False)
+    parser.add_argument("-v", "--valid", help="Path to trsfile which will be static", type=str, required=True)
+    parser.add_argument("-i", "--invalid", help="Path to trsfile which will be moved", type=str, required=True)
+    parser.add_argument("-a", "--alignment_threshold", help="Threshold for the alignment", type=float, required=True)
+    parser.add_argument("--align_to_end", help="Align traces not to start but to end", action="store_true")
 
     args = parser.parse_args()
-    trs_overlay()
+    trs_overlay(args.valid, args.invalid, args.alignment_threshold, not args.align_to_end)
+
+
+if __name__ == '__main__':
+   main()

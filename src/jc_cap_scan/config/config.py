@@ -20,10 +20,11 @@ class ExtractionConfig:
 
 
 class CaptureConfig:
-    def __init__(self, trigger_threshold: int, posttrigger_delay: int, number_of_samples: int, sample_interval: int,
+    def __init__(self, trigger_threshold: int, posttrigger_delay: int, autotrigger: int, number_of_samples: int, sample_interval: int,
                  channel_range: int):
         self.trigger_threshold = trigger_threshold
         self.posttrigger_delay = posttrigger_delay
+        self.autotrigger = autotrigger
         self.number_of_samples = number_of_samples
         self.sample_interval = sample_interval
         self.channel_range = channel_range
@@ -34,7 +35,7 @@ class CaptureConfig:
             content = tomllib.load(f)
         content = content["capture"]
 
-        return CaptureConfig(content["trigger_threshold"], content["posttrigger_delay"],
+        return CaptureConfig(content["trigger_threshold"], content["posttrigger_delay"], content["autotrigger"],
                              content["number_of_samples"], content["sample_interval"], content["channel_range"])
 
 
