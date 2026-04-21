@@ -30,7 +30,7 @@ channel_range = 200 # in mV, range of the Y-axis of the power trace
 [extraction]
 max_gap = 500 # number of samples, max gap between two periods that is bridged to merge them into a single period, happens before discarding periods using `min_duration`
 min_duration = 800 # number of samples, periods shorter than this threshold are discarded
-threhold = 0.65 # treshold for detecting raising and falling edges for starts and ends of the periods, for min-max rescaled trace
+threhold = 0.65 # threshold for detecting raising and falling edges for starts and ends of the periods, for min-max rescaled trace
 index_to_extract = 24 # period number that is important for the measurement, starts at 0
 ```
 
