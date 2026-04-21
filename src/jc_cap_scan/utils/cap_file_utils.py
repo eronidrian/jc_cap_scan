@@ -4,9 +4,17 @@ import subprocess
 
 GP_PATH = "src/jc_cap_scan/utils/gp.jar"
 GOOD_PACKAGE_PATH = "templates/good_package.cap"
-TIMEOUT = 15 # seconds
+TIMEOUT = 15  # seconds
+
 
 def reset_fault_counter(auth: list[str] | None = None):
+    """
+    Reset hypothetical fault counter on the card by installing and uninstalling a valid CAP file. If the CAP file
+    cannot be installed, the process will be aborted, as it means the card is unresponsive and further operations
+    would fail as well.
+    :param auth: GP authentication for the card, if needed to install CAP files onto the card
+    :return:
+    """
     success, result = is_installation_successful(GOOD_PACKAGE_PATH, auth)
     if not success:
         print(result)
@@ -17,6 +25,12 @@ def reset_fault_counter(auth: list[str] | None = None):
 
 
 def install(cap_file_name: str, auth: list[str] | None = None) -> str:
+    """
+    Install CAP file onto the card
+    :param cap_file_name: Path to CAP file to install
+    :param auth: GP authentication for the card, if needed to install CAP files onto the card
+    :return: GP output stripped from unnecessary lines
+    """
     if auth is None:
         message = subprocess.run(["java", "-jar", GP_PATH, "--install",
                                   cap_file_name],
@@ -33,7 +47,9 @@ def install(cap_file_name: str, auth: list[str] | None = None) -> str:
     message = message.replace(
         '[WARN] GPSession - GET STATUS failed for 80F21000024F0000 with 0x6A81 (Function not supported e.g. card Life Cycle State is CARD_LOCKED)',
         '')
-    message = message.replace("[WARN] GlobalPlatform - GET STATUS failed for 80F21000024F0000 with 0x6A81 (Function not supported e.g. card Life Cycle State is CARD_LOCKED)", "")
+    message = message.replace(
+        "[WARN] GlobalPlatform - GET STATUS failed for 80F21000024F0000 with 0x6A81 (Function not supported e.g. card Life Cycle State is CARD_LOCKED)",
+        "")
     message = message.replace('\n', ' ')
     message = message.strip()
 
@@ -44,6 +60,12 @@ def install(cap_file_name: str, auth: list[str] | None = None) -> str:
 
 
 def is_installation_successful(cap_file_name: str, auth: list[str] | None = None) -> tuple[bool, str]:
+    """
+    Find out whether the CAP file can be installed successfully
+    :param cap_file_name: Path to CAP file to install
+    :param auth: GP authentication for the card, if needed to install CAP files onto the card
+    :return:
+    """
     result = install(cap_file_name, auth)
     uninstall(cap_file_name, auth)
     return result.find(f"CAP loaded") != -1, result

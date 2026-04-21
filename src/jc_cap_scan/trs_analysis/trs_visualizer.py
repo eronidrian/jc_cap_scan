@@ -1,12 +1,20 @@
 import argparse
 
-import trsfile
 import matplotlib.pyplot as plt
 
 from jc_cap_scan.trs_analysis.trs_diff import load_trs_file
 
 
 def visualize_trace(trs_file_path: str, trace_index: int, rescale: bool, start: int = 0, end: int = -1):
+    """
+    Visualize a power trace
+    :param trs_file_path: Path to the TRS file to visualize
+    :param trace_index: Index of trace int TRS file to visualize (0-indexed)
+    :param rescale: Whether to rescale the trace using min-max standardization before plotting
+    :param start: First sample to visualize (0-indexed)
+    :param end: Last sample to visualize (0-indexed)
+    :return:
+    """
     trace = load_trs_file(trs_file_path, rescale, trace_index, start, end)
 
     fig, ax = plt.subplots()

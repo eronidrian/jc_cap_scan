@@ -9,6 +9,12 @@ from jc_cap_scan.utils.cap_file_utils import uninstall, pack_directory_to_cap_fi
 
 
 def is_template_correct(template_location: str, auth: list[str] | None = None) -> bool:
+    """
+    Check whether the given template is correct. Correct template should be installable and callable
+    :param template_location: Path to the template file
+    :param auth: Authentication for the card, if needed to install CAP files onto the card
+    :return: True if template is correct, False otherwise
+    """
     cap_name = "template_test.cap"
     pack_directory_to_cap_file(cap_name, template_location)
 
@@ -31,6 +37,15 @@ def is_template_correct(template_location: str, auth: list[str] | None = None) -
 
 def method_bruteforce(results_file: str, method_token_range: tuple[int, int], template_number: int, tidy_up: bool,
                       auth: list[str] | None = None) -> None:
+    """
+    Bruteforce method tokens without capturing power trace
+    :param results_file: Path to file where to store the results
+    :param method_token_range: Range of method tokens to test
+    :param template_number: Use template with given number, -1 if all templates should be used
+    :param tidy_up: Whether to delete the generated CAP files
+    :param auth: Authentication for the card, if needed to install CAP files onto the card
+    :return:
+    """
     uninstall("templates/good_package.cap")
     f = open(results_file, "w")
     csv_writer = csv.writer(f)
@@ -73,7 +88,7 @@ def method_bruteforce(results_file: str, method_token_range: tuple[int, int], te
                 shutil.rmtree(f"{entry.name}_{method_token}")
 
 
-def main(argv: list[str]):
+def main():
     parser = argparse.ArgumentParser(
         prog="Method bruteforce"
     )
@@ -89,11 +104,11 @@ def main(argv: list[str]):
                         help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
                         type=str, nargs='+')
 
-    args = parser.parse_args(argv)
+    args = parser.parse_args()
 
     method_bruteforce(args.results_file, args.method_token_range, args.template_number, args.tidy_up, args.auth)
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main()
 

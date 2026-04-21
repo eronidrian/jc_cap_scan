@@ -1,4 +1,5 @@
 import argparse
+import random
 from typing import Literal
 
 import numpy as np
@@ -12,6 +13,12 @@ from jc_cap_scan.utils.trs_utils import load_trs_file
 
 
 def ratio_diff(number_1: float, number_2: float) -> float:
+    """
+    Simple 'ratio diff'. Divide the bigger number by the smaller one.
+    :param number_1: First number
+    :param number_2: Second number
+    :return: Ratio diff
+    """
     if number_1 > number_2:
         return number_1 / number_2
     if number_2 > number_1:
@@ -21,6 +28,14 @@ def ratio_diff(number_1: float, number_2: float) -> float:
 
 def get_diff_periods(samples_valid: ndarray, samples_invalid: ndarray, threshold: float,
                      extraction_config: ExtractionConfig) -> float | None:
+    """
+    Get difference between two power traces by comparing the durations of extracted periods
+    :param samples_valid: Array of valid samples (the base power trace)
+    :param samples_invalid: Array of invalid samples (the compared power trace)
+    :param threshold: How much longer or shorter should be a period be to be considered different
+    :param extraction_config: Config to use for extracting the periods
+    :return: Sample number of the first difference (random sample from the period) or None if no difference is found
+    """
     periods_valid = find_high_consumption_periods(samples_valid, extraction_config)
     periods_invalid = find_high_consumption_periods(samples_invalid, extraction_config)
     for i in range(len(periods_valid)):
@@ -30,12 +45,22 @@ def get_diff_periods(samples_valid: ndarray, samples_invalid: ndarray, threshold
         duration_invalid = periods_invalid[i][1] - periods_invalid[i][0]
         diff = ratio_diff(duration_valid, duration_invalid)
         if diff > threshold:
-            return (periods_valid[i][1] + periods_valid[i][0])/2
+            return random.randrange(periods_valid[i][0], periods_valid[i][1])
     return None
 
 
 def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_threshold: float, alignment_threshold: float, ignore_first_n: int,
                          show: bool) -> float | None:
+    """
+    Get difference of two power traces by aligning them and then subtracting the invalid from the valid one. The first sample where the absolute value of the diff is higher than the threshold is returned as the first difference.
+    :param samples_valid: Array of valid samples (the base power trace)
+    :param samples_invalid: Array of invalid samples (the compared power trace)
+    :param diff_threshold: Threshold for the diff. The first sample where the absolute value of the diff is higher than this threshold is returned as the first difference.
+    :param alignment_threshold: Threshold used to align the traces
+    :param ignore_first_n: Do not look for difference in the first n samples
+    :param show: Whether to show the plot with the valid, invalid and diff traces
+    :return: Number of the first different sample, None if no difference is found
+    """
     offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, alignment_threshold, True)
     if offset_invalid_x is None:
         return None
@@ -93,6 +118,18 @@ def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_
 
 def get_diff(path_valid: str, path_invalid: str, diff_threshold: float, alignment_threshold: float, algorithm: Literal['subtraction', 'periods'], show: bool, ignore_first_n : int | None = None,
              extraction_config: ExtractionConfig | None = None) -> float | None:
+    """
+    Get diff of two power traces using either the 'subtraction' or 'periods' algorithm
+    :param path_valid: Path to valid trace (the base power trace)
+    :param path_invalid: Path to invalid trace (the compared power trace)
+    :param diff_threshold: Threshold to use for the diff
+    :param alignment_threshold: Threshold used to align the traces (only for 'subtraction' algorithm)
+    :param algorithm: Algorithm to use, can be either 'subtraction' or 'periods'
+    :param show: Whether to show the diff (only for 'subtraction' algorithm)
+    :param ignore_first_n: Ignore the first n samples when looking for the diff (only for 'subtraction' algorithm)
+    :param extraction_config: Extraction config (only for the 'periods' algorithm)
+    :return:
+    """
     assert algorithm in ['subtraction', 'periods']
 
     samples_valid = load_trs_file(path_valid, True)

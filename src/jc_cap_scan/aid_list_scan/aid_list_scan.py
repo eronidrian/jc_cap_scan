@@ -1,18 +1,12 @@
 import argparse
 import csv
 import os
-import sys
-from statistics import mean
 
-import pandas as pd
-from matplotlib import pyplot as plt
-
-from api_specification.api_specification import API_305_SPECIFICATION
-from jc_cap_scan.config.config import Config, CaptureConfig
-from jc_cap_scan.trs_analysis.trs_extractor import extract_times_from_trs_file
+from jc_cap_scan.config.config import Config
+from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
 from jc_cap_scan.utils.cap_file_utils import is_installation_successful, uninstall
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
-from jc_cap_scan.utils.capture_utils import capture_install_trace, get_actual_sample_interval
+from jc_cap_scan.utils.capture_utils import capture_install_trace
 
 aid_name_map = {
     "A0000000620001": "java.lang",
@@ -50,9 +44,20 @@ aid_name_map = {
 
 def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: int, major_range: tuple[int, int],
                   minor_range: tuple[int, int], config: Config, tidy_up: bool, auth: list[str] | None = None):
+    """
+    Measure valid installation of different packages and try to see differences in the installation times
+    :param results_file: File to store the results in CSV format
+    :param traces_directory: Directory to store the captured traces into, has to exist
+    :param traces_for_one_cap: How many traces to capture for each CAP file
+    :param major_range: Range of package major version to test
+    :param minor_range: Range of package minor version to test
+    :param config: Configuration for the testing
+    :param tidy_up: Whether to remove captured traces and generated CAP files after they are used
+    :param auth: Authentication for the card, if needed to install CAP files
+    :return:
+    """
 
-    # aid_name_map = API_305_SPECIFICATION.get_aid_name_map()
-    f = open(results_file, "a")
+    f = open(results_file, "w")
     csv_writer = csv.writer(f)
 
     print("Starting measurement...")
@@ -80,7 +85,7 @@ def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: 
 
                 trs_file_name = f"{aid_name_map[aid].replace(".", "_")}_{major}_{minor}.trs"
                 capture_install_trace(cap_name, traces_for_one_cap, os.path.join(traces_directory, trs_file_name), config.capture, auth)
-                times = extract_times_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
+                times = extract_single_time_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
 
                 print(f"AID: {aid}\n"
                       f"Major: {major}\n"
@@ -94,7 +99,7 @@ def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: 
 
 
 
-def main(argv: list[str]):
+def main():
     parser = argparse.ArgumentParser(
         prog="AID list scan",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -116,10 +121,10 @@ def main(argv: list[str]):
                         help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
                         type=str, nargs='+')
 
-    args = parser.parse_args(argv)
+    args = parser.parse_args()
     config = Config.load_from_toml(args.config)
     aid_list_scan(args.results_file, args.traces_dir, args.traces_for_one_cap, args.major_range, args.minor_range,
                   config, args.tidy_up, args.auth)
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()

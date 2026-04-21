@@ -10,6 +10,14 @@ from jc_cap_scan.utils.capture_utils import get_actual_sample_interval
 
 
 def visualize_results(results_file: str, capture_config: CaptureConfig, show_or_save: Literal["show", "save"], save_filename: str | None = None):
+    """
+    Visualise the results of the AID list scan
+    :param results_file: Path to results file in CSV format
+    :param capture_config: Path to config, that has been used to capture results
+    :param show_or_save: Whether to show or save the plot. Possible values: 'show' and 'save'
+    :param save_filename: Where to save the plot, required if show_or_save is 'save'
+    :return:
+    """
     sample_interval = get_actual_sample_interval(capture_config.sample_interval)
     data = pd.read_csv(results_file, index_col=[0, 1, 2], names=[str(i) for i in range(1, 101)])
     data = data.transpose()

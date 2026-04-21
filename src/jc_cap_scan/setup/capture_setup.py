@@ -6,6 +6,16 @@ from jc_cap_scan.utils.capture_utils import capture_install_trace, capture_call_
 
 
 def capture_sample_install_trace(trace_path: str, cap_file_path: str, estimated_config: CaptureConfig | None, show: bool, rescale: bool = False, auth: list[str] | None = None):
+    """
+    Capture single power trace of CAP file installation
+    :param trace_path: Path to save the trace to
+    :param cap_file_path: Path to CAP file to install
+    :param estimated_config: Config to use for the capture
+    :param show: Whether to show the trace
+    :param rescale: Whether to rescale the trace for visualization
+    :param auth: GP authentication if needed for CAP file installation
+    :return:
+    """
     config = estimated_config if estimated_config is not None else CaptureConfig.load_from_toml("") # or load some default config
     capture_install_trace(cap_file_path, 1, trace_path, config, auth)
     if show:
@@ -13,6 +23,16 @@ def capture_sample_install_trace(trace_path: str, cap_file_path: str, estimated_
 
 
 def capture_sample_call_trace(trace_path: str, cap_file_path: str, estimated_config: CaptureConfig | None, show: bool, rescale: bool = False, auth: list[str] | None = None):
+    """
+    Capture power trace of calling an applet. Applet is installed prior to capture
+    :param trace_path: Path to store the trace to
+    :param cap_file_path: CAP file to install before the call
+    :param estimated_config: Config to use for the capture
+    :param show: Whether to show the trace
+    :param rescale: Whether to rescale the trace for visualization
+    :param auth: GP authentication if needed for CAP file installation
+    :return:
+    """
     config = estimated_config if estimated_config is not None else CaptureConfig.load_from_toml("") # or load some default config
     capture_call_trace(cap_file_path, 1, trace_path, config, auth)
     if show:

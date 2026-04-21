@@ -8,6 +8,13 @@ from jc_cap_scan.utils.trs_utils import load_trs_file
 
 @numba.njit
 def merge_gaps(starts, ends, max_gap):
+    """
+    Bridge gaps between periods that are smaller than or equal to max_gap. This is useful to bridge small gaps that can be caused by noise in the power trace.
+    :param starts: Start of the periods
+    :param ends: Ends of the periods
+    :param max_gap: Max gap between periods to bridge
+    :return: New starts and ends of the periods
+    """
     result_starts = []
     result_ends = []
     current_start = starts[0]
@@ -28,10 +35,15 @@ def merge_gaps(starts, ends, max_gap):
     return result_starts, result_ends
 
 
-def find_high_consumption_periods(data: np.ndarray, extraction_config: ExtractionConfig) -> list[tuple[int, int]]:
-
-    data = np.fromiter(data, dtype=np.float16, count=len(data))
-    high = data > extraction_config.threshold
+def find_high_consumption_periods(samples: np.ndarray, extraction_config: ExtractionConfig) -> list[tuple[int, int]]:
+    """
+    Find periods of high consumption in the power trace
+    :param samples: Array of samples of the power trace
+    :param extraction_config: Config to use for the extraction
+    :return: Starts and ends of the high consumption periods
+    """
+    samples = np.fromiter(samples, dtype=np.float16, count=len(samples))
+    high = samples > extraction_config.threshold
 
     # Detect rising and falling edges
     diff = np.diff(high.astype(np.int8))
@@ -55,23 +67,54 @@ def find_high_consumption_periods(data: np.ndarray, extraction_config: Extractio
 
     return list(zip(result_starts[valid], result_ends[valid] - 1))
 
-def extract_times_from_trs_file(filename: str, extraction_config: ExtractionConfig) -> list[int]:
-    traces = trsfile.open(filename, 'r')
+def extract_all_times_from_trs_file(trs_filename: str, extraction_config: ExtractionConfig) -> list[list[int]]:
+    """
+    Extract durations of all periods for all traces in the TRS file
+    :param trs_filename: Path to the TRS file to extract the times from
+    :param extraction_config: Config to use for the extraction
+    :return: For each trace in the TRS file a list of durations of the periods
+    """
+    traces = trsfile.open(trs_filename, 'r')
 
     result = []
 
     for i, _ in enumerate(traces):
 
-        trace = load_trs_file(filename, True, i)
+        trace = load_trs_file(trs_filename, True, i)
 
         periods = find_high_consumption_periods(trace, extraction_config)
         times = [period[1] - period[0] for period in periods]
-        if len(times) < abs(extraction_config.index_to_extract):
-            time = 0
-        else:
+        print(f"Extracting {i + 1}/{len(traces)}")
+        print(len(times))
+        result.append(times)
+
+    return result
+
+
+def extract_single_time_from_trs_file(trs_filename: str, extraction_config: ExtractionConfig) -> list[int]:
+    """
+    Extract only a single duration for each trace from the TRS file
+    :param trs_filename: Path to TRS file
+    :param extraction_config: Config to use for the extraction
+    :return: For each trace in the TRS file a single duration of the period with index extraction_config.index_to_extract. If there is no such period, 0 is returned for that trace.
+    """
+    traces = trsfile.open(trs_filename, 'r')
+
+    result = []
+
+    for i, _ in enumerate(traces):
+
+        trace = load_trs_file(trs_filename, True, i)
+
+        periods = find_high_consumption_periods(trace, extraction_config)
+        times = [period[1] - period[0] for period in periods]
+        try:
             time = times[extraction_config.index_to_extract]
+        except IndexError:
+            time = 0
+
         print(f"Extracting {i + 1}/{len(traces)}")
         print(time)
-        result.append(time)
+        result.append(int(time))
 
     return result

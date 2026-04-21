@@ -2,7 +2,6 @@ import argparse
 import csv
 import os
 import shutil
-import sys
 from typing import Literal
 
 from cap_parser.cap_file import CapFile
@@ -11,9 +10,22 @@ from cap_parser.import_component import PackageInfo
 from jc_cap_scan.utils.cap_file_utils import is_installation_successful, pack_directory_to_cap_file
 
 
-def field_bruteforce(result_file: str, field_token_range: tuple[int, int], base_aids: list[str], base_major: int, base_minor: int, class_token_range: tuple[int, int], field_type: Literal['static', 'virtual'],
+def field_bruteforce(result_file: str, field_token_range: tuple[int, int], base_aids: list[str], base_major: int,
+                     base_minor: int, class_token_range: tuple[int, int], field_type: Literal['static', 'virtual'],
                      tidy_up: bool, auth: list[str] | None = None):
-
+    """
+    Bruteforce class fields without capturing power trace. Tests all field tokens in the given range for the given class token range and AIDs
+    :param result_file: Path to the file where to store the results in CSV format
+    :param field_token_range: Range of field tokens to bruteforce
+    :param base_aids: AIDs to use as a base for the testing, in hex format
+    :param base_major: Major version to use for the package in generated CAP files
+    :param base_minor: Minor version to used for the package in generated CAP files
+    :param class_token_range: Range of the class tokens to test
+    :param field_type: Type of the field to test. Either 'static' for static fields or 'virtual' for instance fields
+    :param tidy_up: Whether to delete the created CAP files
+    :param auth: Authentication for the card, if needed to install CAP files onto the card
+    :return:
+    """
     f = open(result_file, "w")
     result_writer = csv.writer(f)
 
@@ -28,12 +40,16 @@ def field_bruteforce(result_file: str, field_token_range: tuple[int, int], base_
                 print(
                     f"Field token {field_token - field_token_range[0]}/{field_token_range[1] - field_token_range[0]} ({field_token})")
 
-                cap_file.import_component.packages[1] = PackageInfo(cap_file, base_minor, base_major, bytes.fromhex(base_aid))
+                cap_file.import_component.packages[1] = PackageInfo(cap_file, base_minor, base_major,
+                                                                    bytes.fromhex(base_aid))
                 if field_type == "static":
-                    cap_file.constant_pool_component.constant_pool[-1] = CpInfo.load(cap_file, bytearray([5, 129, class_token, field_token]))
+                    cap_file.constant_pool_component.constant_pool[-1] = CpInfo.load(cap_file, bytearray(
+                        [5, 129, class_token, field_token]))
                 elif field_type == "virtual":
-                    cap_file.constant_pool_component.constant_pool[-1] = CpInfo.load(cap_file, bytearray([2, 129, class_token, field_token]))
-                cap_file.export_to_directory(os.path.join(f"field_{base_aid}_{class_token}_{field_token}", "test", "javacard"))
+                    cap_file.constant_pool_component.constant_pool[-1] = CpInfo.load(cap_file, bytearray(
+                        [2, 129, class_token, field_token]))
+                cap_file.export_to_directory(
+                    os.path.join(f"field_{base_aid}_{class_token}_{field_token}", "test", "javacard"))
                 cap_name = f"field_{base_aid}_{class_token}_{field_token}.cap"
                 pack_directory_to_cap_file(cap_name, f"field_{base_aid}_{class_token}_{field_token}")
 
@@ -49,7 +65,8 @@ def field_bruteforce(result_file: str, field_token_range: tuple[int, int], base_
                       f"Response: {response}\n"
                       f"Success: {success}")
 
-def main(argv: list[str]):
+
+def main():
     parser = argparse.ArgumentParser(
         prog="Field bruteforce"
     )
@@ -58,10 +75,11 @@ def main(argv: list[str]):
     parser.add_argument('--field_token_range', help="Range of field tokens to test, e.g. 0 255",
                         required=False, nargs=2, default=(0, 255), type=int)
     parser.add_argument('-a', '--base_aid', help="AID(s) in hex to use as a base for the testing",
-                                   required=True, nargs='+')
+                        required=True, nargs='+')
     parser.add_argument('--major', help="Major version to use for the base package", default=1, type=int)
     parser.add_argument('--minor', help="Minor version to use for the base package", default=0, type=int)
-    parser.add_argument("--class_token_range", help="Class token range to test, e.g. 0 255", type=int, nargs=2, required=True)
+    parser.add_argument("--class_token_range", help="Class token range to test, e.g. 0 255", type=int, nargs=2,
+                        required=True)
     parser.add_argument('--field_type',
                         help="Field type to use for testing. 'static' or 'virtual'",
                         required=True, type=str)
@@ -71,11 +89,12 @@ def main(argv: list[str]):
                         help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
                         type=str, nargs='+')
 
-    args = parser.parse_args(argv)
-
-    field_bruteforce(args.results_file, args.field_token_range, args.base_aid, args.major, args.minor, args.class_token, args.field_type, args.tidy_up, args.auth)
+    args = parser.parse_args()
+    if args.auth is not None:
+        args.auth[0] = f"--{args.auth[0]}"
+    field_bruteforce(args.results_file, args.field_token_range, args.base_aid, args.major, args.minor, args.class_token,
+                     args.field_type, args.tidy_up, args.auth)
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
-
+    main()

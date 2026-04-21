@@ -11,6 +11,18 @@ from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_ai
 def class_bruteforce(results_file: str, class_token_range: tuple[int, int], base_aids: list[str], base_major: int,
                      base_minor: int, cp_info_type: Literal['class', 'method'],
                      tidy_up: bool, auth: list[str] | None = None):
+    """
+    Bruteforce class tokens without capturing power traces
+    :param results_file: Path, where to save the results of the test
+    :param class_token_range: Range of class tokens to test
+    :param base_aids: AIDs to use as a base for the testing, in hex format
+    :param base_major: Base major version to use for the testing
+    :param base_minor: Base minor version to use for the testing
+    :param cp_info_type: Type of cpInfo to use to reference the class token in the generated CAP files. Either 'class' for ClassRef or 'method' for StaticMethodRef
+    :param tidy_up: Where to tidy up the generated CAP files
+    :param auth: Authentication for the card, if needed to install CAP files onto the card
+    :return:
+    """
     assert cp_info_type in ['static', 'class']
     f = open(results_file, "w")
     result_writer = csv.writer(f)

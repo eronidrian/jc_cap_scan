@@ -14,7 +14,17 @@ from numpy.lib.stride_tricks import sliding_window_view
 # step = 1
 
 def window_resample(window: int, overlap: float | None, abs: bool, step: int, input_trs_file: str, output_trs_file: str, trace_index: int = 0):
-
+    """
+    Process trace using average window resampling
+    :param window: Length of the window to average
+    :param overlap: Overlap of the windows
+    :param abs: Whether to use absolute window resampling
+    :param step: Step to move the window
+    :param input_trs_file: Path to TRS file to resample
+    :param output_trs_file: Path to TRS file to output the resampled trace
+    :param trace_index: Index of trace from the input_trs_file to process (0-indexed)
+    :return:
+    """
     if overlap is not None:
         step = window - int(window * overlap)
 

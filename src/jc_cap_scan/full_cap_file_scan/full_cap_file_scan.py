@@ -27,6 +27,13 @@ WINDOW = 2000
 
 
 def change_byte_in_component(file_path: str, byte_number: int, new_value: int) -> None:
+    """
+    Change a single byte in a given CAP file component and save the component to the same file
+    :param file_path: Path to the component
+    :param byte_number: Byte number to change (0-indexed)
+    :param new_value: New value for the byte
+    :return:
+    """
     with open(file_path, "rb") as f:
         content = f.read()
     content = bytearray(content)
@@ -41,6 +48,20 @@ def full_cap_file_scan(results_file: str, traces_directory: str, changed_byte_va
                        diff_algorithm: Literal['subtraction', 'periods'], diff_threshold: float, alignment_threshold: float, ignore_first_n: int, config: Config,
                        tidy_up: bool,
                        auth: list[str] | None = None):
+    """
+    Scan the full cap file and try to identify which regions of the power trace correspond to which CAP file components
+    :param results_file: Path to file where to store the results
+    :param traces_directory: Path to a directory where traces should be stored
+    :param changed_byte_value: Value for the changed byte
+    :param diff_algorithm: Algorithm to calculate diff between correct power trace and the changed one. Can be either 'periods' or 'subtraction
+    :param diff_threshold: Threshold for the diff algorithm
+    :param alignment_threshold: Threshold used to align the traces
+    :param ignore_first_n: Do not find diff in the first n samples
+    :param config: Config for the capture and extraction
+    :param tidy_up: Whether to delete the generated CAP files and captured traces after they are used
+    :param auth: Authentication for the card, if needed to install CAP files onto the card
+    :return:
+    """
     print("Capturing base trace...")
     capture_install_trace(os.path.join("templates", "good_package.cap"), 1, os.path.join(traces_directory, "base_install.trs"), config.capture, auth)
     window_resample(WINDOW, None, False, 1, os.path.join(traces_directory, f"base_install.trs"),

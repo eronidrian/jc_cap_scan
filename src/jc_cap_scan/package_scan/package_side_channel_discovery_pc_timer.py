@@ -12,12 +12,24 @@ from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_ai
 
 
 def measure_time_full(cap_name: str, auth: list[str] | None = None) -> float:
+    """
+    Measure time of the whole installation process of the CAP file using PC timer.
+    :param cap_name: Path to the CAP file
+    :param auth: GP authentication, if it's needed to install CAP files onto the card
+    :return: Duration of the installation process in nanoseconds
+    """
     start = time.perf_counter_ns()
     install(cap_name, auth)
     end = time.perf_counter_ns()
     return end - start
 
 def measure_time_load(cap_name: str, auth: list[str] | None = None) -> float | None:
+    """
+    Measure only the duration of the LOAD command processing using the PC timer
+    :param cap_name: Path to the CAP file
+    :param auth: GP authentication, if it's needed to install CAP files onto the card
+    :return: Duration of the LOAD command processing, None if the time is not found in GP output
+    """
     if auth is not None:
         result = subprocess.run(["java", "-jar", "src/jc_cap_scan/utils/gp_precise.jar", "--install",
                                  cap_name, "-d"] + auth,
@@ -97,9 +109,6 @@ def package_side_channel_discovery_pc_timer(results_file: str, base_aids: list[s
     for changed_byte_number in sorted(list(results.keys())):
         result_writer.writerow([changed_byte_number] + results[changed_byte_number])
 
-
-def visualize_results(result_file_name: str):
-    pass
 
 
 def main():

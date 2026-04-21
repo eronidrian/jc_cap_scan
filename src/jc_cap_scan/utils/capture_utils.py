@@ -230,6 +230,9 @@ def capture_install_trace(cap_file_name: str, num_of_traces: int, trs_file_path:
             for trace_num in range(num_of_traces):
                 print(f"Trace: {trace_num + 1}/{num_of_traces}")
                 success, result = run_installation_capture(chandle, status, trs_writer, cap_file_name, capture_config.number_of_samples, capture_config.sample_interval, auth)
+                if num_of_traces != 1 and trace_num % 15 == 0:
+                    print("Resetting fault counter...")
+                    reset_fault_counter(auth)
     finally:
         ps.ps4000Stop(chandle)
         ps.ps4000CloseUnit(chandle)

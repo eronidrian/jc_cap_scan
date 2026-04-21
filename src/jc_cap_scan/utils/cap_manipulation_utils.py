@@ -1,5 +1,6 @@
 import argparse
 import os.path
+import shutil
 import sys
 
 from cap_parser.cap_file import CapFile
@@ -26,6 +27,7 @@ def generate_cap_for_package_aid(package_aid: bytearray, major: int, minor: int,
 
     cap_file.export_to_directory(os.path.join("tmp", "test", "javacard"))
     pack_directory_to_cap_file(output, "tmp")
+    shutil.rmtree("tmp")
     return output
 
 
@@ -34,12 +36,12 @@ def generate_cap_for_package_aid_and_class_token(package_aid: bytearray, major: 
     cap_file = format_import_component(cap_file, package_aid, major, minor)
     cap_file = format_constant_pool_component(cap_file, class_token, cp_info_type)
 
-    cap_file.export_to_directory("tmp")
+    cap_file.export_to_directory(os.path.join("tmp", "test", "javacard"))
     pack_directory_to_cap_file(output, "tmp")
+    shutil.rmtree("tmp")
     return output
 
-
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(
         prog="Generate CAP files"
     )
@@ -48,8 +50,10 @@ if __name__ == '__main__':
     parser.add_argument('--major', help="Major version of the package", required=False, type=int, default=1)
     parser.add_argument("--minor", help="Minor version of the package", required=False, type=int, default=0)
     parser.add_argument("--class_token", help="Class token", required=False, type=int)
-    parser.add_argument("--cp_info", help="CP Info type for the class entry in Constant pool", required='--class_token' in sys.argv[1], type=int)
-    parser.add_argument("--template", help="Directory with the template", required=False, default="templates/generic_template")
+    parser.add_argument("--cp_info", help="CP Info type for the class entry in Constant pool",
+                        required='--class_token' in sys.argv[1], type=int)
+    parser.add_argument("--template", help="Directory with the template", required=False,
+                        default="templates/generic_template")
     parser.add_argument("--output", help="Output CAP file location", required=True)
 
     args = parser.parse_args()
@@ -57,4 +61,9 @@ if __name__ == '__main__':
     if args.class_token is None:
         generate_cap_for_package_aid(bytearray.fromhex(args.aid), args.major, args.minor, args.template, args.output)
     else:
-        generate_cap_for_package_aid_and_class_token(bytearray.fromhex(args.aid), args.major, args.minor, args.template, args.class_tolken, args.cp_info, args.output)
+        generate_cap_for_package_aid_and_class_token(bytearray.fromhex(args.aid), args.major, args.minor, args.template,
+                                                     args.class_tolken, args.cp_info, args.output)
+
+
+if __name__ == '__main__':
+    main()

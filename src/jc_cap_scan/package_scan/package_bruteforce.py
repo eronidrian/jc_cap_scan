@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 from jc_cap_scan.config.config import CaptureConfig, Config
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
 from jc_cap_scan.utils.capture_utils import capture_install_trace, get_actual_sample_interval
-from jc_cap_scan.trs_analysis.trs_extractor import extract_times_from_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
 
 
 def do_dummy_captures(traces_directory: str, num_of_repetitions: int, capture_config: CaptureConfig,
@@ -84,8 +84,8 @@ def package_bruteforce(results_file: str, traces_directory: str, base_aid: str, 
                                   os.path.join(traces_directory, trs_file_name),
                                   config.capture, auth)
             print("Extracting times...")
-            times = extract_times_from_trs_file(os.path.join(traces_directory, trs_file_name),
-                                                config.extraction)
+            times = extract_single_time_from_trs_file(os.path.join(traces_directory, trs_file_name),
+                                                      config.extraction)
             result_writer.writerow([byte_number, byte_value] + times)
             if tidy_up:
                 os.remove(cap_name)
@@ -96,14 +96,7 @@ def package_bruteforce(results_file: str, traces_directory: str, base_aid: str, 
 
 
 
-
-
-    # return ax
-    # plt.show()
-
-
-
-def main(argv: list[str]):
+def main():
     parser = argparse.ArgumentParser(
         prog="Package bruteforce"
     )
@@ -130,8 +123,9 @@ def main(argv: list[str]):
                         help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
                         type=str, nargs='+')
 
-    args = parser.parse_args(argv)
-
+    args = parser.parse_args()
+    if args.auth is not None:
+        args.auth[0] = f"--{args.auth[0]}"
     config = Config.load_from_toml(args.config)
     package_bruteforce(args.results_file, args.traces_directory, args.base_aid, args.byte_numbers, args.major,
                        args.minor, args.number_of_traces, args.number_of_dummy_captures, config, args.tidy_up,
@@ -139,7 +133,4 @@ def main(argv: list[str]):
 
 
 if __name__ == '__main__':
-    config = Config.load_from_toml("config/javacos_a_40_config.toml")
-    result_files = [f"~/Downloads/diplomka/aid_results/javacos_a_40/bruteforce_attempt_2/bruteforce_results_{aid}.csv" for aid in ["xxFFFFFFFFFFFF", "A0xxFFFFFFFFFF", "A000xxFFFFFFFF", "A00000xxFFFFFF", "A0000000xxFFFF"]]
-    visualize_results(result_files,config.capture, [0, 160, 98], 'save', 'javacos_a_40_experiment_3.pgf')
-    # main(sys.argv[1:])
+    main()
