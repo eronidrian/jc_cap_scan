@@ -12,7 +12,7 @@ channel_range = 100
 max_gap = 500
 min_duration = 18_000
 threshold = 0.8
-index_to_extract = 0
+index_to_extract = 36
 
 #[analysis]
 #alignment_threshold = 0.6
