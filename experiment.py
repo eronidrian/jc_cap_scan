@@ -43,7 +43,7 @@
 # from trs_analysis.trs_extractor import extract_times_from_trs_file
 #
 # config = Config.load_from_toml("javacos_a_40_config.toml")
-# f = open("results.csv", "w")
+# f = open("nxp_jcop_4.csv", "w")
 # csv_writer = csv.writer(f)
 #
 # for byte_number in range(9):
@@ -54,43 +54,91 @@
 #     times = extract_times_from_trs_file(filename, config.extraction)
 #     print(times)
 #     csv_writer.writerow([byte_number + 1] + times)
+# import csv
+# import os
+#
+# from jc_cap_scan.trs_analysis.trs_diff import get_diff_periods, get_diff
+# from jc_cap_scan.config.config import Config
+#
+# component_names = [
+#     "Import",
+#     "Header",
+#     "Directory",
+#     "Applet",
+#     "ConstantPool",
+#     "Class",
+#     "StaticField",
+#     "RefLocation",
+#     "Method",
+#
+# ]
+#
+# f = open("results_smartcafe_periods.csv", "a")
+# csv_writer = csv.writer(f)
+#
+#
+#
+#
+#
+# config = Config.load_from_toml("config/smartcafe_60_config.toml")
+#
+# for component in component_names:
+#     print(f"Testing {component} component")
+#     component_name = f"{component}.cap"
+#     component_path = os.path.join("templates", "generic_template", "test", "javacard", component_name)
+#     if not os.path.exists(component_path):
+#         print("Component does not exists in the template and will not be tested")
+#         continue
+#     component_length = os.path.getsize(component_path)
+#     traces_directory = "/home/petr/Downloads/diplomka/load_scan_results/traces_smartcafe"
+#     for byte_number in range(component_length):
+#         trace_path = os.path.join(traces_directory, f"{component}_{byte_number}_resampled.trs")
+#         print(f"Processing {trace_path}")
+#         if not os.path.exists(trace_path):
+#             continue
+#         first_diff = get_diff(os.path.join(traces_directory, "base_install_resampled.trs"),
+#                                       trace_path, 1.5, 0.6, 'periods', False, 6_700_000, config.extraction)
+#         print(first_diff)
+#         csv_writer.writerow([component, byte_number, first_diff])
+#
 import csv
-import os
 
-from jc_cap_scan.trs_analysis.trs_diff import get_diff_2
+from jc_cap_scan.config.config import Config
+from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file, find_high_consumption_periods, \
+    extract_all_times_from_trs_file
+from jc_cap_scan.utils.trs_utils import load_trs_file
 
-component_names = [
-    "Header",
-    "Directory",
-    "Applet",
-    "Import",
-    "ConstantPool",
-    "Class",
-    "Method",
-    "StaticField",
-    "RefLocation",
-]
+config = Config.load_from_toml("config/jcop_4_config.toml")
 
-f = open("results_javacos_periods.csv", "a")
+f = open("results.csv", "w")
 csv_writer = csv.writer(f)
 
-for component in component_names:
-    print(f"Testing {component} component")
-    component_name = f"{component}.cap"
-    component_path = os.path.join("templates", "generic_template", "test", "javacard", component_name)
-    if not os.path.exists(component_path):
-        print("Component does not exists in the template and will not be tested")
-        continue
-    component_length = os.path.getsize(component_path)
-    traces_directory = "traces_javacos"
-    for byte_number in range(component_length):
-        trace_path = os.path.join(traces_directory, f"{component}_{byte_number}_resampled_2000.trs")
-        print(f"Processing {trace_path}")
-        if not os.path.exists(trace_path):
-            continue
-        first_diff = get_diff_2(os.path.join(traces_directory, "base_install_resampled_2000.trs"),
-                                          os.path.join(traces_directory, f"{component}_{byte_number}_resampled_2000.trs"),
-                                          1.5)
-        print(first_diff)
-        csv_writer.writerow([component, byte_number, first_diff])
-
+for byte_number in range(9):
+    print(byte_number)
+    for package_name in ["javacard_security", "javacardx_crypto"]:
+        print(package_name)
+        for changed_byte in ["ee", "ff"]:
+            print(changed_byte)
+            file = f"/data/jc_cap_scan_traces/traces_nxp_jcop_4/{package_name}_{changed_byte}_{byte_number}.trs"
+            times = extract_all_times_from_trs_file(file, config.extraction)
+            for item in times:
+                csv_writer.writerow([byte_number] + item)
+#
+# import csv
+#
+# from jc_cap_scan.config.config import Config, ExtractionConfig
+#         from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
+#
+# config = Config.load_from_toml("config/jcop_4_config.toml")
+#
+# f = open("results.csv", "w")
+# csv_writer = csv.writer(f)
+#
+# for class_token in range(0, 35):
+#     print("class_token:", class_token)
+#     trs_file = f"traces/class_A0000000620102_{class_token}.trs"
+#     times = extract_single_time_from_trs_file(trs_file, config.extraction)
+#     csv_writer.writerow([class_token] + times)
+#
+#
+#
