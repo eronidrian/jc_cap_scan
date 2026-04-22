@@ -74,9 +74,7 @@ def visualize_results_discovery(result_file: str, capture_config: CaptureConfig,
 
     fig, ax = plt.subplots()
 
-    data = data[data < 1.5]
-    data.dropna(inplace=True)
-    print(data)
+
     ax.boxplot(data, showfliers=False, tick_labels=list(data.columns))
     # ax.hist(data[data < 10])
     ax.set_xlabel("Changed byte")

@@ -11,16 +11,15 @@ from jc_cap_scan.utils.cap_file_utils import pack_directory_to_cap_file, uninsta
 from jc_cap_scan.utils.capture_utils import capture_install_trace
 
 COMPONENT_NAMES = [
-    "Import",
-    "Header",
-    "Directory",
-    "Applet",
-    "ConstantPool",
-    "Class",
-    "StaticField",
-    "RefLocation",
-    "Method",
-
+    # "Header",
+    # "Directory",
+    # "Applet",
+    # "Import",
+    # "ConstantPool",
+    # "Class",
+    # "Method",
+    # "StaticField",
+    "RefLocation"
 ]
 
 WINDOW = 2000
@@ -62,10 +61,10 @@ def full_cap_file_scan(results_file: str, traces_directory: str, changed_byte_va
     :param auth: Authentication for the card, if needed to install CAP files onto the card
     :return:
     """
-    print("Capturing base trace...")
-    capture_install_trace(os.path.join("templates", "good_package.cap"), 1, os.path.join(traces_directory, "base_install.trs"), config.capture, auth)
-    window_resample(WINDOW, None, False, 1, os.path.join(traces_directory, f"base_install.trs"),
-                    os.path.join(traces_directory, "base_install_resampled.trs"))
+    # print("Capturing base trace...")
+    # capture_install_trace(os.path.join("templates", "good_package.cap"), 1, os.path.join(traces_directory, "base_install.trs"), config.capture, auth)
+    # window_resample(WINDOW, None, False, 1, os.path.join(traces_directory, f"base_install.trs"),
+    #                 os.path.join(traces_directory, "base_install_resampled.trs"))
 
     f = open(results_file, "a")
     csv_writer = csv.writer(f)
@@ -79,7 +78,7 @@ def full_cap_file_scan(results_file: str, traces_directory: str, changed_byte_va
             print("Component does not exists in the template and will not be tested")
             continue
         component_length = os.path.getsize(component_path)
-        for byte_number in range(component_length):
+        for byte_number in range(12, component_length):
             print(f"Byte {byte_number + 1}/{component_length}")
             shutil.copytree(os.path.join("templates", "generic_template"), "tmp")
             component_path = os.path.join("tmp", "test", "javacard", component_name)

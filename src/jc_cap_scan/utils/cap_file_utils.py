@@ -72,6 +72,12 @@ def is_installation_successful(cap_file_name: str, auth: list[str] | None = None
 
 
 def uninstall(cap_file_name: str, auth: list[str] | None = None) -> str:
+    """
+    Uninstall CAP file from the card
+    :param cap_file_name: Path to the CAP file
+    :param auth: GP authentication for the card, if needed to install CAP files onto the card
+    :return: Message from GPPro
+    """
     if auth is None:
         result = subprocess.run(["java", "-jar", GP_PATH, "--uninstall",
                                  cap_file_name],
@@ -84,6 +90,12 @@ def uninstall(cap_file_name: str, auth: list[str] | None = None) -> str:
 
 
 def call(debug: bool = False, auth: list[str] | None = None) -> str:
+    """
+    Send command APDU to an applet installed on the card
+    :param debug: Print full GPPro response
+    :param auth: GP authentication for the card, if needed to install CAP files onto the card
+    :return: Response to the APDU
+    """
     command_apdu = "12340000"
     if auth is None:
         call_response_lines = subprocess.run(["java", "-jar", GP_PATH, "--apdu",
@@ -113,6 +125,12 @@ def call(debug: bool = False, auth: list[str] | None = None) -> str:
 
 
 def pack_directory_to_cap_file(cap_file_name: str, directory_name: str) -> None:
+    """
+    Take a directory and pack it to a CAP file
+    :param cap_file_name: Path to the CAP file to generate
+    :param directory_name: Path to the directory to pack
+    :return:
+    """
     shutil.make_archive(cap_file_name, 'zip', directory_name)
 
     if os.path.exists(cap_file_name):
