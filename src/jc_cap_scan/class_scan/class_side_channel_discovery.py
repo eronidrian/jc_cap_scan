@@ -58,8 +58,8 @@ def class_side_channel_discovery(results_file: str, traces_directory: str, base_
 
         print(f"Class token: {class_token}\n"
               f"Response: {response}\n"
-              f"Success: {success}\n"
-              f"Times: {times}")
+              f"Success: {success}\n")
+              # f"Times: {times}")
 
 def main():
     parser = argparse.ArgumentParser(

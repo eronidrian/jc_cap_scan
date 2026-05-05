@@ -2,13 +2,13 @@ import threading
 import time
 import os
 import ctypes
-from ctypes import c_int, c_int16
-from typing import Any
+from ctypes import c_int16
 
 import numpy as np
 from picosdk.ps4000 import ps4000 as ps
 from picosdk.functions import adc2mV, assert_pico_ok, mV2adcpl1000
 from trsfile import trs_open, Trace, SampleCoding, Header
+import smartleia
 
 from jc_cap_scan.config.config import CaptureConfig
 from jc_cap_scan.utils.cap_file_utils import install, uninstall, call, reset_fault_counter, is_installation_successful
@@ -16,7 +16,6 @@ from jc_cap_scan.utils.cap_file_utils import install, uninstall, call, reset_fau
 # Constants and configurations
 
 # Manually define the constants if not available in the ps4000 module
-PS4000_TRIGGER_AUX = 5  # Assuming 5 is the correct value for AUX based on the documentation
 PS4000_RISING = 2  # Assuming 2 is the correct value for RISING based on the documentation
 PS4000_MAX_VALUE = ctypes.c_int32(32_764)
 PS4000_MAX_SAMPLES_PER_S = 80_000_000
@@ -106,19 +105,21 @@ def setup_picoscope(capture_config: CaptureConfig) -> tuple[c_int16, dict]:
     status["setChA"] = ps.ps4000SetChannel(chandle, 0, 1, 1, chARange)
     assert_pico_ok(status["setChA"])
 
-    chBRange = ps.PS4000_RANGE[channel_range_to_str(capture_config.channel_range)]
+    chBRange = ps.PS4000_RANGE[channel_range_to_str(1000)]
     status["setChB"] = ps.ps4000SetChannel(chandle, 1, 1, 1, chBRange)
     assert_pico_ok(status["setChB"])
 
     # Set up single trigger on AUX IN
-    status["trigger"] = ps.ps4000SetSimpleTrigger(chandle, 1, 1, mV2adcpl1000(capture_config.trigger_threshold, capture_config.channel_range, PS4000_MAX_VALUE), PS4000_RISING, capture_config.posttrigger_delay,
+    threshold = mV2adcpl1000(500, 1000, PS4000_MAX_VALUE)
+    delay_in_samples = int(capture_config.posttrigger_delay * 1_000_000 / capture_config.sample_interval)
+    status["trigger"] = ps.ps4000SetSimpleTrigger(chandle, 1, 1, threshold, PS4000_RISING, delay_in_samples,
                                                   capture_config.autotrigger)
     assert_pico_ok(status["trigger"])
 
     return chandle, status
 
 
-def capture_trace(chandle, status: dict, trs_writer, capture_done_event, number_of_samples: int, sample_interval: float):
+def capture_trace(chandle, status: dict, trs_writer, capture_done_event, capture_config: CaptureConfig):
     """
     Capture power trace from the oscilloscope. This function is meant to be run in a separate thread, while the main
     thread performs the action that we want to capture (e.g. installation of a CAP file). Once the capture is done, it
@@ -135,25 +136,24 @@ def capture_trace(chandle, status: dict, trs_writer, capture_done_event, number_
     try:
         # Set number of pre and post trigger samples to be collected
         preTriggerSamples = 10
-        postTriggerSamples = number_of_samples  # 25 million samples
+        postTriggerSamples = capture_config.number_of_samples
         maxSamples = preTriggerSamples + postTriggerSamples
 
         # Set up buffers
-        bufferBMax = (ctypes.c_int16 * maxSamples)()
-        bufferBMin = (ctypes.c_int16 * maxSamples)()
+        bufferAMax = (ctypes.c_int16 * maxSamples)()
+        # bufferAMin = (ctypes.c_int16 * maxSamples)()
 
         # Set data buffer location for data collection from channel B
-        status["setDataBuffersA"] = ps.ps4000SetDataBuffers(chandle, 0, ctypes.byref(bufferBMax),
-                                                            ctypes.byref(bufferBMin), maxSamples, 0)
-        assert_pico_ok(status["setDataBuffersA"])
+        status["setDataBufferA"] = ps.ps4000SetDataBuffer(chandle, 0, ctypes.byref(bufferAMax), maxSamples)
+        assert_pico_ok(status["setDataBufferA"])
 
         # Run block capture
-        timebase = ns_to_timebase(sample_interval)
-        timeIntervalns = ctypes.c_float()
-        returnedMaxSamples = ctypes.c_int32()
-        status["getTimebase2"] = ps.ps4000GetTimebase2(chandle, timebase, maxSamples, ctypes.byref(timeIntervalns), 1,
-                                                       ctypes.byref(returnedMaxSamples), 0)
-        assert_pico_ok(status["getTimebase2"])
+        timebase = ns_to_timebase(capture_config.sample_interval)
+        # timeIntervalns = ctypes.c_float()
+        # returnedMaxSamples = ctypes.c_int32()
+        # status["getTimebase2"] = ps.ps4000GetTimebase2(chandle, timebase, maxSamples, ctypes.byref(timeIntervalns), 1,
+        #                                                ctypes.byref(returnedMaxSamples), 0)
+        # assert_pico_ok(status["getTimebase2"])
 
         status["runBlock"] = ps.ps4000RunBlock(chandle, preTriggerSamples, postTriggerSamples, timebase, 0, None, 0,
                                                None, None)
@@ -172,23 +172,21 @@ def capture_trace(chandle, status: dict, trs_writer, capture_done_event, number_
         assert_pico_ok(status["getValues"])
 
         # Convert ADC counts data to mV
-        maxADC = ctypes.c_int16(32512)
-        chBRange = 5  # Make sure this matches the range set in setup_picoscope
-        adc2mVChBMax = adc2mV(bufferBMax, chBRange, maxADC)
+        adc2mVChAMax = adc2mV(bufferAMax, ps.PS4000_RANGE[channel_range_to_str(capture_config.channel_range)], PS4000_MAX_VALUE)
 
             # Save trace data to .trs file
         if trs_writer is not None:
-            max_value = np.max(np.abs(adc2mVChBMax))
-            adc2mVChBMax_byte = np.clip((adc2mVChBMax / (max_value / 127.0)), -128, 127).astype(np.int8)
+            max_value = np.max(np.abs(adc2mVChAMax))
+            adc2mVChAMax_byte = np.clip((adc2mVChAMax / (max_value / 127.0)), -128, 127).astype(np.int8)
 
-            trs_writer.extend([Trace(SampleCoding.BYTE, adc2mVChBMax_byte)])
+            trs_writer.extend([Trace(SampleCoding.BYTE, adc2mVChAMax_byte)])
 
     finally:
         capture_done_event.set()
 
 
 
-def run_installation_capture(chandle, status: dict, trs_writer, cap_file_name: str,  number_of_samples: int, sample_interval: float, auth: list[str] | None = None) -> tuple[bool, str]:
+def run_installation_capture(chandle, status: dict, trs_writer, cap_file_name: str, capture_config: CaptureConfig, auth: list[str] | None = None) -> tuple[bool, str]:
     """
     Capture power trace of CAP file installation
     :param chandle: Piscoscope's handle
@@ -204,7 +202,7 @@ def run_installation_capture(chandle, status: dict, trs_writer, cap_file_name: s
 
     # Start capture in a separate thread
     capture_thread = threading.Thread(target=capture_trace,
-                                      args=(chandle, status, trs_writer, capture_done_event,  number_of_samples, sample_interval))
+                                      args=(chandle, status, trs_writer, capture_done_event, capture_config))
     capture_thread.start()
 
     # Wait a short time to ensure capture has started
@@ -219,7 +217,7 @@ def run_installation_capture(chandle, status: dict, trs_writer, cap_file_name: s
     return success, result
 
 
-def run_call_capture(chandle, status: dict, trs_writer, cap_name: str, number_of_samples: int, sample_interval: float, auth: list[str] | None):
+def run_call_capture(chandle, status: dict, trs_writer, cap_name: str, capture_config: CaptureConfig, auth: list[str] | None):
     """
     Capture power trace of CAP file call. The CAP file has to be installed on the card
     :param chandle: Piscoscope's handle
@@ -235,7 +233,7 @@ def run_call_capture(chandle, status: dict, trs_writer, cap_name: str, number_of
 
     # Start capture in a separate thread
     capture_thread = threading.Thread(target=capture_trace,
-                                      args=(chandle, status, trs_writer, capture_done_event,  number_of_samples, sample_interval))
+                                      args=(chandle, status, trs_writer, capture_done_event, capture_config))
     capture_thread.start()
 
     # Wait a short time to ensure capture has started
@@ -285,12 +283,12 @@ def capture_call_trace(cap_file_name: str, num_of_traces: int, traces_directory:
     install(cap_file_name, auth)
 
     try:
-        run_call_capture(chandle, status, None, cap_file_name, capture_config.number_of_samples, capture_config.sample_interval, auth)
+        run_call_capture(chandle, status, None, cap_file_name, capture_config, auth)
         trs_file_path = os.path.join(traces_directory, f"traces_{cap_file_name}.trs")
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
             for trace_num in range(num_of_traces):
                 print(f"Trace: {trace_num + 1}/{num_of_traces}")
-                run_call_capture(chandle, status, trs_writer, cap_file_name, capture_config.number_of_samples, capture_config.sample_interval, auth)
+                run_call_capture(chandle, status, trs_writer, cap_file_name, capture_config, auth)
     finally:
         uninstall(cap_file_name, auth)
         ps.ps4000Stop(chandle)
@@ -314,8 +312,17 @@ def capture_install_trace(cap_file_name: str, num_of_traces: int, trs_file_path:
         with trs_open(trs_file_path, 'w', headers=header) as trs_writer:
             for trace_num in range(num_of_traces):
                 print(f"Trace: {trace_num + 1}/{num_of_traces}")
-                success, result = run_installation_capture(chandle, status, trs_writer, cap_file_name, capture_config.number_of_samples, capture_config.sample_interval, auth)
-                if num_of_traces != 1 and trace_num % 3 == 0:
+                # if trace_num > 1:
+                #     capture_config.posttrigger_delay = 3000
+                # else:
+                #     capture_config.posttrigger_delay = 2600
+                # threshold = mV2adcpl1000(500, 1000, PS4000_MAX_VALUE)
+                # delay_in_samples = int(capture_config.posttrigger_delay * 1_000_000 / capture_config.sample_interval)
+                # status["trigger"] = ps.ps4000SetSimpleTrigger(chandle, 1, 1, threshold, PS4000_RISING, delay_in_samples,
+                #                                               capture_config.autotrigger)
+                # assert_pico_ok(status["trigger"])
+                success, result = run_installation_capture(chandle, status, trs_writer, cap_file_name, capture_config, auth)
+                if num_of_traces != 1 and trace_num % 10 == 0:
                     print("Resetting fault counter...")
                     reset_fault_counter(auth)
     finally:

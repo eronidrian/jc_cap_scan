@@ -3,7 +3,7 @@ import csv
 import os
 
 from jc_cap_scan.config.config import Config
-from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file, extract_all_times_from_trs_file
 from jc_cap_scan.utils.cap_file_utils import is_installation_successful, uninstall
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
 from jc_cap_scan.utils.capture_utils import capture_install_trace
@@ -13,6 +13,7 @@ aid_name_map = {
     "A0000000620002": "java.io",
     "A0000000620003": "java.rmi",
     "A0000000620101" : "javacard.framework",
+    "A0000000620102" : "javacard.security",
     "A0000000620201": "javacardx.crypto",
     "A0000000620202": "javacardx.biometry",
     "A0000000620203": "javacardx.external",
@@ -57,7 +58,7 @@ def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: 
     :return:
     """
 
-    f = open(results_file, "w")
+    f = open(results_file, "a")
     csv_writer = csv.writer(f)
 
     print("Starting measurement...")
@@ -85,13 +86,14 @@ def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: 
 
                 trs_file_name = f"{aid_name_map[aid].replace(".", "_")}_{major}_{minor}.trs"
                 capture_install_trace(cap_name, traces_for_one_cap, os.path.join(traces_directory, trs_file_name), config.capture, auth)
-                times = extract_single_time_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
+                times = extract_all_times_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
 
                 print(f"AID: {aid}\n"
                       f"Major: {major}\n"
-                      f"Minor: {minor}\n"
-                      f"Times: {times}\n\n")
-                csv_writer.writerow([aid, major, minor] + times)
+                      f"Minor: {minor}\n")
+                      # f"Times: {times}\n\n")
+                for item in times:
+                    csv_writer.writerow([aid, major, minor] + item)
                 if tidy_up:
                     os.remove(cap_name)
                     os.remove(os.path.join(traces_directory, trs_file_name))
@@ -122,6 +124,8 @@ def main():
                         type=str, nargs='+')
 
     args = parser.parse_args()
+    if args.auth is not None:
+        args.auth[0] = f"--{args.auth[0]}"
     config = Config.load_from_toml(args.config)
     aid_list_scan(args.results_file, args.traces_dir, args.traces_for_one_cap, args.major_range, args.minor_range,
                   config, args.tidy_up, args.auth)

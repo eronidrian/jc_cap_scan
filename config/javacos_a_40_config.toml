@@ -1,10 +1,10 @@
 title = "Javacos A40 config"
 
 [capture]
-trigger_threshold = 1000
-autotrigger = 3700
-posttrigger_delay = 0
-number_of_samples = 15_000_000
+trigger_threshold = 80
+autotrigger = 5000
+posttrigger_delay = 2700
+number_of_samples = 4_000_000
 sample_interval = 50
 channel_range = 500
 
@@ -17,7 +17,11 @@ channel_range = 500
 
 #for raw trace
 [extraction]
-max_gap = 5000
+max_gap = 7000
 min_duration = 4000
-threshold = 0.4
-index_to_extract = 28 #6
+threshold = 0.6
+index_to_extract = 6 #28
+
+# ignore_first_n = 1_200_000
+# diff_threshold = 0.85
+# alignment_threshold = 0.8

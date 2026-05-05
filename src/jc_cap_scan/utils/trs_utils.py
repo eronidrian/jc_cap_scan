@@ -1,3 +1,4 @@
+import pandas as pd
 import trsfile
 from numpy import ndarray
 import numpy as np
@@ -18,10 +19,11 @@ def load_trs_file(trs_path: str, rescale: bool, trace_index: int = 0, start: int
     """
     with trsfile.open(trs_path, 'r') as traces:
         trace = np.copy(traces[trace_index].samples[start:end])
+    # trace[trace > 95] = np.mean(trace)
+    # trace[trace < 9] = np.mean(trace)
     if rescale:
-        for _ in range(discard_max_n):
-            trace[np.argmax(trace)] = np.mean(trace)
+        # for _ in range(discard_max_n):
+        #     trace[np.argmax(trace)] = np.mean(trace)
         trace = np.abs(trace)
         return minmax_scale(trace)
     return trace
-

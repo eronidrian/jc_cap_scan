@@ -21,6 +21,7 @@ def extraction_setup(trs_file: str, extraction_config: ExtractionConfig, trace_i
     trace = load_trs_file(trs_file, True, trace_index)
     periods = find_high_consumption_periods(trace, extraction_config)
     print(periods)
+    print(len(periods))
 
     if show:
         fig, ax = plt.subplots()

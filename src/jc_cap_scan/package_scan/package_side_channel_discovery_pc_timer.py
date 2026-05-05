@@ -5,6 +5,7 @@ import os
 import re
 import subprocess
 import time
+from _csv import Writer
 
 
 from jc_cap_scan.utils.cap_file_utils import install
@@ -49,7 +50,7 @@ def measure_time_load(cap_name: str, auth: list[str] | None = None) -> float | N
     return float(match.group(1))
 
 
-def test_single_changed_byte(results: dict, base_aid: bytearray, byte_number: int | None, byte_value: int | None,
+def test_single_changed_byte(results_writer: Writer, base_aid: bytearray, byte_number: int | None, byte_value: int | None,
                              major: int, minor: int, num_of_measurements: int, measure_load: bool,
                              tidy_up: bool, auth: list[str] | None = None):
     aid_modified = base_aid.copy()
@@ -60,16 +61,16 @@ def test_single_changed_byte(results: dict, base_aid: bytearray, byte_number: in
     generate_cap_for_package_aid(aid_modified, major, minor, os.path.join("templates", "generic_template"),
                                  cap_name)
     times = []
-    for _ in range(num_of_measurements):
+    for i in range(num_of_measurements):
+        print(f"Measurement {i + 1}/{num_of_measurements}")
         if measure_load:
             duration = measure_time_load(cap_name, auth)
         else:
             duration = measure_time_full(cap_name, auth)
+        print(duration)
         times.append(duration)
 
-    if results.get([aid_modified, major, minor]) is None:
-        results[[aid_modified, major, minor]] = []
-    results[[aid_modified, major, minor]].extend(times)
+    results_writer.writerow([base_aid.hex(), byte_number, major, minor] + times)
 
     if tidy_up:
         os.remove(cap_name)
@@ -84,7 +85,6 @@ def package_side_channel_discovery_pc_timer(results_file: str, base_aids: list[s
     f = open(results_file, "w")
     result_writer = csv.writer(f)
 
-    results = {}
 
     for i, base_aid in enumerate(base_aids):
         print(f"AID {i + 1}/{len(base_aids)} ({base_aid})")
@@ -95,19 +95,16 @@ def package_side_channel_discovery_pc_timer(results_file: str, base_aids: list[s
             random.shuffle(random_byte_order)
             for k, changed_byte_number in enumerate(random_byte_order):
                 print(f"Changed byte number {k + 1}/{len(byte_numbers_to_test)} ({changed_byte_number})")
-                test_single_changed_byte(results, base_aid, changed_byte_number, changed_byte_value, base_major,
+                test_single_changed_byte(result_writer, base_aid, changed_byte_number, changed_byte_value, base_major,
                                          base_minor, measurements_for_one_cap, measure_load, tidy_up, auth)
             if test_major:
                 print("Major version")
-                test_single_changed_byte(results, base_aid, None, None, changed_byte_value, base_minor,
+                test_single_changed_byte(result_writer, base_aid, None, None, changed_byte_value, base_minor,
                                          measurements_for_one_cap, measure_load, tidy_up, auth)
             if test_minor:
                 print("Minor version")
-                test_single_changed_byte(results, base_aid, None, None, base_major, changed_byte_value,
+                test_single_changed_byte(result_writer, base_aid, None, None, base_major, changed_byte_value,
                                          measurements_for_one_cap, measure_load, tidy_up, auth)
-
-    for changed_byte_number in sorted(list(results.keys())):
-        result_writer.writerow([changed_byte_number] + results[changed_byte_number])
 
 
 
@@ -139,7 +136,8 @@ def main():
                         type=str)
 
     args = parser.parse_args()
-
+    if args.auth is not None:
+        args.auth[0] = f"--{args.auth[0]}"
     package_side_channel_discovery_pc_timer(args.results_file, args.base_aid, args.byte_numbers,
                                             args.major, args.minor, args.number_of_measurements, args.measure_load,
                                             args.changed_byte_values, args.test_major, args.test_minor, args.tidy_up,

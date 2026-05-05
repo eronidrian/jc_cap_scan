@@ -2,17 +2,25 @@ title = "Infineon Secora config"
 
 [capture]
 trigger_threshold = 1000
-autotrigger = 2950
-posttrigger_delay = 0
-number_of_samples = 15_000_000
+autotrigger = 5000
+posttrigger_delay = 2600
+number_of_samples = 9_000_000
 sample_interval = 50
 channel_range = 500
 
+# for raw trace
 [extraction]
-max_gap = 500
+max_gap = 6000
 min_duration = 2500
-threshold = 0.35
+threshold = 0.65
 index_to_extract = 0
+
+## for resampled trace
+#[extraction]
+#max_gap = 500
+#min_duration = 2500
+#threshold = 0.35
+#index_to_extract = 0
 
 #[analysis]
 #alignment_threshold = 0.5

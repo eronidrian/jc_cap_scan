@@ -15,8 +15,8 @@ from cap_parser.constants import ComponentTags, API_SPECIFICATION
 class PackageInfo(Structure):
 
     def __init__(self, cap_file: CapFile, minor_version: int, major_version: int, aid: bytes):
-        assert minor_version < 255
-        assert major_version < 255
+        assert minor_version <= 255
+        assert major_version <= 255
         super().__init__(cap_file)
         self.minor_version = minor_version
         self.major_version = major_version

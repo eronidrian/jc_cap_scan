@@ -2,14 +2,12 @@ import argparse
 import csv
 import random
 import os
-import sys
 from _csv import Writer
 
-import pandas as pd
 
 from jc_cap_scan.package_scan.package_bruteforce import do_dummy_captures
 from jc_cap_scan.config.config import Config
-from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file, extract_all_times_from_trs_file
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
 from jc_cap_scan.utils.capture_utils import capture_install_trace
 
@@ -43,10 +41,11 @@ def test_single_changed_byte(results_writer: Writer, base_aid: bytearray, byte_n
     _, message = capture_install_trace(cap_name, num_of_traces,
                           os.path.join(traces_directory, trs_file_name),
                           config.capture, auth)
-    times = extract_single_time_from_trs_file(
+    times = extract_all_times_from_trs_file(
         os.path.join(traces_directory, trs_file_name), config.extraction)
 
-    results_writer.writerow([base_aid.hex(), byte_number, major, minor] + times)
+    for item in times:
+        results_writer.writerow([base_aid.hex(), byte_number, major, minor] + item)
 
     if tidy_up:
         os.remove(cap_name)

@@ -2,8 +2,8 @@ title = "G&D Smartcafe 6.0 config"
 
 [capture]
 trigger_threshold = 1000
-autotrigger = 3300
-posttrigger_delay = 0
+autotrigger = 5000
+posttrigger_delay = 3000
 number_of_samples = 15_000_000
 sample_interval = 50
 channel_range = 100
@@ -11,8 +11,8 @@ channel_range = 100
 [extraction]
 max_gap = 500
 min_duration = 18_000
-threshold = 0.8
-index_to_extract = 36
+threshold = 0.9
+index_to_extract = 30
 
 #[analysis]
 #alignment_threshold = 0.6

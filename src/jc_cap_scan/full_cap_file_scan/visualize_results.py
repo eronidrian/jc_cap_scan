@@ -8,6 +8,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 import matplotlib as mpl
 from matplotlib.colors import Normalize
+from matplotlib.patches import Rectangle
 from scipy.interpolate import interp1d
 
 from jc_cap_scan.utils.trs_utils import load_trs_file
@@ -104,37 +105,67 @@ def visualize_results(results_file: str, base_trace_path: str, show_or_save: Lit
     results = pd.read_csv(results_file, names=["component", "byte_number", "message", "diff"])
     results = results[results['message'] != "CAP loaded"]
 
+    print(results.head())
+    results = results.loc[results['component'].isin(['Header', 'Import', 'ConstantPool', 'RefLocation', 'Class', 'StaticField'])]
+
 
     base_trace = load_trs_file(base_trace_path, True)
 
     # results['byte_number'] *= 0.05
     # results['byte_number'] += 1
 
-
-    fig, ax = plt.subplots(2, 1, sharex=True)
-    ax[1].plot(base_trace)
-    ax[1].set_ylabel("Normalized power consumption")
-
-    sns.scatterplot(data = results, x="diff", y="byte_number", hue='component', palette='deep', ax=ax[0])
-    ax[0].set_xlabel("Sample number")
-    ax[0].set_ylabel("Changed byte number")
-    ax[0].legend(loc='upper right')
-    plt.subplots_adjust(wspace=0, hspace=0)
-
-    if show_or_save == 'show':
-        plt.show()
-    elif show_or_save == 'save':
+    if show_or_save == 'save':
         mpl.use("pgf")
         mpl.rcParams.update({
             "pgf.texsystem": "pdflatex",
             'font.family': 'serif',
             'text.usetex': True,
             'pgf.rcfonts': False,
+            # 'font.size':22
         })
 
+
+    fig, ax = plt.subplots(2, 1, height_ratios=[2, 1], sharex=True)
+    # sns.lineplot(base_trace, ax=ax[1])
+    ax[1].plot(base_trace)
+    ax[1].set_ylabel("Norm. power consumption")
+    ax[1].set_xlim(6_700_000, 10_000_000)
+    ax[1].set_xlabel("Sample number")
+
+
+    sns.scatterplot(data = results, x="diff", y="byte_number", hue='component', style='component', palette=['tab:blue', 'tab:orange', 'tab:green', 'tab:brown', 'tab:gray', 'tab:pink'], markers =['o', 'X', (4,0,45), (4,1,0), 'v', '^'], ax=ax[0], zorder=1)
+    ax[0].set_ylabel("Changed byte number")
+    ax[0].legend()
+    ax[0].set_title("G\&D Smartcafe 6.0, load\_scan")
+
+    for i in range(2):
+        ax[i].add_patch(Rectangle((6_780_000, ax[i].get_ylim()[0]), 6_910_000 - 6_780_000,
+                                  abs(ax[i].get_ylim()[0] - ax[i].get_ylim()[1]), edgecolor="tab:blue", fill=False
+                                  ,zorder=0))
+        ax[i].add_patch(Rectangle((8_252_000, ax[i].get_ylim()[0]), 8_423_000 - 8_252_000,
+                                  abs(ax[i].get_ylim()[0] - ax[i].get_ylim()[1]), edgecolor="tab:orange", fill=False,
+                                  zorder=0))
+        ax[i].add_patch(Rectangle((8_760_000, ax[i].get_ylim()[0]), 9_035_000 - 8_760_000,
+                                  abs(ax[i].get_ylim()[0] - ax[i].get_ylim()[1]), edgecolor="tab:brown", fill=False,
+                                  zorder=0))
+        ax[i].add_patch(Rectangle((9_332_000, ax[i].get_ylim()[0]), 9_454_000 - 9_332_000,
+                                  abs(ax[i].get_ylim()[0] - ax[i].get_ylim()[1]), edgecolor="tab:green", fill=False,
+                                  zorder=0))
+        ax[i].add_patch(Rectangle((9_325_000, ax[i].get_ylim()[0]), 9_460_000 - 9_325_000,
+                                  abs(ax[i].get_ylim()[0] - ax[i].get_ylim()[1]), edgecolor="tab:gray", fill=False,
+                                  zorder=0))
+        ax[i].add_patch(Rectangle((9_580_000, ax[i].get_ylim()[0]), 9_724_000 - 9_580_000,
+                                  abs(ax[i].get_ylim()[0] - ax[i].get_ylim()[1]), edgecolor="tab:pink", fill=False,
+                                  zorder=0))
+
+    plt.subplots_adjust(wspace=0, hspace=0)
+
+    if show_or_save == 'show':
+        plt.show()
+    elif show_or_save == 'save':
         fig.tight_layout()
         fig.set_size_inches(w=5.00098, h=3.6)
-        plt.savefig(save_filename)
+        plt.savefig(save_filename, bbox_inches='tight')
 
 
 
