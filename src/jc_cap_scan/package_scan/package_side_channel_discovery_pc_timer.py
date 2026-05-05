@@ -31,6 +31,7 @@ def measure_time_load(cap_name: str, auth: list[str] | None = None) -> float | N
     :param auth: GP authentication, if it's needed to install CAP files onto the card
     :return: Duration of the LOAD command processing, None if the time is not found in GP output
     """
+    # do not use the install() function because we want to call different GPPro
     if auth is not None:
         result = subprocess.run(["java", "-jar", "src/jc_cap_scan/utils/gp_precise.jar", "--install",
                                  cap_name, "-d"] + auth,
@@ -43,7 +44,7 @@ def measure_time_load(cap_name: str, auth: list[str] | None = None) -> float | N
     result = result.stdout.decode("utf-8")
 
     gp_log = result.splitlines()
-    load_line = gp_log[23]
+    load_line = gp_log[23] # this is the line in GPPro output that corresponds to the LOAD command
     match = re.search(r'([0-9]+)ns', load_line)
     if match is None:
         return None

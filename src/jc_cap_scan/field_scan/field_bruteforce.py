@@ -40,14 +40,17 @@ def field_bruteforce(result_file: str, field_token_range: tuple[int, int], base_
                 print(
                     f"Field token {field_token - field_token_range[0]}/{field_token_range[1] - field_token_range[0]} ({field_token})")
 
+                # overwrite the second entry in the Import component with own data
                 cap_file.import_component.packages[1] = PackageInfo(cap_file, base_minor, base_major,
                                                                     bytes.fromhex(base_aid))
+                # overwrite the last entry in the ConstantPool component with own data
                 if field_type == "static":
                     cap_file.constant_pool_component.constant_pool[-1] = CpInfo.load(cap_file, bytearray(
                         [5, 129, class_token, field_token]))
                 elif field_type == "virtual":
                     cap_file.constant_pool_component.constant_pool[-1] = CpInfo.load(cap_file, bytearray(
                         [2, 129, class_token, field_token]))
+
                 cap_file.export_to_directory(
                     os.path.join(f"field_{base_aid}_{class_token}_{field_token}", "test", "javacard"))
                 cap_name = f"field_{base_aid}_{class_token}_{field_token}.cap"

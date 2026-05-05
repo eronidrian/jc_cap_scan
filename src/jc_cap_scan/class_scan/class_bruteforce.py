@@ -1,7 +1,6 @@
 import argparse
 import csv
 import os
-import sys
 from typing import Literal
 
 from jc_cap_scan.utils.cap_file_utils import is_installation_successful
@@ -51,7 +50,7 @@ def class_bruteforce(results_file: str, class_token_range: tuple[int, int], base
                   f"Response: {response}\n"
                   f"Success: {success}")
 
-def main(argv: list[str]):
+def main():
     parser = argparse.ArgumentParser(
         prog="Class bruteforce"
     )
@@ -65,12 +64,18 @@ def main(argv: list[str]):
     parser.add_argument('--cp_info_type',
                                    help="cpInfo type to use for testing. class - Classref, method - Staticmethodref",
                                    required=False, type=str, default='class')
+    parser.add_argument('--tidy_up', help="Whether to delete the captured traces and created CAP files",
+                        action='store_true', default=False)
+    parser.add_argument('--auth',
+                        help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",
+                        type=str, nargs='+')
 
-    args = parser.parse_args(argv)
-
+    args = parser.parse_args()
+    if args.auth is not None:
+        args.auth[0] = f"--{args.auth[0]}"
     class_bruteforce(args.results_file, args.class_token_range, args.base_aid, args.major, args.minor,
                      args.cp_info_type, args.tidy_up, args.auth)
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()

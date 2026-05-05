@@ -1,0 +1,28 @@
+AID,package name,class token,class name,class access flags,method/field,token,name,access flags,signature/type,value
+A0000000030000,visa.openplatform,0,ProviderSecurityDomain,public abstract interface,method,0,openSecureChannel,public abstract,byte(javacard.framework.apdu)
+A0000000030000,visa.openplatform,0,ProviderSecurityDomain,public abstract interface,method,1,closeSecureChannel,public abstract,void(byte)
+A0000000030000,visa.openplatform,0,ProviderSecurityDomain,public abstract interface,method,2,decryptVerifyKey,public abstract,boolean(byte;javacard.framework.apdu;short)
+A0000000030000,visa.openplatform,0,ProviderSecurityDomain,public abstract interface,method,3,unwrap,public abstract,void(byte;javacard.framework.apdu)
+A0000000030000,visa.openplatform,0,ProviderSecurityDomain,public abstract interface,method,4,verifyExternalAuthenticate,public abstract,void(byte;javacard.framework.apdu)
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,0,getCardContentState,static public,byte()
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,1,getCardManagerState,static public,byte()
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,2,getCPLCData,static public,void(javacard.framework.apdu;short;short;short)
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,3,getTriesRemaining,static public,byte()
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,4,getSecurityDomain,static public,visa.openplatform.providersecuritydomain()
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,5,setCardContentState,static public,boolean(byte)
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,6,lockCardManager,static public,boolean()
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,7,terminateCardManager,static public,boolean()
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,8,setPin,static public,boolean(javacard.framework.apdu;short)
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,9,verifyPin,static public,boolean(javacard.framework.apdu;short)
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,10,setATRHistBytes,static public,boolean(byte[];short;byte)
+A0000000030000,visa.openplatform,1,OPSystem,public final,method,0,equals,public,boolean(java.lang.object)
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,APPLET_INSTALLED,static public final,byte,3
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,APPLET_SELECTABLE,static public final,byte,7
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,APPLET_PERSONALIZED,static public final,byte,15
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,APPLET_LOCKED,static public final,byte,-1
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,APPLET_BLOCKED,static public final,byte,127
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,PACKAGE_LOADED,static public final,byte,1
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,CARD_OP_READY,static public final,byte,1
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,INITIALIZED,static public final,byte,7
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,CARD_SECURED,static public final,byte,15
+A0000000030000,visa.openplatform,1,OPSystem,public final,field,255,CARD_LOCKED,static public final,byte,127

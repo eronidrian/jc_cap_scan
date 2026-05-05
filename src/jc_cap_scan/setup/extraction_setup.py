@@ -1,10 +1,8 @@
 import argparse
-import sys
-
 from matplotlib import pyplot as plt
 from matplotlib.patches import Rectangle
 
-from jc_cap_scan.config.config import ExtractionConfig, Config
+from jc_cap_scan.config.config import ExtractionConfig
 from jc_cap_scan.trs_analysis.trs_extractor import find_high_consumption_periods
 from jc_cap_scan.utils.trs_utils import load_trs_file
 
@@ -27,6 +25,7 @@ def extraction_setup(trs_file: str, extraction_config: ExtractionConfig, trace_i
         fig, ax = plt.subplots()
         ax.plot(trace)
         ax.vlines(periods, ax.get_ylim()[0], ax.get_ylim()[1], 'r')
+        # highlight extracted region if it is in range
         if len(periods) > extraction_config.index_to_extract:
             highlight_start = periods[extraction_config.index_to_extract][0]
             highlight_end = periods[extraction_config.index_to_extract][1]
@@ -38,7 +37,7 @@ def extraction_setup(trs_file: str, extraction_config: ExtractionConfig, trace_i
         plt.show()
 
 
-def main(argv: list[str]):
+def main():
     parser = argparse.ArgumentParser(
         prog="Setup time extraction"
     )
@@ -51,10 +50,10 @@ def main(argv: list[str]):
     parser.add_argument('--trace_index', help="Index of the trace from .trs file to use", required=False, default=0, type=int)
     parser.add_argument('--show', help='Show trace with found periods', action='store_true')
 
-    args = parser.parse_args(argv)
+    args = parser.parse_args()
 
     config = ExtractionConfig.load_from_toml(args.config)
     extraction_setup(args.trs_file, config, args.trace_index, args.show)
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()

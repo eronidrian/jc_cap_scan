@@ -47,10 +47,8 @@ def trs_overlay(path_static: str, path_shift: str, alignment_threshold: float, a
     ax.plot(range(offset_invalid_x, len(samples_invalid) + offset_invalid_x), samples_invalid,
             label=path_shift)
 
-
     plt.xlabel("Sample number")
     plt.ylabel("Values")
-    plt.legend(loc='upper left', )
     plt.show()
 
 def main():

@@ -1,0 +1,910 @@
+AID,package name,class token,class name,class access flags,method/field,token,name,access flags,signature/type,value
+A0000000620101,javacard.framework,18,AppletEvent,public abstract interface,method,0,uninstall,public abstract,void()
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_NO_ERROR,static public final,short,-28672
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_BYTES_REMAINING_00,static public final,short,24832
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_WRONG_LENGTH,static public final,short,26368
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_SECURITY_STATUS_NOT_SATISFIED,static public final,short,27010
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_FILE_INVALID,static public final,short,27011
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_DATA_INVALID,static public final,short,27012
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_CONDITIONS_NOT_SATISFIED,static public final,short,27013
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_COMMAND_NOT_ALLOWED,static public final,short,27014
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_APPLET_SELECT_FAILED,static public final,short,27033
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_WRONG_DATA,static public final,short,27264
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_FUNC_NOT_SUPPORTED,static public final,short,27265
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_FILE_NOT_FOUND,static public final,short,27266
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_RECORD_NOT_FOUND,static public final,short,27267
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_INCORRECT_P1P2,static public final,short,27270
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_WRONG_P1P2,static public final,short,27392
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_CORRECT_LENGTH_00,static public final,short,27648
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_INS_NOT_SUPPORTED,static public final,short,27904
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_CLA_NOT_SUPPORTED,static public final,short,28160
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_UNKNOWN,static public final,short,28416
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_FILE_FULL,static public final,short,27268
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_LOGICAL_CHANNEL_NOT_SUPPORTED,static public final,short,26753
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_SECURE_MESSAGING_NOT_SUPPORTED,static public final,short,26754
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_WARNING_STATE_UNCHANGED,static public final,short,25088
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_LAST_COMMAND_EXPECTED,static public final,short,26755
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,SW_COMMAND_CHAINING_NOT_SUPPORTED,static public final,short,26756
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,OFFSET_CLA,static public final,byte,0
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,OFFSET_INS,static public final,byte,1
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,OFFSET_P1,static public final,byte,2
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,OFFSET_P2,static public final,byte,3
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,OFFSET_LC,static public final,byte,4
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,OFFSET_CDATA,static public final,byte,5
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,OFFSET_EXT_CDATA,static public final,byte,7
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,CLA_ISO7816,static public final,byte,0
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,INS_SELECT,static public final,byte,-92
+A0000000620101,javacard.framework,0,ISO7816,public abstract interface,field,255,INS_EXTERNAL_AUTHENTICATE,static public final,byte,-126
+A0000000620101,javacard.framework,17,MultiSelectable,public abstract interface,method,0,select,public abstract,boolean(boolean)
+A0000000620101,javacard.framework,17,MultiSelectable,public abstract interface,method,1,deselect,public abstract,void(boolean)
+A0000000620101,javacard.framework,1,PIN,public abstract interface,method,0,check,public abstract,boolean(byte[];short;byte)
+A0000000620101,javacard.framework,1,PIN,public abstract interface,method,1,getTriesRemaining,public abstract,byte()
+A0000000620101,javacard.framework,1,PIN,public abstract interface,method,2,isValidated,public abstract,boolean()
+A0000000620101,javacard.framework,1,PIN,public abstract interface,method,3,reset,public abstract,void()
+A0000000620101,javacard.framework,2,Shareable,public abstract interface
+A0000000620101,javacard.framework,4,CardException,public,method,0,<init>,public,void(short)
+A0000000620101,javacard.framework,4,CardException,public,method,1,throwIt,static public,void(short)
+A0000000620101,javacard.framework,4,CardException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,4,CardException,public,method,1,getReason,public,short()
+A0000000620101,javacard.framework,4,CardException,public,method,2,setReason,public,void(short)
+A0000000620101,javacard.framework,5,CardRuntimeException,public,method,0,<init>,public,void(short)
+A0000000620101,javacard.framework,5,CardRuntimeException,public,method,1,throwIt,static public,void(short)
+A0000000620101,javacard.framework,5,CardRuntimeException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,5,CardRuntimeException,public,method,1,getReason,public,short()
+A0000000620101,javacard.framework,5,CardRuntimeException,public,method,2,setReason,public,void(short)
+A0000000620101,javacard.framework,6,AID,public,method,0,<init>,public,void(byte[];short;byte)
+A0000000620101,javacard.framework,6,AID,public,method,0,equals,public final,boolean(java.lang.object)
+A0000000620101,javacard.framework,6,AID,public,method,1,RIDEquals,public final,boolean(javacard.framework.aid)
+A0000000620101,javacard.framework,6,AID,public,method,2,equals,public final,boolean(byte[];short;byte)
+A0000000620101,javacard.framework,6,AID,public,method,3,getBytes,public final,byte(byte[];short)
+A0000000620101,javacard.framework,6,AID,public,method,4,partialEquals,public final,boolean(byte[];short;byte)
+A0000000620101,javacard.framework,6,AID,public,method,5,getPartialBytes,public final,byte(short;byte[];short;byte)
+A0000000620101,javacard.framework,7,ISOException,public,method,0,<init>,public,void(short)
+A0000000620101,javacard.framework,7,ISOException,public,method,1,throwIt,static public,void(short)
+A0000000620101,javacard.framework,7,ISOException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,7,ISOException,public,method,1,getReason,public,short()
+A0000000620101,javacard.framework,7,ISOException,public,method,2,setReason,public,void(short)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,10,isTransient,static public,byte(java.lang.object)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,12,makeTransientBooleanArray,static public,boolean[](short;byte)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,13,makeTransientByteArray,static public,byte[](short;byte)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,15,makeTransientShortArray,static public,short[](short;byte)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,14,makeTransientObjectArray,static public,java.lang.object[](short;byte)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,9,getVersion,static public,short()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,3,getAID,static public,javacard.framework.aid()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,11,lookupAID,static public,javacard.framework.aid(byte[];short;byte)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,1,beginTransaction,static public,void()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,0,abortTransaction,static public,void()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,2,commitTransaction,static public,void()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,7,getTransactionDepth,static public,byte()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,8,getUnusedCommitCapacity,static public,short()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,5,getMaxCommitCapacity,static public,short()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,6,getPreviousContextAID,static public,javacard.framework.aid()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,16,getAvailableMemory,static public,short(byte)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,4,getAppletShareableInterfaceObject,static public,javacard.framework.shareable(javacard.framework.aid;byte)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,17,isObjectDeletionSupported,static public,boolean()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,18,requestObjectDeletion,static public,void()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,19,getAssignedChannel,static public,byte()
+A0000000620101,javacard.framework,8,JCSystem,public final,method,20,isAppletActive,static public,boolean(javacard.framework.aid)
+A0000000620101,javacard.framework,8,JCSystem,public final,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,8,JCSystem,public final,field,255,MEMORY_TYPE_PERSISTENT,static public final,byte,0
+A0000000620101,javacard.framework,8,JCSystem,public final,field,255,MEMORY_TYPE_TRANSIENT_RESET,static public final,byte,1
+A0000000620101,javacard.framework,8,JCSystem,public final,field,255,MEMORY_TYPE_TRANSIENT_DESELECT,static public final,byte,2
+A0000000620101,javacard.framework,8,JCSystem,public final,field,255,NOT_A_TRANSIENT_OBJECT,static public final,byte,0
+A0000000620101,javacard.framework,8,JCSystem,public final,field,255,CLEAR_ON_RESET,static public final,byte,1
+A0000000620101,javacard.framework,8,JCSystem,public final,field,255,CLEAR_ON_DESELECT,static public final,byte,2
+A0000000620101,javacard.framework,12,APDUException,public,method,0,<init>,public,void(short)
+A0000000620101,javacard.framework,12,APDUException,public,method,1,throwIt,static public,void(short)
+A0000000620101,javacard.framework,12,APDUException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,12,APDUException,public,method,1,getReason,public,short()
+A0000000620101,javacard.framework,12,APDUException,public,method,2,setReason,public,void(short)
+A0000000620101,javacard.framework,12,APDUException,public,field,255,ILLEGAL_USE,static public final,short,1
+A0000000620101,javacard.framework,12,APDUException,public,field,255,BUFFER_BOUNDS,static public final,short,2
+A0000000620101,javacard.framework,12,APDUException,public,field,255,BAD_LENGTH,static public final,short,3
+A0000000620101,javacard.framework,12,APDUException,public,field,255,IO_ERROR,static public final,short,4
+A0000000620101,javacard.framework,12,APDUException,public,field,255,NO_T0_GETRESPONSE,static public final,short,170
+A0000000620101,javacard.framework,12,APDUException,public,field,255,T1_IFD_ABORT,static public final,short,171
+A0000000620101,javacard.framework,12,APDUException,public,field,255,NO_T0_REISSUE,static public final,short,172
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,0,<init>,public,void(byte;byte)
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,1,check,public,boolean(byte[];short;byte)
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,2,getTriesRemaining,public,byte()
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,3,getValidatedFlag,protected,boolean()
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,4,isValidated,public,boolean()
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,5,reset,public,void()
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,6,resetAndUnblock,public,void()
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,7,setValidatedFlag,protected,void(boolean)
+A0000000620101,javacard.framework,9,OwnerPIN,public,method,8,update,public,void(byte[];short;byte)
+A0000000620101,javacard.framework,3,Applet,public abstract,method,0,<init>,protected,void()
+A0000000620101,javacard.framework,3,Applet,public abstract,method,1,install,static public,void(byte[];short;byte)
+A0000000620101,javacard.framework,3,Applet,public abstract,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,3,Applet,public abstract,method,1,register,final protected,void()
+A0000000620101,javacard.framework,3,Applet,public abstract,method,2,register,final protected,void(byte[];short;byte)
+A0000000620101,javacard.framework,3,Applet,public abstract,method,3,selectingApplet,final protected,boolean()
+A0000000620101,javacard.framework,3,Applet,public abstract,method,4,deselect,public,void()
+A0000000620101,javacard.framework,3,Applet,public abstract,method,5,getShareableInterfaceObject,public,javacard.framework.shareable(javacard.framework.aid;byte)
+A0000000620101,javacard.framework,3,Applet,public abstract,method,6,select,public,boolean()
+A0000000620101,javacard.framework,3,Applet,public abstract,method,7,process,public abstract,void(javacard.framework.apdu)
+A0000000620101,javacard.framework,11,PINException,public,method,0,<init>,public,void(short)
+A0000000620101,javacard.framework,11,PINException,public,method,1,throwIt,static public,void(short)
+A0000000620101,javacard.framework,11,PINException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,11,PINException,public,method,1,getReason,public,short()
+A0000000620101,javacard.framework,11,PINException,public,method,2,setReason,public,void(short)
+A0000000620101,javacard.framework,11,PINException,public,field,255,ILLEGAL_VALUE,static public final,short,1
+A0000000620101,javacard.framework,10,APDU,public final,method,0,getInBlockSize,static public,short()
+A0000000620101,javacard.framework,10,APDU,public final,method,1,getOutBlockSize,static public,short()
+A0000000620101,javacard.framework,10,APDU,public final,method,2,getProtocol,static public,byte()
+A0000000620101,javacard.framework,10,APDU,public final,method,4,getCurrentAPDU,static public,javacard.framework.apdu()
+A0000000620101,javacard.framework,10,APDU,public final,method,5,getCurrentAPDUBuffer,static public,byte[]()
+A0000000620101,javacard.framework,10,APDU,public final,method,6,getCLAChannel,static public,byte()
+A0000000620101,javacard.framework,10,APDU,public final,method,3,waitExtension,static public,void()
+A0000000620101,javacard.framework,10,APDU,public final,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,10,APDU,public final,method,1,getBuffer,public,byte[]()
+A0000000620101,javacard.framework,10,APDU,public final,method,2,getNAD,public,byte()
+A0000000620101,javacard.framework,10,APDU,public final,method,3,receiveBytes,public,short(short)
+A0000000620101,javacard.framework,10,APDU,public final,method,4,sendBytes,public,void(short;short)
+A0000000620101,javacard.framework,10,APDU,public final,method,5,sendBytesLong,public,void(byte[];short;short)
+A0000000620101,javacard.framework,10,APDU,public final,method,6,setIncomingAndReceive,public,short()
+A0000000620101,javacard.framework,10,APDU,public final,method,7,setOutgoing,public,short()
+A0000000620101,javacard.framework,10,APDU,public final,method,8,setOutgoingAndSend,public,void(short;short)
+A0000000620101,javacard.framework,10,APDU,public final,method,9,setOutgoingLength,public,void(short)
+A0000000620101,javacard.framework,10,APDU,public final,method,10,setOutgoingNoChaining,public,short()
+A0000000620101,javacard.framework,10,APDU,public final,method,11,getCurrentState,public,byte()
+A0000000620101,javacard.framework,10,APDU,public final,method,12,isCommandChainingCLA,public,boolean()
+A0000000620101,javacard.framework,10,APDU,public final,method,13,isSecureMessagingCLA,public,boolean()
+A0000000620101,javacard.framework,10,APDU,public final,method,14,isISOInterindustryCLA,public,boolean()
+A0000000620101,javacard.framework,10,APDU,public final,method,15,getIncomingLength,public,short()
+A0000000620101,javacard.framework,10,APDU,public final,method,16,getOffsetCdata,public,short()
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_INITIAL,static public final,byte,0
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_PARTIAL_INCOMING,static public final,byte,1
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_FULL_INCOMING,static public final,byte,2
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_OUTGOING,static public final,byte,3
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_OUTGOING_LENGTH_KNOWN,static public final,byte,4
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_PARTIAL_OUTGOING,static public final,byte,5
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_FULL_OUTGOING,static public final,byte,6
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_ERROR_NO_T0_GETRESPONSE,static public final,byte,-1
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_ERROR_T1_IFD_ABORT,static public final,byte,-2
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_ERROR_IO,static public final,byte,-3
+A0000000620101,javacard.framework,10,APDU,public final,field,255,STATE_ERROR_NO_T0_REISSUE,static public final,byte,-4
+A0000000620101,javacard.framework,10,APDU,public final,field,255,PROTOCOL_MEDIA_MASK,static public final,byte,-16
+A0000000620101,javacard.framework,10,APDU,public final,field,255,PROTOCOL_TYPE_MASK,static public final,byte,15
+A0000000620101,javacard.framework,10,APDU,public final,field,255,PROTOCOL_T0,static public final,byte,0
+A0000000620101,javacard.framework,10,APDU,public final,field,255,PROTOCOL_T1,static public final,byte,1
+A0000000620101,javacard.framework,10,APDU,public final,field,255,PROTOCOL_MEDIA_DEFAULT,static public final,byte,0
+A0000000620101,javacard.framework,10,APDU,public final,field,255,PROTOCOL_MEDIA_CONTACTLESS_TYPE_A,static public final,byte,-128
+A0000000620101,javacard.framework,10,APDU,public final,field,255,PROTOCOL_MEDIA_CONTACTLESS_TYPE_B,static public final,byte,-112
+A0000000620101,javacard.framework,10,APDU,public final,field,255,PROTOCOL_MEDIA_USB,static public final,byte,-96
+A0000000620101,javacard.framework,13,SystemException,public,method,0,<init>,public,void(short)
+A0000000620101,javacard.framework,13,SystemException,public,method,1,throwIt,static public,void(short)
+A0000000620101,javacard.framework,13,SystemException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,13,SystemException,public,method,1,getReason,public,short()
+A0000000620101,javacard.framework,13,SystemException,public,method,2,setReason,public,void(short)
+A0000000620101,javacard.framework,13,SystemException,public,field,255,ILLEGAL_VALUE,static public final,short,1
+A0000000620101,javacard.framework,13,SystemException,public,field,255,NO_TRANSIENT_SPACE,static public final,short,2
+A0000000620101,javacard.framework,13,SystemException,public,field,255,ILLEGAL_TRANSIENT,static public final,short,3
+A0000000620101,javacard.framework,13,SystemException,public,field,255,ILLEGAL_AID,static public final,short,4
+A0000000620101,javacard.framework,13,SystemException,public,field,255,NO_RESOURCE,static public final,short,5
+A0000000620101,javacard.framework,13,SystemException,public,field,255,ILLEGAL_USE,static public final,short,6
+A0000000620101,javacard.framework,14,TransactionException,public,method,0,<init>,public,void(short)
+A0000000620101,javacard.framework,14,TransactionException,public,method,1,throwIt,static public,void(short)
+A0000000620101,javacard.framework,14,TransactionException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,14,TransactionException,public,method,1,getReason,public,short()
+A0000000620101,javacard.framework,14,TransactionException,public,method,2,setReason,public,void(short)
+A0000000620101,javacard.framework,14,TransactionException,public,field,255,IN_PROGRESS,static public final,short,1
+A0000000620101,javacard.framework,14,TransactionException,public,field,255,NOT_IN_PROGRESS,static public final,short,2
+A0000000620101,javacard.framework,14,TransactionException,public,field,255,BUFFER_FULL,static public final,short,3
+A0000000620101,javacard.framework,14,TransactionException,public,field,255,INTERNAL_FAILURE,static public final,short,4
+A0000000620101,javacard.framework,15,UserException,public,method,0,<init>,public,void()
+A0000000620101,javacard.framework,15,UserException,public,method,1,<init>,public,void(short)
+A0000000620101,javacard.framework,15,UserException,public,method,2,throwIt,static public,void(short)
+A0000000620101,javacard.framework,15,UserException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620101,javacard.framework,15,UserException,public,method,1,getReason,public,short()
+A0000000620101,javacard.framework,15,UserException,public,method,2,setReason,public,void(short)
+A0000000620101,javacard.framework,16,Util,public,method,1,arrayCopy,static public final,short(byte[];short;byte[];short;short)
+A0000000620101,javacard.framework,16,Util,public,method,2,arrayCopyNonAtomic,static public final,short(byte[];short;byte[];short;short)
+A0000000620101,javacard.framework,16,Util,public,method,3,arrayFillNonAtomic,static public final,short(byte[];short;short;byte)
+A0000000620101,javacard.framework,16,Util,public,method,0,arrayCompare,static public final,byte(byte[];short;byte[];short;short)
+A0000000620101,javacard.framework,16,Util,public,method,5,makeShort,static public final,short(byte;byte)
+A0000000620101,javacard.framework,16,Util,public,method,4,getShort,static public final,short(byte[];short)
+A0000000620101,javacard.framework,16,Util,public,method,6,setShort,static public final,short(byte[];short;short)
+A0000000620101,javacard.framework,16,Util,public,method,0,equals,public,boolean(java.lang.object)
+A000000062010101,javacard.framework.service,0,Service,public abstract interface,method,0,processDataIn,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,0,Service,public abstract interface,method,1,processCommand,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,0,Service,public abstract interface,method,2,processDataOut,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,method,0,processDataIn,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,method,1,processCommand,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,method,2,processDataOut,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,method,3,isAuthenticated,public abstract,boolean(short)
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,method,4,isChannelSecure,public abstract,boolean(byte)
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,method,5,isCommandSecure,public abstract,boolean(byte)
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,field,255,PROPERTY_INPUT_CONFIDENTIALITY,static public final,byte,1
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,field,255,PROPERTY_INPUT_INTEGRITY,static public final,byte,2
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,field,255,PROPERTY_OUTPUT_CONFIDENTIALITY,static public final,byte,4
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,field,255,PROPERTY_OUTPUT_INTEGRITY,static public final,byte,8
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,field,255,PRINCIPAL_CARDHOLDER,static public final,short,1
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,field,255,PRINCIPAL_CARD_ISSUER,static public final,short,2
+A000000062010101,javacard.framework.service,1,SecurityService,public abstract interface,field,255,PRINCIPAL_APP_PROVIDER,static public final,short,3
+A000000062010101,javacard.framework.service,2,RemoteService,public abstract interface,method,0,processDataIn,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,2,RemoteService,public abstract interface,method,1,processCommand,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,2,RemoteService,public abstract interface,method,2,processDataOut,public abstract,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,0,<init>,public,void()
+A000000062010101,javacard.framework.service,3,BasicService,public,method,0,equals,public,boolean(java.lang.object)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,1,processDataIn,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,2,processCommand,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,3,processDataOut,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,4,receiveInData,public,short(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,5,setProcessed,public,void(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,6,isProcessed,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,7,setOutputLength,public,void(javacard.framework.apdu;short)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,8,getOutputLength,public,short(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,9,setStatusWord,public,void(javacard.framework.apdu;short)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,10,getStatusWord,public,short(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,11,fail,public,boolean(javacard.framework.apdu;short)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,12,succeed,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,13,succeedWithStatusWord,public,boolean(javacard.framework.apdu;short)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,14,getCLA,public,byte(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,15,getINS,public,byte(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,16,getP1,public,byte(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,17,getP2,public,byte(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,3,BasicService,public,method,18,selectingApplet,public,boolean()
+A000000062010101,javacard.framework.service,4,RMIService,public,method,0,<init>,public,void(java.rmi.remote)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,0,equals,public,boolean(java.lang.object)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,1,processDataIn,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,2,processCommand,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,3,processDataOut,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,4,receiveInData,public,short(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,5,setProcessed,public,void(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,6,isProcessed,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,7,setOutputLength,public,void(javacard.framework.apdu;short)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,8,getOutputLength,public,short(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,9,setStatusWord,public,void(javacard.framework.apdu;short)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,10,getStatusWord,public,short(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,11,fail,public,boolean(javacard.framework.apdu;short)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,12,succeed,public,boolean(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,13,succeedWithStatusWord,public,boolean(javacard.framework.apdu;short)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,14,getCLA,public,byte(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,15,getINS,public,byte(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,16,getP1,public,byte(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,17,getP2,public,byte(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,4,RMIService,public,method,18,selectingApplet,public,boolean()
+A000000062010101,javacard.framework.service,4,RMIService,public,method,19,setInvokeInstructionByte,public,void(byte)
+A000000062010101,javacard.framework.service,4,RMIService,public,field,255,DEFAULT_RMI_INVOKE_INSTRUCTION,static public final,byte,56
+A000000062010101,javacard.framework.service,5,CardRemoteObject,public,method,0,<init>,public,void()
+A000000062010101,javacard.framework.service,5,CardRemoteObject,public,method,1,export,static public,void(java.rmi.remote)
+A000000062010101,javacard.framework.service,5,CardRemoteObject,public,method,2,unexport,static public,void(java.rmi.remote)
+A000000062010101,javacard.framework.service,5,CardRemoteObject,public,method,0,equals,public,boolean(java.lang.object)
+A000000062010101,javacard.framework.service,6,Dispatcher,public,method,0,<init>,public,void(short)
+A000000062010101,javacard.framework.service,6,Dispatcher,public,method,0,equals,public,boolean(java.lang.object)
+A000000062010101,javacard.framework.service,6,Dispatcher,public,method,1,addService,public,void(javacard.framework.service.service;byte)
+A000000062010101,javacard.framework.service,6,Dispatcher,public,method,2,removeService,public,void(javacard.framework.service.service;byte)
+A000000062010101,javacard.framework.service,6,Dispatcher,public,method,3,dispatch,public,java.lang.exception(javacard.framework.apdu;byte)
+A000000062010101,javacard.framework.service,6,Dispatcher,public,method,4,process,public,void(javacard.framework.apdu)
+A000000062010101,javacard.framework.service,6,Dispatcher,public,field,255,PROCESS_NONE,static public final,byte,0
+A000000062010101,javacard.framework.service,6,Dispatcher,public,field,255,PROCESS_INPUT_DATA,static public final,byte,1
+A000000062010101,javacard.framework.service,6,Dispatcher,public,field,255,PROCESS_COMMAND,static public final,byte,2
+A000000062010101,javacard.framework.service,6,Dispatcher,public,field,255,PROCESS_OUTPUT_DATA,static public final,byte,3
+A000000062010101,javacard.framework.service,7,ServiceException,public,method,0,<init>,public,void(short)
+A000000062010101,javacard.framework.service,7,ServiceException,public,method,1,throwIt,static public,void(short)
+A000000062010101,javacard.framework.service,7,ServiceException,public,method,0,equals,public,boolean(java.lang.object)
+A000000062010101,javacard.framework.service,7,ServiceException,public,method,1,getReason,public,short()
+A000000062010101,javacard.framework.service,7,ServiceException,public,method,2,setReason,public,void(short)
+A000000062010101,javacard.framework.service,7,ServiceException,public,field,255,ILLEGAL_PARAM,static public final,short,1
+A000000062010101,javacard.framework.service,7,ServiceException,public,field,255,DISPATCH_TABLE_FULL,static public final,short,2
+A000000062010101,javacard.framework.service,7,ServiceException,public,field,255,COMMAND_DATA_TOO_LONG,static public final,short,3
+A000000062010101,javacard.framework.service,7,ServiceException,public,field,255,CANNOT_ACCESS_IN_COMMAND,static public final,short,4
+A000000062010101,javacard.framework.service,7,ServiceException,public,field,255,CANNOT_ACCESS_OUT_COMMAND,static public final,short,5
+A000000062010101,javacard.framework.service,7,ServiceException,public,field,255,COMMAND_IS_FINISHED,static public final,short,6
+A000000062010101,javacard.framework.service,7,ServiceException,public,field,255,REMOTE_OBJECT_NOT_EXPORTED,static public final,short,7
+A0000000620102,javacard.security,0,Key,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,0,Key,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,0,Key,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,0,Key,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,4,SecretKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,4,SecretKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,4,SecretKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,4,SecretKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,1,DSAKey,public abstract interface,method,0,getG,public abstract,short(byte[];short)
+A0000000620102,javacard.security,1,DSAKey,public abstract interface,method,1,getP,public abstract,short(byte[];short)
+A0000000620102,javacard.security,1,DSAKey,public abstract interface,method,2,getQ,public abstract,short(byte[];short)
+A0000000620102,javacard.security,1,DSAKey,public abstract interface,method,3,setG,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,1,DSAKey,public abstract interface,method,4,setP,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,1,DSAKey,public abstract interface,method,5,setQ,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,2,PrivateKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,2,PrivateKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,2,PrivateKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,2,PrivateKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,3,PublicKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,3,PublicKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,3,PublicKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,3,PublicKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,0,setFieldFP,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,1,setFieldF2M,public abstract,void(short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,2,setFieldF2M,public abstract,void(short;short;short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,3,setA,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,4,setB,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,5,setG,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,6,setR,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,7,setK,public abstract,void(short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,8,getField,public abstract,short(byte[];short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,9,getA,public abstract,short(byte[];short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,10,getB,public abstract,short(byte[];short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,11,getG,public abstract,short(byte[];short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,12,getR,public abstract,short(byte[];short)
+A0000000620102,javacard.security,17,ECKey,public abstract interface,method,13,getK,public abstract,short()
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,4,setFieldFP,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,5,setFieldF2M,public abstract,void(short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,6,setFieldF2M,public abstract,void(short;short;short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,7,setA,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,8,setB,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,9,setG,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,10,setR,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,11,setK,public abstract,void(short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,12,getField,public abstract,short(byte[];short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,13,getA,public abstract,short(byte[];short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,14,getB,public abstract,short(byte[];short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,15,getG,public abstract,short(byte[];short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,16,getR,public abstract,short(byte[];short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,17,getK,public abstract,short()
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,18,setS,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,18,ECPrivateKey,public abstract interface,method,19,getS,public abstract,short(byte[];short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,4,setFieldFP,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,5,setFieldF2M,public abstract,void(short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,6,setFieldF2M,public abstract,void(short;short;short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,7,setA,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,8,setB,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,9,setG,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,10,setR,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,11,setK,public abstract,void(short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,12,getField,public abstract,short(byte[];short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,13,getA,public abstract,short(byte[];short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,14,getB,public abstract,short(byte[];short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,15,getG,public abstract,short(byte[];short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,16,getR,public abstract,short(byte[];short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,17,getK,public abstract,short()
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,18,setW,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,19,ECPublicKey,public abstract interface,method,19,getW,public abstract,short(byte[];short)
+A0000000620102,javacard.security,23,HMACKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,23,HMACKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,23,HMACKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,23,HMACKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,23,HMACKey,public abstract interface,method,4,setKey,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,23,HMACKey,public abstract interface,method,5,getKey,public abstract,byte(byte[];short)
+A0000000620102,javacard.security,10,DESKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,10,DESKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,10,DESKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,10,DESKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,10,DESKey,public abstract interface,method,4,getKey,public abstract,byte(byte[];short)
+A0000000620102,javacard.security,10,DESKey,public abstract interface,method,5,setKey,public abstract,void(byte[];short)
+A0000000620102,javacard.security,24,KoreanSEEDKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,24,KoreanSEEDKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,24,KoreanSEEDKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,24,KoreanSEEDKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,24,KoreanSEEDKey,public abstract interface,method,4,setKey,public abstract,void(byte[];short)
+A0000000620102,javacard.security,24,KoreanSEEDKey,public abstract interface,method,5,getKey,public abstract,byte(byte[];short)
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,4,getG,public abstract,short(byte[];short)
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,5,getP,public abstract,short(byte[];short)
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,6,getQ,public abstract,short(byte[];short)
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,7,setG,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,8,setP,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,9,setQ,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,10,getX,public abstract,short(byte[];short)
+A0000000620102,javacard.security,5,DSAPrivateKey,public abstract interface,method,11,setX,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,4,getG,public abstract,short(byte[];short)
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,5,getP,public abstract,short(byte[];short)
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,6,getQ,public abstract,short(byte[];short)
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,7,setG,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,8,setP,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,9,setQ,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,10,getY,public abstract,short(byte[];short)
+A0000000620102,javacard.security,6,DSAPublicKey,public abstract interface,method,11,setY,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,4,getDP1,public abstract,short(byte[];short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,5,getDQ1,public abstract,short(byte[];short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,6,getP,public abstract,short(byte[];short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,7,getPQ,public abstract,short(byte[];short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,8,getQ,public abstract,short(byte[];short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,9,setDP1,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,10,setDQ1,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,11,setP,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,12,setPQ,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,7,RSAPrivateCrtKey,public abstract interface,method,13,setQ,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,8,RSAPrivateKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,8,RSAPrivateKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,8,RSAPrivateKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,8,RSAPrivateKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,8,RSAPrivateKey,public abstract interface,method,4,getExponent,public abstract,short(byte[];short)
+A0000000620102,javacard.security,8,RSAPrivateKey,public abstract interface,method,5,getModulus,public abstract,short(byte[];short)
+A0000000620102,javacard.security,8,RSAPrivateKey,public abstract interface,method,6,setExponent,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,8,RSAPrivateKey,public abstract interface,method,7,setModulus,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,9,RSAPublicKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,9,RSAPublicKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,9,RSAPublicKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,9,RSAPublicKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,9,RSAPublicKey,public abstract interface,method,4,getExponent,public abstract,short(byte[];short)
+A0000000620102,javacard.security,9,RSAPublicKey,public abstract interface,method,5,getModulus,public abstract,short(byte[];short)
+A0000000620102,javacard.security,9,RSAPublicKey,public abstract interface,method,6,setExponent,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,9,RSAPublicKey,public abstract interface,method,7,setModulus,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,20,AESKey,public abstract interface,method,0,clearKey,public abstract,void()
+A0000000620102,javacard.security,20,AESKey,public abstract interface,method,1,getSize,public abstract,short()
+A0000000620102,javacard.security,20,AESKey,public abstract interface,method,2,getType,public abstract,byte()
+A0000000620102,javacard.security,20,AESKey,public abstract interface,method,3,isInitialized,public abstract,boolean()
+A0000000620102,javacard.security,20,AESKey,public abstract interface,method,4,setKey,public abstract,void(byte[];short)
+A0000000620102,javacard.security,20,AESKey,public abstract interface,method,5,getKey,public abstract,byte(byte[];short)
+A0000000620102,javacard.security,25,SignatureMessageRecovery,public abstract interface,method,0,init,public abstract,void(javacard.security.key;byte)
+A0000000620102,javacard.security,25,SignatureMessageRecovery,public abstract interface,method,1,beginVerify,public abstract,short(byte[];short;short)
+A0000000620102,javacard.security,25,SignatureMessageRecovery,public abstract interface,method,2,sign,public abstract,short(byte[];short;short;byte[];short;short[];short)
+A0000000620102,javacard.security,25,SignatureMessageRecovery,public abstract interface,method,3,verify,public abstract,boolean(byte[];short;short)
+A0000000620102,javacard.security,25,SignatureMessageRecovery,public abstract interface,method,4,getAlgorithm,public abstract,byte()
+A0000000620102,javacard.security,25,SignatureMessageRecovery,public abstract interface,method,5,getLength,public abstract,short()
+A0000000620102,javacard.security,25,SignatureMessageRecovery,public abstract interface,method,6,update,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,0,getInstance,static public final,javacard.security.messagedigest(byte;boolean)
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,2,getInitializedMessageDigestInstance,static public final,javacard.security.initializedmessagedigest(byte;boolean)
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,1,<init>,protected,void()
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,1,doFinal,public abstract,short(byte[];short;short;byte[];short)
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,2,getAlgorithm,public abstract,byte()
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,3,getLength,public abstract,byte()
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,4,reset,public abstract,void()
+A0000000620102,javacard.security,11,MessageDigest,public abstract,method,5,update,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,ALG_SHA,static public final,byte,1
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,ALG_MD5,static public final,byte,2
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,ALG_RIPEMD160,static public final,byte,3
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,ALG_SHA_256,static public final,byte,4
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,ALG_SHA_384,static public final,byte,5
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,ALG_SHA_512,static public final,byte,6
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,LENGTH_MD5,static public final,byte,16
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,LENGTH_RIPEMD160,static public final,byte,20
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,LENGTH_SHA,static public final,byte,20
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,LENGTH_SHA_256,static public final,byte,32
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,LENGTH_SHA_384,static public final,byte,48
+A0000000620102,javacard.security,11,MessageDigest,public abstract,field,255,LENGTH_SHA_512,static public final,byte,64
+A0000000620102,javacard.security,21,Checksum,public abstract,method,0,getInstance,static public final,javacard.security.checksum(byte;boolean)
+A0000000620102,javacard.security,21,Checksum,public abstract,method,1,<init>,protected,void()
+A0000000620102,javacard.security,21,Checksum,public abstract,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,21,Checksum,public abstract,method,1,init,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,21,Checksum,public abstract,method,2,getAlgorithm,public abstract,byte()
+A0000000620102,javacard.security,21,Checksum,public abstract,method,3,doFinal,public abstract,short(byte[];short;short;byte[];short)
+A0000000620102,javacard.security,21,Checksum,public abstract,method,4,update,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,21,Checksum,public abstract,field,255,ALG_ISO3309_CRC16,static public final,byte,1
+A0000000620102,javacard.security,21,Checksum,public abstract,field,255,ALG_ISO3309_CRC32,static public final,byte,2
+A0000000620102,javacard.security,22,KeyAgreement,public abstract,method,0,getInstance,static public final,javacard.security.keyagreement(byte;boolean)
+A0000000620102,javacard.security,22,KeyAgreement,public abstract,method,1,<init>,protected,void()
+A0000000620102,javacard.security,22,KeyAgreement,public abstract,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,22,KeyAgreement,public abstract,method,1,init,public abstract,void(javacard.security.privatekey)
+A0000000620102,javacard.security,22,KeyAgreement,public abstract,method,2,getAlgorithm,public abstract,byte()
+A0000000620102,javacard.security,22,KeyAgreement,public abstract,method,3,generateSecret,public abstract,short(byte[];short;short;byte[];short)
+A0000000620102,javacard.security,22,KeyAgreement,public abstract,field,255,ALG_EC_SVDP_DH,static public final,byte,1
+A0000000620102,javacard.security,22,KeyAgreement,public abstract,field,255,ALG_EC_SVDP_DHC,static public final,byte,2
+A0000000620102,javacard.security,13,KeyBuilder,public,method,0,buildKey,static public,javacard.security.key(byte;short;boolean)
+A0000000620102,javacard.security,13,KeyBuilder,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_DES_TRANSIENT_RESET,static public final,byte,1
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_DES_TRANSIENT_DESELECT,static public final,byte,2
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_DES,static public final,byte,3
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_RSA_PUBLIC,static public final,byte,4
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_RSA_PRIVATE,static public final,byte,5
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_RSA_CRT_PRIVATE,static public final,byte,6
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_DSA_PUBLIC,static public final,byte,7
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_DSA_PRIVATE,static public final,byte,8
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_EC_F2M_PUBLIC,static public final,byte,9
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_EC_F2M_PRIVATE,static public final,byte,10
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_EC_FP_PUBLIC,static public final,byte,11
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_EC_FP_PRIVATE,static public final,byte,12
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_AES_TRANSIENT_RESET,static public final,byte,13
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_AES_TRANSIENT_DESELECT,static public final,byte,14
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_AES,static public final,byte,15
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_KOREAN_SEED_TRANSIENT_RESET,static public final,byte,16
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_KOREAN_SEED_TRANSIENT_DESELECT,static public final,byte,17
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_KOREAN_SEED,static public final,byte,18
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_HMAC_TRANSIENT_RESET,static public final,byte,19
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_HMAC_TRANSIENT_DESELECT,static public final,byte,20
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,TYPE_HMAC,static public final,byte,21
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_DES,static public final,short,64
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_DES3_2KEY,static public final,short,128
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_DES3_3KEY,static public final,short,192
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_512,static public final,short,512
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_736,static public final,short,736
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_768,static public final,short,768
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_896,static public final,short,896
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_1024,static public final,short,1024
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_1280,static public final,short,1280
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_1536,static public final,short,1536
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_1984,static public final,short,1984
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_RSA_2048,static public final,short,2048
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_DSA_512,static public final,short,512
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_DSA_768,static public final,short,768
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_DSA_1024,static public final,short,1024
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_EC_FP_112,static public final,short,112
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_EC_F2M_113,static public final,short,113
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_EC_FP_128,static public final,short,128
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_EC_F2M_131,static public final,short,131
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_EC_FP_160,static public final,short,160
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_EC_F2M_163,static public final,short,163
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_EC_FP_192,static public final,short,192
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_EC_F2M_193,static public final,short,193
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_AES_128,static public final,short,128
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_AES_192,static public final,short,192
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_AES_256,static public final,short,256
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_KOREAN_SEED_128,static public final,short,128
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_HMAC_SHA_1_BLOCK_64,static public final,short,64
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_HMAC_SHA_256_BLOCK_64,static public final,short,64
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_HMAC_SHA_384_BLOCK_128,static public final,short,128
+A0000000620102,javacard.security,13,KeyBuilder,public,field,255,LENGTH_HMAC_SHA_512_BLOCK_128,static public final,short,128
+A0000000620102,javacard.security,16,KeyPair,public final,method,0,<init>,public,void(byte;short)
+A0000000620102,javacard.security,16,KeyPair,public final,method,1,<init>,public,void(javacard.security.publickey;javacard.security.privatekey)
+A0000000620102,javacard.security,16,KeyPair,public final,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,16,KeyPair,public final,method,1,genKeyPair,public final,void()
+A0000000620102,javacard.security,16,KeyPair,public final,method,2,getPrivate,public,javacard.security.privatekey()
+A0000000620102,javacard.security,16,KeyPair,public final,method,3,getPublic,public,javacard.security.publickey()
+A0000000620102,javacard.security,16,KeyPair,public final,field,255,ALG_RSA,static public final,byte,1
+A0000000620102,javacard.security,16,KeyPair,public final,field,255,ALG_RSA_CRT,static public final,byte,2
+A0000000620102,javacard.security,16,KeyPair,public final,field,255,ALG_DSA,static public final,byte,3
+A0000000620102,javacard.security,16,KeyPair,public final,field,255,ALG_EC_F2M,static public final,byte,4
+A0000000620102,javacard.security,16,KeyPair,public final,field,255,ALG_EC_FP,static public final,byte,5
+A0000000620102,javacard.security,14,RandomData,public abstract,method,0,getInstance,static public final,javacard.security.randomdata(byte)
+A0000000620102,javacard.security,14,RandomData,public abstract,method,1,<init>,protected,void()
+A0000000620102,javacard.security,14,RandomData,public abstract,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,14,RandomData,public abstract,method,1,generateData,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,14,RandomData,public abstract,method,2,setSeed,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,14,RandomData,public abstract,field,255,ALG_PSEUDO_RANDOM,static public final,byte,1
+A0000000620102,javacard.security,14,RandomData,public abstract,field,255,ALG_SECURE_RANDOM,static public final,byte,2
+A0000000620102,javacard.security,12,CryptoException,public,method,0,<init>,public,void(short)
+A0000000620102,javacard.security,12,CryptoException,public,method,1,throwIt,static public,void(short)
+A0000000620102,javacard.security,12,CryptoException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,12,CryptoException,public,method,1,getReason,public,short()
+A0000000620102,javacard.security,12,CryptoException,public,method,2,setReason,public,void(short)
+A0000000620102,javacard.security,12,CryptoException,public,field,255,ILLEGAL_VALUE,static public final,short,1
+A0000000620102,javacard.security,12,CryptoException,public,field,255,UNINITIALIZED_KEY,static public final,short,2
+A0000000620102,javacard.security,12,CryptoException,public,field,255,NO_SUCH_ALGORITHM,static public final,short,3
+A0000000620102,javacard.security,12,CryptoException,public,field,255,INVALID_INIT,static public final,short,4
+A0000000620102,javacard.security,12,CryptoException,public,field,255,ILLEGAL_USE,static public final,short,5
+A0000000620102,javacard.security,15,Signature,public abstract,method,0,getInstance,static public final,javacard.security.signature(byte;boolean)
+A0000000620102,javacard.security,15,Signature,public abstract,method,1,<init>,protected,void()
+A0000000620102,javacard.security,15,Signature,public abstract,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,15,Signature,public abstract,method,1,getAlgorithm,public abstract,byte()
+A0000000620102,javacard.security,15,Signature,public abstract,method,2,getLength,public abstract,short()
+A0000000620102,javacard.security,15,Signature,public abstract,method,3,init,public abstract,void(javacard.security.key;byte)
+A0000000620102,javacard.security,15,Signature,public abstract,method,4,init,public abstract,void(javacard.security.key;byte;byte[];short;short)
+A0000000620102,javacard.security,15,Signature,public abstract,method,5,sign,public abstract,short(byte[];short;short;byte[];short)
+A0000000620102,javacard.security,15,Signature,public abstract,method,6,update,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,15,Signature,public abstract,method,7,verify,public abstract,boolean(byte[];short;short;byte[];short;short)
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC4_NOPAD,static public final,byte,1
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC8_NOPAD,static public final,byte,2
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC4_ISO9797_M1,static public final,byte,3
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC8_ISO9797_M1,static public final,byte,4
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC4_ISO9797_M2,static public final,byte,5
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC8_ISO9797_M2,static public final,byte,6
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC4_PKCS5,static public final,byte,7
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC8_PKCS5,static public final,byte,8
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_SHA_ISO9796,static public final,byte,9
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_SHA_PKCS1,static public final,byte,10
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_MD5_PKCS1,static public final,byte,11
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_RIPEMD160_ISO9796,static public final,byte,12
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_RIPEMD160_PKCS1,static public final,byte,13
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DSA_SHA,static public final,byte,14
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_SHA_RFC2409,static public final,byte,15
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_MD5_RFC2409,static public final,byte,16
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_ECDSA_SHA,static public final,byte,17
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_AES_MAC_128_NOPAD,static public final,byte,18
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC4_ISO9797_1_M2_ALG3,static public final,byte,19
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_DES_MAC8_ISO9797_1_M2_ALG3,static public final,byte,20
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_SHA_PKCS1_PSS,static public final,byte,21
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_MD5_PKCS1_PSS,static public final,byte,22
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_RIPEMD160_PKCS1_PSS,static public final,byte,23
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_HMAC_SHA1,static public final,byte,24
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_HMAC_SHA_256,static public final,byte,25
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_HMAC_SHA_384,static public final,byte,26
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_HMAC_SHA_512,static public final,byte,27
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_HMAC_MD5,static public final,byte,28
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_HMAC_RIPEMD160,static public final,byte,29
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_SHA_ISO9796_MR,static public final,byte,30
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_RSA_RIPEMD160_ISO9796_MR,static public final,byte,31
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,ALG_KOREAN_SEED_MAC_NOPAD,static public final,byte,32
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,MODE_SIGN,static public final,byte,1
+A0000000620102,javacard.security,15,Signature,public abstract,field,255,MODE_VERIFY,static public final,byte,2
+A0000000620102,javacard.security,26,InitializedMessageDigest,public abstract,method,0,<init>,protected,void()
+A0000000620102,javacard.security,26,InitializedMessageDigest,public abstract,method,0,equals,public,boolean(java.lang.object)
+A0000000620102,javacard.security,26,InitializedMessageDigest,public abstract,method,1,doFinal,public abstract,short(byte[];short;short;byte[];short)
+A0000000620102,javacard.security,26,InitializedMessageDigest,public abstract,method,2,getAlgorithm,public abstract,byte()
+A0000000620102,javacard.security,26,InitializedMessageDigest,public abstract,method,3,getLength,public abstract,byte()
+A0000000620102,javacard.security,26,InitializedMessageDigest,public abstract,method,4,reset,public abstract,void()
+A0000000620102,javacard.security,26,InitializedMessageDigest,public abstract,method,5,update,public abstract,void(byte[];short;short)
+A0000000620102,javacard.security,26,InitializedMessageDigest,public abstract,method,6,setInitialDigest,public abstract,void(byte[];short;short;byte[];short;short)
+A0000000620209,javacardx.apdu,0,ExtendedLength,public abstract interface
+A000000062020801,javacardx.framework.util,0,ArrayLogic,public final,method,0,arrayCopyRepack,static public final,short(java.lang.object;short;short;java.lang.object;short)
+A000000062020801,javacardx.framework.util,0,ArrayLogic,public final,method,1,arrayCopyRepackNonAtomic,static public final,short(java.lang.object;short;short;java.lang.object;short)
+A000000062020801,javacardx.framework.util,0,ArrayLogic,public final,method,2,arrayFillGenericNonAtomic,static public final,short(java.lang.object;short;short;java.lang.object;short)
+A000000062020801,javacardx.framework.util,0,ArrayLogic,public final,method,3,arrayCompareGeneric,static public final,byte(java.lang.object;short;java.lang.object;short;short)
+A000000062020801,javacardx.framework.util,0,ArrayLogic,public final,method,4,arrayFindGeneric,static public final,short(java.lang.object;short;byte[];short)
+A000000062020801,javacardx.framework.util,0,ArrayLogic,public final,method,0,equals,public,boolean(java.lang.object)
+A000000062020801,javacardx.framework.util,1,UtilException,public,method,0,<init>,public,void(short)
+A000000062020801,javacardx.framework.util,1,UtilException,public,method,1,throwIt,static public,void(short)
+A000000062020801,javacardx.framework.util,1,UtilException,public,method,0,equals,public,boolean(java.lang.object)
+A000000062020801,javacardx.framework.util,1,UtilException,public,method,1,getReason,public,short()
+A000000062020801,javacardx.framework.util,1,UtilException,public,method,2,setReason,public,void(short)
+A000000062020801,javacardx.framework.util,1,UtilException,public,field,255,ILLEGAL_VALUE,static public final,short,1
+A000000062020801,javacardx.framework.util,1,UtilException,public,field,255,TYPE_MISMATCHED,static public final,short,2
+A00000006202080101,javacardx.framework.util.intx,0,JCint,public final,method,0,makeInt,static public final,int(byte;byte;byte;byte)
+A00000006202080101,javacardx.framework.util.intx,0,JCint,public final,method,1,makeInt,static public final,int(short;short)
+A00000006202080101,javacardx.framework.util.intx,0,JCint,public final,method,2,getInt,static public final,int(byte[];short)
+A00000006202080101,javacardx.framework.util.intx,0,JCint,public final,method,3,setInt,static public final,short(byte[];short;int)
+A00000006202080101,javacardx.framework.util.intx,0,JCint,public final,method,4,makeTransientIntArray,static public,int[](short;byte)
+A00000006202080101,javacardx.framework.util.intx,0,JCint,public final,method,0,equals,public,boolean(java.lang.object)
+A000000062020802,javacardx.framework.math,0,BCDUtil,public final,method,0,<init>,public,void()
+A000000062020802,javacardx.framework.math,0,BCDUtil,public final,method,1,getMaxBytesSupported,static public,short()
+A000000062020802,javacardx.framework.math,0,BCDUtil,public final,method,2,convertToHex,static public,short(byte[];short;short;byte[];short)
+A000000062020802,javacardx.framework.math,0,BCDUtil,public final,method,3,convertToBCD,static public,short(byte[];short;short;byte[];short)
+A000000062020802,javacardx.framework.math,0,BCDUtil,public final,method,4,isBCDFormat,static public,boolean(byte[];short;short)
+A000000062020802,javacardx.framework.math,0,BCDUtil,public final,method,0,equals,public,boolean(java.lang.object)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,0,<init>,public,void(short)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,1,getMaxBytesSupported,static public,short()
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,0,equals,public,boolean(java.lang.object)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,1,setMaximum,public,void(byte[];short;short;byte)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,2,init,public,void(byte[];short;short;byte)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,3,add,public,void(byte[];short;short;byte)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,4,subtract,public,void(byte[];short;short;byte)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,5,multiply,public,void(byte[];short;short;byte)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,6,compareTo,public,byte(javacardx.framework.math.bignumber)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,7,compareTo,public,byte(byte[];short;short;byte)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,8,toBytes,public,void(byte[];short;short;byte)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,9,getByteLength,public,short(byte)
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,method,10,reset,public,void()
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,field,255,FORMAT_BCD,static public final,byte,1
+A000000062020802,javacardx.framework.math,1,BigNumber,public final,field,255,FORMAT_HEX,static public final,byte,2
+A000000062020802,javacardx.framework.math,2,ParityBit,public final,method,0,<init>,public,void()
+A000000062020802,javacardx.framework.math,2,ParityBit,public final,method,1,set,static public,void(byte[];short;short;boolean)
+A000000062020802,javacardx.framework.math,2,ParityBit,public final,method,0,equals,public,boolean(java.lang.object)
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,0,<init>,protected,void()
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,1,getInstance,static public,javacardx.framework.tlv.bertlv(byte[];short;short)
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,2,verifyFormat,static public,boolean(byte[];short;short)
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,3,getTag,static public,short(byte[];short;byte[];short)
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,4,getLength,static public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,0,equals,public,boolean(java.lang.object)
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,1,toBytes,public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,2,getTag,public,javacardx.framework.tlv.bertag()
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,3,getLength,public,short()
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,4,size,public,short()
+A000000062020803,javacardx.framework.tlv,0,BERTLV,public abstract,method,5,init,public abstract,short(byte[];short;short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,0,<init>,protected,void()
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,1,getInstance,static public,javacardx.framework.tlv.bertag(byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,2,toBytes,static public,short(short;boolean;short;byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,3,size,static public,byte(byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,4,tagNumber,static public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,5,isConstructed,static public,boolean(byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,6,tagClass,static public,byte(byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,7,verifyFormat,static public,boolean(byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,0,equals,public,boolean(java.lang.object)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,1,size,public,byte()
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,2,toBytes,public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,3,tagNumber,public,short()
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,4,isConstructed,public,boolean()
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,5,tagClass,public,byte()
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,6,equals,public,boolean(javacardx.framework.tlv.bertag)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,method,7,init,public abstract,void(byte[];short)
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,field,255,BER_TAG_CLASS_MASK_UNIVERSAL,static public final,byte,0
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,field,255,BER_TAG_CLASS_MASK_APPLICATION,static public final,byte,1
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,field,255,BER_TAG_CLASS_MASK_CONTEXT_SPECIFIC,static public final,byte,2
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,field,255,BER_TAG_CLASS_MASK_PRIVATE,static public final,byte,3
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,field,255,BER_TAG_TYPE_CONSTRUCTED,static public final,boolean,1
+A000000062020803,javacardx.framework.tlv,1,BERTag,public abstract,field,255,BER_TAG_TYPE_PRIMITIVE,static public final,boolean,0
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,0,<init>,public,void(short)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,1,append,static public,short(byte[];short;byte[];short)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,2,find,static public,short(byte[];short;byte[];short)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,3,findNext,static public,short(byte[];short;short;byte[];short)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,0,equals,public,boolean(java.lang.object)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,1,toBytes,public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,2,getTag,public,javacardx.framework.tlv.bertag()
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,3,getLength,public,short()
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,4,size,public,short()
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,5,init,public,short(byte[];short;short)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,6,init,public,short(javacardx.framework.tlv.constructedbertag;javacardx.framework.tlv.bertlv)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,7,init,public,short(javacardx.framework.tlv.constructedbertag;byte[];short;short)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,8,append,public,short(javacardx.framework.tlv.bertlv)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,9,delete,public,short(javacardx.framework.tlv.bertlv;short)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,10,find,public,javacardx.framework.tlv.bertlv(javacardx.framework.tlv.bertag)
+A000000062020803,javacardx.framework.tlv,2,ConstructedBERTLV,public final,method,11,findNext,public,javacardx.framework.tlv.bertlv(javacardx.framework.tlv.bertag;javacardx.framework.tlv.bertlv;short)
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,0,<init>,public,void()
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,0,equals,public,boolean(java.lang.object)
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,1,size,public,byte()
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,2,toBytes,public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,3,tagNumber,public,short()
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,4,isConstructed,public,boolean()
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,5,tagClass,public,byte()
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,6,equals,public,boolean(javacardx.framework.tlv.bertag)
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,7,init,public,void(byte[];short)
+A000000062020803,javacardx.framework.tlv,3,ConstructedBERTag,public final,method,8,init,public,void(byte;short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,0,<init>,public,void(short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,1,getValueOffset,static public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,2,toBytes,static public,short(byte[];short;byte[];short;short;byte[];short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,3,appendValue,static public,short(byte[];short;byte[];short;short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,0,equals,public,boolean(java.lang.object)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,1,toBytes,public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,2,getTag,public,javacardx.framework.tlv.bertag()
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,3,getLength,public,short()
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,4,size,public,short()
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,5,init,public,short(byte[];short;short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,6,init,public,short(javacardx.framework.tlv.primitivebertag;byte[];short;short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,7,appendValue,public,short(byte[];short;short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,8,replaceValue,public,short(byte[];short;short)
+A000000062020803,javacardx.framework.tlv,4,PrimitiveBERTLV,public,method,9,getValue,public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,0,<init>,public,void()
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,0,equals,public,boolean(java.lang.object)
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,1,size,public,byte()
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,2,toBytes,public,short(byte[];short)
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,3,tagNumber,public,short()
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,4,isConstructed,public,boolean()
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,5,tagClass,public,byte()
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,6,equals,public,boolean(javacardx.framework.tlv.bertag)
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,7,init,public,void(byte[];short)
+A000000062020803,javacardx.framework.tlv,5,PrimitiveBERTag,public final,method,8,init,public,void(byte;short)
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,method,0,<init>,public,void(short)
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,method,1,throwIt,static public,void(short)
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,method,0,equals,public,boolean(java.lang.object)
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,method,1,getReason,public,short()
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,method,2,setReason,public,void(short)
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,INVALID_PARAM,static public final,short,1
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,ILLEGAL_SIZE,static public final,short,2
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,EMPTY_TAG,static public final,short,3
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,EMPTY_TLV,static public final,short,4
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,MALFORMED_TAG,static public final,short,5
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,MALFORMED_TLV,static public final,short,6
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,INSUFFICIENT_STORAGE,static public final,short,7
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,TAG_SIZE_GREATER_THAN_127,static public final,short,8
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,TAG_NUMBER_GREATER_THAN_32767,static public final,short,9
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,TLV_SIZE_GREATER_THAN_32767,static public final,short,10
+A000000062020803,javacardx.framework.tlv,6,TLVException,public,field,255,TLV_LENGTH_GREATER_THAN_32767,static public final,short,11
+A0000000620201,javacardx.crypto,0,KeyEncryption,public abstract interface,method,0,getKeyCipher,public abstract,javacardx.crypto.cipher()
+A0000000620201,javacardx.crypto,0,KeyEncryption,public abstract interface,method,1,setKeyCipher,public abstract,void(javacardx.crypto.cipher)
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,method,0,getInstance,static public final,javacardx.crypto.cipher(byte;boolean)
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,method,1,<init>,protected,void()
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,method,0,equals,public,boolean(java.lang.object)
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,method,1,doFinal,public abstract,short(byte[];short;short;byte[];short)
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,method,2,getAlgorithm,public abstract,byte()
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,method,3,init,public abstract,void(javacard.security.key;byte)
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,method,4,init,public abstract,void(javacard.security.key;byte;byte[];short;short)
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,method,5,update,public abstract,short(byte[];short;short;byte[];short)
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_DES_CBC_NOPAD,static public final,byte,1
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_DES_CBC_ISO9797_M1,static public final,byte,2
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_DES_CBC_ISO9797_M2,static public final,byte,3
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_DES_CBC_PKCS5,static public final,byte,4
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_DES_ECB_NOPAD,static public final,byte,5
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_DES_ECB_ISO9797_M1,static public final,byte,6
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_DES_ECB_ISO9797_M2,static public final,byte,7
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_DES_ECB_PKCS5,static public final,byte,8
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_RSA_ISO14888,static public final,byte,9
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_RSA_PKCS1,static public final,byte,10
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_RSA_ISO9796,static public final,byte,11
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_RSA_NOPAD,static public final,byte,12
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_AES_BLOCK_128_CBC_NOPAD,static public final,byte,13
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_AES_BLOCK_128_ECB_NOPAD,static public final,byte,14
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_RSA_PKCS1_OAEP,static public final,byte,15
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_KOREAN_SEED_ECB_NOPAD,static public final,byte,16
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,ALG_KOREAN_SEED_CBC_NOPAD,static public final,byte,17
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,MODE_DECRYPT,static public final,byte,1
+A0000000620201,javacardx.crypto,1,Cipher,public abstract,field,255,MODE_ENCRYPT,static public final,byte,2
+A0000000620203,javacardx.external,0,MemoryAccess,public abstract interface,method,0,writeData,public abstract,boolean(byte[];short;short;byte[];short;short;short;short)
+A0000000620203,javacardx.external,0,MemoryAccess,public abstract interface,method,1,readData,public abstract,short(byte[];short;byte[];short;short;short;short;short)
+A0000000620203,javacardx.external,1,Memory,public final,method,0,getMemoryAccessInstance,static public final,javacardx.external.memoryaccess(byte;short[];short)
+A0000000620203,javacardx.external,1,Memory,public final,method,0,equals,public,boolean(java.lang.object)
+A0000000620203,javacardx.external,1,Memory,public final,field,255,MEMORY_TYPE_MIFARE,static public final,byte,1
+A0000000620203,javacardx.external,1,Memory,public final,field,255,MEMORY_TYPE_EXTENDED_STORE,static public final,byte,2
+A0000000620203,javacardx.external,2,ExternalException,public,method,0,<init>,public,void(short)
+A0000000620203,javacardx.external,2,ExternalException,public,method,1,throwIt,static public,void(short)
+A0000000620203,javacardx.external,2,ExternalException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620203,javacardx.external,2,ExternalException,public,method,1,getReason,public,short()
+A0000000620203,javacardx.external,2,ExternalException,public,method,2,setReason,public,void(short)
+A0000000620203,javacardx.external,2,ExternalException,public,field,255,NO_SUCH_SUBSYSTEM,static public final,short,1
+A0000000620203,javacardx.external,2,ExternalException,public,field,255,INVALID_PARAM,static public final,short,2
+A0000000620203,javacardx.external,2,ExternalException,public,field,255,INTERNAL_ERROR,static public final,short,3
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,0,isValidated,public abstract,boolean()
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,1,isInitialized,public abstract,boolean()
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,2,getPublicTemplateData,public abstract,short(short;byte[];short;short)
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,3,getBioType,public abstract,byte()
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,4,getVersion,public abstract,short(byte[];short)
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,5,reset,public abstract,void()
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,6,getTriesRemaining,public abstract,byte()
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,7,initMatch,public abstract,short(byte[];short;short)
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,method,8,match,public abstract,short(byte[];short;short)
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,field,255,MINIMUM_SUCCESSFUL_MATCH_SCORE,static public final,short,16384
+A0000000620202,javacardx.biometry,0,BioTemplate,public abstract interface,field,255,MATCH_NEEDS_MORE_DATA,static public final,short,-1
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,0,isValidated,public abstract,boolean()
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,1,isInitialized,public abstract,boolean()
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,2,getPublicTemplateData,public abstract,short(short;byte[];short;short)
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,3,getBioType,public abstract,byte()
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,4,getVersion,public abstract,short(byte[];short)
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,5,reset,public abstract,void()
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,6,getTriesRemaining,public abstract,byte()
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,7,initMatch,public abstract,short(byte[];short;short)
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,8,match,public abstract,short(byte[];short;short)
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,9,init,public abstract,void(byte[];short;short)
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,10,update,public abstract,void(byte[];short;short)
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,11,doFinal,public abstract,void()
+A0000000620202,javacardx.biometry,1,OwnerBioTemplate,public abstract interface,method,12,resetUnblockAndSetTryLimit,public abstract,void(byte)
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,0,isValidated,public abstract,boolean()
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,1,isInitialized,public abstract,boolean()
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,2,getPublicTemplateData,public abstract,short(short;byte[];short;short)
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,3,getBioType,public abstract,byte()
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,4,getVersion,public abstract,short(byte[];short)
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,5,reset,public abstract,void()
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,6,getTriesRemaining,public abstract,byte()
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,7,initMatch,public abstract,short(byte[];short;short)
+A0000000620202,javacardx.biometry,2,SharedBioTemplate,public abstract interface,method,8,match,public abstract,short(byte[];short;short)
+A0000000620202,javacardx.biometry,3,BioException,public,method,0,<init>,public,void(short)
+A0000000620202,javacardx.biometry,3,BioException,public,method,1,throwIt,static public,void(short)
+A0000000620202,javacardx.biometry,3,BioException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620202,javacardx.biometry,3,BioException,public,method,1,getReason,public,short()
+A0000000620202,javacardx.biometry,3,BioException,public,method,2,setReason,public,void(short)
+A0000000620202,javacardx.biometry,3,BioException,public,field,255,ILLEGAL_VALUE,static public final,short,1
+A0000000620202,javacardx.biometry,3,BioException,public,field,255,INVALID_DATA,static public final,short,2
+A0000000620202,javacardx.biometry,3,BioException,public,field,255,NO_SUCH_BIO_TEMPLATE,static public final,short,3
+A0000000620202,javacardx.biometry,3,BioException,public,field,255,NO_TEMPLATES_ENROLLED,static public final,short,4
+A0000000620202,javacardx.biometry,3,BioException,public,field,255,ILLEGAL_USE,static public final,short,5
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,method,0,buildBioTemplate,static public,javacardx.biometry.ownerbiotemplate(byte;byte)
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,method,1,buildBioTemplate,static public,javacardx.biometry.ownerbiotemplate(byte;byte;byte[];byte)
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,method,0,equals,public,boolean(java.lang.object)
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,FACIAL_FEATURE,static public final,byte,1
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,VOICE_PRINT,static public final,byte,2
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,FINGERPRINT,static public final,byte,3
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,IRIS_SCAN,static public final,byte,4
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,RETINA_SCAN,static public final,byte,5
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,HAND_GEOMETRY,static public final,byte,6
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,SIGNATURE,static public final,byte,7
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,KEYSTROKES,static public final,byte,8
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,LIP_MOVEMENT,static public final,byte,9
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,THERMAL_FACE,static public final,byte,10
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,THERMAL_HAND,static public final,byte,11
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,GAIT_STYLE,static public final,byte,12
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,BODY_ODOR,static public final,byte,13
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,DNA_SCAN,static public final,byte,14
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,EAR_GEOMETRY,static public final,byte,15
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,FINGER_GEOMETRY,static public final,byte,16
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,PALM_GEOMETRY,static public final,byte,17
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,VEIN_PATTERN,static public final,byte,18
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,PASSWORD,static public final,byte,31
+A0000000620202,javacardx.biometry,4,BioBuilder,public final,field,255,DEFAULT_INITPARAM,static public final,byte,0
+A0000000620001,java.lang,0,Object,public,method,0,<init>,public,void()
+A0000000620001,java.lang,0,Object,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,1,Throwable,public,method,0,<init>,public,void()
+A0000000620001,java.lang,1,Throwable,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,2,Exception,public,method,0,<init>,public,void()
+A0000000620001,java.lang,2,Exception,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,3,RuntimeException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,3,RuntimeException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,4,IndexOutOfBoundsException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,4,IndexOutOfBoundsException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,5,ArrayIndexOutOfBoundsException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,5,ArrayIndexOutOfBoundsException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,6,NegativeArraySizeException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,6,NegativeArraySizeException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,7,NullPointerException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,7,NullPointerException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,8,ClassCastException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,8,ClassCastException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,9,ArithmeticException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,9,ArithmeticException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,10,SecurityException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,10,SecurityException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620001,java.lang,11,ArrayStoreException,public,method,0,<init>,public,void()
+A0000000620001,java.lang,11,ArrayStoreException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620003,java.rmi,0,Remote,public abstract interface
+A0000000620003,java.rmi,1,RemoteException,public,method,0,<init>,public,void()
+A0000000620003,java.rmi,1,RemoteException,public,method,0,equals,public,boolean(java.lang.object)
+A0000000620002,java.io,0,IOException,public,method,0,<init>,public,void()
+A0000000620002,java.io,0,IOException,public,method,0,equals,public,boolean(java.lang.object)

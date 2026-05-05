@@ -3,6 +3,9 @@ import numpy as np
 
 
 def data_to_one_column(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Merge all data from a dataframe to one column. Useful for drawing for example histograms
+    """
     data_one_column = []
     for col_name in data.columns:
         data_one_column.extend(data[col_name].to_list())
@@ -10,6 +13,13 @@ def data_to_one_column(data: pd.DataFrame) -> pd.DataFrame:
     return data_one_column
 
 def normalize_by_buckets(data: pd.DataFrame, buckets: list[tuple[int | float, int | float]]) -> pd.DataFrame:
+    """
+    Normalize data using min-max normalisation. The data are first split into bucket and each bucket for each row is
+    standardized. Then the rows are merged back together.
+    :param data: Dataframe to standardize
+    :param buckets: List of starts and ends of the buckets
+    :return: Resulting dataframe
+    """
     data_by_bucket_and_changed_byte = {}
     for col in data.columns:
         for (start, end) in buckets:
@@ -22,7 +32,6 @@ def normalize_by_buckets(data: pd.DataFrame, buckets: list[tuple[int | float, in
     data_by_bucket = {}
     for (start, end) in buckets:
         columns = data_by_bucket_and_changed_byte.filter(regex=rf'_{start}_{end}')
-        # print(columns)
         one_column = data_to_one_column(columns).dropna()
         data_by_bucket[f'{start}_{end}'] = one_column[0]
 
@@ -46,6 +55,13 @@ def normalize_by_buckets(data: pd.DataFrame, buckets: list[tuple[int | float, in
     return data
 
 def limit_range(data: pd.DataFrame, minimum: int | float | None, maximum: int | float | None):
+    """
+    Drop data outside of the specified range
+    :param data: Dataframe to process
+    :param minimum: Bottom of the range
+    :param maximum: Top of the range
+    :return: Processed dataframe
+    """
     total = len(data)
     if maximum is not None:
         over = np.count_nonzero(data >= maximum)

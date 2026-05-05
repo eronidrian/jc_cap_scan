@@ -3,11 +3,12 @@ import csv
 import os
 
 from jc_cap_scan.config.config import Config
-from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file, extract_all_times_from_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
 from jc_cap_scan.utils.cap_file_utils import is_installation_successful, uninstall
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
 from jc_cap_scan.utils.capture_utils import capture_install_trace
 
+# JC API packages with few additional packages
 aid_name_map = {
     "A0000000620001": "java.lang",
     "A0000000620002": "java.io",
@@ -58,7 +59,7 @@ def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: 
     :return:
     """
 
-    f = open(results_file, "a")
+    f = open(results_file, "w")
     csv_writer = csv.writer(f)
 
     print("Starting measurement...")
@@ -74,8 +75,9 @@ def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: 
                 print(f"Minor versin {minor}")
                 cap_name = f"{aid_name_map[aid].replace(".", "_")}_{major}_{minor}.cap"
                 generate_cap_for_package_aid(bytearray.fromhex(aid), major, minor, os.path.join("templates", "generic_template"), cap_name)
-                supported, _ = is_installation_successful(cap_name, auth)
 
+                # first, check whether the package is supported by the card, if not, do not test it
+                supported, _ = is_installation_successful(cap_name, auth)
                 if not supported:
                     print(f"{aid_name_map[aid]} v{major}.{minor} not supported")
                     if tidy_up:
@@ -86,14 +88,13 @@ def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: 
 
                 trs_file_name = f"{aid_name_map[aid].replace(".", "_")}_{major}_{minor}.trs"
                 capture_install_trace(cap_name, traces_for_one_cap, os.path.join(traces_directory, trs_file_name), config.capture, auth)
-                times = extract_all_times_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
+                times = extract_single_time_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
 
                 print(f"AID: {aid}\n"
                       f"Major: {major}\n"
-                      f"Minor: {minor}\n")
-                      # f"Times: {times}\n\n")
-                for item in times:
-                    csv_writer.writerow([aid, major, minor] + item)
+                      f"Minor: {minor}\n"
+                      f"Times: {times}\n\n")
+                csv_writer.writerow([aid, major, minor] + times)
                 if tidy_up:
                     os.remove(cap_name)
                     os.remove(os.path.join(traces_directory, trs_file_name))

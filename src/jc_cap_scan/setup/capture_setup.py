@@ -1,28 +1,27 @@
 import argparse
 
-from jc_cap_scan.config.config import CaptureConfig, Config
+from jc_cap_scan.config.config import CaptureConfig
 from jc_cap_scan.trs_analysis.trs_visualizer import visualize_trace
 from jc_cap_scan.utils.capture_utils import capture_install_trace, capture_call_trace
 
 
-def capture_sample_install_trace(trace_path: str, cap_file_path: str, estimated_config: CaptureConfig | None, show: bool, rescale: bool = False, auth: list[str] | None = None):
+def capture_sample_install_trace(trace_path: str, cap_file_path: str, estimated_config: CaptureConfig, show: bool, rescale: bool = False, auth: list[str] | None = None):
     """
     Capture single power trace of CAP file installation
     :param trace_path: Path to save the trace to
     :param cap_file_path: Path to CAP file to install
     :param estimated_config: Config to use for the capture
     :param show: Whether to show the trace
-    :param rescale: Whether to rescale the trace for visualization
+    :param rescale: Whether to rescale the trace for visualisation
     :param auth: GP authentication if needed for CAP file installation
     :return:
     """
-    config = estimated_config if estimated_config is not None else CaptureConfig.load_from_toml("") # or load some default config
-    capture_install_trace(cap_file_path, 1, trace_path, config, auth)
+    capture_install_trace(cap_file_path, 1, trace_path, estimated_config, auth)
     if show:
         visualize_trace(trace_path, 0, rescale)
 
 
-def capture_sample_call_trace(trace_path: str, cap_file_path: str, estimated_config: CaptureConfig | None, show: bool, rescale: bool = False, auth: list[str] | None = None):
+def capture_sample_call_trace(trace_path: str, cap_file_path: str, estimated_config: CaptureConfig, show: bool, rescale: bool = False, auth: list[str] | None = None):
     """
     Capture power trace of calling an applet. Applet is installed prior to capture
     :param trace_path: Path to store the trace to
@@ -33,8 +32,7 @@ def capture_sample_call_trace(trace_path: str, cap_file_path: str, estimated_con
     :param auth: GP authentication if needed for CAP file installation
     :return:
     """
-    config = estimated_config if estimated_config is not None else CaptureConfig.load_from_toml("") # or load some default config
-    capture_call_trace(cap_file_path, 1, trace_path, config, auth)
+    capture_call_trace(cap_file_path, 1, trace_path, estimated_config, auth)
     if show:
         visualize_trace(trace_path, 0, rescale)
 
@@ -53,7 +51,7 @@ def main():
                                       action='store_true', default=False)
     parser.add_argument('--config',
                                       help="Capture configuration file in toml format",
-                                      required=False, type=str)
+                                      required=True, type=str)
     parser.add_argument("--rescale", help="Rescale trace for visualization", action='store_true', default=False)
     parser.add_argument('--auth',
                         help="Authentication to use for the connection to the card. Enter as arguments to the GPPro, e.g. 'key' '1234567890' ('--' for the first item will be added automatically)",

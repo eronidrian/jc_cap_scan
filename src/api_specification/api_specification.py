@@ -454,5 +454,5 @@ class ApiSpecification:
             result_string += str(package) + "\n\n"
         return result_string
 
-DATA_PATH = Path(__file__).resolve().parent / "overview_table_305_new.csv"
+DATA_PATH = Path(__file__).resolve().parent / "overview_table_305.csv"
 API_305_SPECIFICATION = ApiSpecification.load_from_csv(str(DATA_PATH))

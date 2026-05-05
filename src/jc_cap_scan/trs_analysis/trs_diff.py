@@ -38,6 +38,7 @@ def get_diff_periods(samples_valid: ndarray, samples_invalid: ndarray, threshold
     """
     periods_valid = find_high_consumption_periods(samples_valid, extraction_config)
     periods_invalid = find_high_consumption_periods(samples_invalid, extraction_config)
+    # go through the periods and calculate differences
     for i in range(len(periods_valid)):
         if i >= len(periods_invalid):
             return None
@@ -45,6 +46,7 @@ def get_diff_periods(samples_valid: ndarray, samples_invalid: ndarray, threshold
         duration_invalid = periods_invalid[i][1] - periods_invalid[i][0]
         diff = ratio_diff(duration_valid, duration_invalid)
         if diff > threshold:
+            # return random sample in the period, fixes overlapping points
             return random.randrange(periods_valid[i][0], periods_valid[i][1])
     return None
 
@@ -69,7 +71,7 @@ def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_
     end = start + len(samples_invalid)
 
     # prepare diff array same length as valid
-    diff = samples_valid.copy()  # or np.empty_like(samples_valid) if you will overwrite all values
+    diff = samples_valid.copy()
 
     # Case 1: invalid fully inside valid
     if start >= 0 and end <= len(samples_valid):
@@ -95,7 +97,7 @@ def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_
     overlap_end = min(len(samples_valid), end)
     mask = np.ones_like(diff, dtype=bool)
     mask[overlap_start:overlap_end] = False
-    diff[mask] = np.nan  # or leave as original values
+    diff[mask] = np.nan
 
     diff = abs(diff)
 

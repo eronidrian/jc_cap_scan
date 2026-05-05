@@ -1,17 +1,9 @@
-# provided by Lukasz Chmielewski
 import argparse
-
 import trsfile
 import numpy as np
 
 from numpy.lib.stride_tricks import sliding_window_view
 
-
-# window = 1000
-# overlap = 0.99
-# ABS = False
-# # step = window - int(window * overlap) #1
-# step = 1
 
 def window_resample(window: int, overlap: float | None, abs: bool, step: int, input_trs_file: str, output_trs_file: str, trace_index: int = 0):
     """

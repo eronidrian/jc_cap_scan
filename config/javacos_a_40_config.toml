@@ -1,7 +1,6 @@
 title = "Javacos A40 config"
 
 [capture]
-trigger_threshold = 80
 autotrigger = 5000
 posttrigger_delay = 2700
 number_of_samples = 4_000_000

@@ -1,12 +1,12 @@
 import argparse
 from typing import Literal
-
 import pandas as pd
 from matplotlib import pyplot as plt
+import matplotlib as mpl
+
 
 from jc_cap_scan.config.config import CaptureConfig
 from jc_cap_scan.utils.capture_utils import get_actual_sample_interval
-import matplotlib as mpl
 
 
 def visualize_results(result_file: str, capture_config: CaptureConfig, show_or_save: Literal['show', 'save'], save_filename: str | None = None) -> None:
@@ -20,25 +20,12 @@ def visualize_results(result_file: str, capture_config: CaptureConfig, show_or_s
     """
 
     sample_interval = get_actual_sample_interval(capture_config.sample_interval)
-
     data = pd.read_csv(result_file, names=[str(_) for _ in range(12)])
     data = data.iloc[:, 1:]
     data = data.transpose()
-
-
     data = data.map(lambda x: (x * sample_interval) / 10 ** 6)
-    medians = data.median(axis=0)
 
-    fig, ax = plt.subplots()
-    data = data[data > 4]
-    ax.boxplot(data, showfliers=False)
-    ax.set_xlabel("Class token")
-    ax.set_ylabel("Median of LOAD processing duration [ms]")
-    ax.set_title("Results of class side channel discovery")
-
-    if show_or_save =='show':
-        plt.show()
-    elif show_or_save == 'save':
+    if show_or_save == 'save':
         mpl.use("pgf")
         mpl.rcParams.update({
             "pgf.texsystem": "pdflatex",
@@ -47,6 +34,15 @@ def visualize_results(result_file: str, capture_config: CaptureConfig, show_or_s
             'pgf.rcfonts': False,
         })
 
+    fig, ax = plt.subplots()
+    ax.boxplot(data, showfliers=False)
+    ax.set_xlabel("Class token")
+    ax.set_ylabel("Median of LOAD processing duration [ms]")
+    ax.set_title("Results of class side channel discovery")
+
+    if show_or_save =='show':
+        plt.show()
+    elif show_or_save == 'save':
         fig.tight_layout()
         fig.set_size_inches(w=5.00098, h=3.6)
         plt.savefig(save_filename)

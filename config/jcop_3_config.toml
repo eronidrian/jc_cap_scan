@@ -1,7 +1,6 @@
 title = "NXP JCOP 3 config"
 
 [capture]
-trigger_threshold = 1000
 autotrigger = 3100
 posttrigger_delay = 0
 number_of_samples = 15_000_000

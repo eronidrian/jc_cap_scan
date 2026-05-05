@@ -1,11 +1,10 @@
 import argparse
 import csv
 import os.path
-import sys
 from typing import Literal
 
 from jc_cap_scan.config.config import Config
-from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file, extract_all_times_from_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid_and_class_token
 from jc_cap_scan.utils.capture_utils import capture_install_trace
 
@@ -30,7 +29,7 @@ def class_side_channel_discovery(results_file: str, traces_directory: str, base_
     :return:
     """
     assert cp_info_type in ['static', 'class']
-    f = open(results_file, "a")
+    f = open(results_file, "w")
     result_writer = csv.writer(f)
     print("Starting measurement...")
 
@@ -48,18 +47,17 @@ def class_side_channel_discovery(results_file: str, traces_directory: str, base_
                                                      cp_info_number,
                                                      cap_name)
         success, response = capture_install_trace(cap_name, traces_for_one_token, os.path.join(traces_directory, trs_file), config.capture, auth)
-        times = extract_all_times_from_trs_file(os.path.join(traces_directory, trs_file), config.extraction)
+        times = extract_single_time_from_trs_file(os.path.join(traces_directory, trs_file), config.extraction)
 
-        for item in times:
-            result_writer.writerow([base_aid, class_token] + item)
+        result_writer.writerow([base_aid, class_token] + times)
         if tidy_up:
             os.remove(cap_name)
             os.remove(os.path.join(traces_directory, trs_file))
 
         print(f"Class token: {class_token}\n"
               f"Response: {response}\n"
-              f"Success: {success}\n")
-              # f"Times: {times}")
+              f"Success: {success}\n"
+              f"Times: {times}")
 
 def main():
     parser = argparse.ArgumentParser(

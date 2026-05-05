@@ -7,6 +7,7 @@ from typing import Iterator
 
 from cap_parser.applet_component import AppletComponent
 from cap_parser.class_component import ClassComponent
+from cap_parser.component import Component
 from cap_parser.constant_pool_component import ConstantPoolComponent
 from cap_parser.descriptor_component import DescriptorComponent
 from cap_parser.directory_component import DirectoryComponent
@@ -44,7 +45,7 @@ class CapFile:
     ]
 
     def __init__(self):
-        # only because of Pycharm suggestions
+        # only because of PyCharm suggestions
         self.header_component: HeaderComponent = None
         self.directory_component: DirectoryComponent = None
         self.import_component: ImportComponent = None

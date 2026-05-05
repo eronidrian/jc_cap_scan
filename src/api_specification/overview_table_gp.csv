@@ -1,0 +1,165 @@
+AID,package name,class token,class name,class access flags,method/field,token,name,access flags,signature/type,value
+A00000015100,org.globalplatform,0,Application,public abstract interface,method,0,processData,public abstract,void(byte[];short;short)
+A00000015100,org.globalplatform,7,Authority,public abstract interface,method,0,init,public abstract,void(byte)
+A00000015100,org.globalplatform,7,Authority,public abstract interface,method,1,sign,public abstract,short(byte[];short;short;byte[];short)
+A00000015100,org.globalplatform,7,Authority,public abstract interface,method,2,update,public abstract,void(byte[];short;short)
+A00000015100,org.globalplatform,7,Authority,public abstract interface,method,3,recoverKey,public abstract,short(byte[];short;short;byte[];short)
+A00000015100,org.globalplatform,7,Authority,public abstract interface,field,255,MODE_SIGN,static public final,byte,1
+A00000015100,org.globalplatform,7,Authority,public abstract interface,field,255,MODE_KEY_RECOVERY,static public final,byte,2
+A00000015100,org.globalplatform,12,AuthoritySignature,public abstract interface,method,0,init,public abstract,void(byte;byte[];short;short)
+A00000015100,org.globalplatform,12,AuthoritySignature,public abstract interface,method,1,sign,public abstract,short(byte[];short;short;byte[];short)
+A00000015100,org.globalplatform,12,AuthoritySignature,public abstract interface,method,2,update,public abstract,void(byte[];short;short)
+A00000015100,org.globalplatform,12,AuthoritySignature,public abstract interface,method,3,getLength,public abstract,short()
+A00000015100,org.globalplatform,12,AuthoritySignature,public abstract interface,field,255,MODE_INTEGRITY,static public final,byte,1
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,0,isActive,public abstract,boolean()
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,1,isSubmitted,public abstract,boolean()
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,2,isVerified,public abstract,boolean()
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,3,isBlocked,public abstract,boolean()
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,4,getTriesRemaining,public abstract,byte()
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,5,update,public abstract,boolean(byte[];short;byte;byte)
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,6,resetState,public abstract,boolean()
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,7,blockState,public abstract,boolean()
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,8,resetAndUnblockState,public abstract,boolean()
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,9,setTryLimit,public abstract,boolean(byte)
+A00000015100,org.globalplatform,1,CVM,public abstract interface,method,10,verify,public abstract,short(byte[];short;byte;byte)
+A00000015100,org.globalplatform,1,CVM,public abstract interface,field,255,CVM_SUCCESS,static public final,short,0
+A00000015100,org.globalplatform,1,CVM,public abstract interface,field,255,CVM_FAILURE,static public final,short,-1
+A00000015100,org.globalplatform,1,CVM,public abstract interface,field,255,FORMAT_ASCII,static public final,byte,1
+A00000015100,org.globalplatform,1,CVM,public abstract interface,field,255,FORMAT_BCD,static public final,byte,2
+A00000015100,org.globalplatform,1,CVM,public abstract interface,field,255,FORMAT_HEX,static public final,byte,3
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,method,0,deregisterService,public abstract,void(short)
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,method,1,getAID,public abstract,javacard.framework.aid()
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,method,2,getPrivileges,public abstract,short(byte[];short)
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,method,3,getState,public abstract,byte()
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,method,4,isAssociated,public abstract,boolean(javacard.framework.aid)
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,method,5,isPrivileged,public abstract,boolean(byte)
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,method,6,registerService,public abstract,void(short)
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,method,7,setState,public abstract,boolean(byte)
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_AUTHORIZED_MANAGEMENT,static public final,byte,9
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_CARD_LOCK,static public final,byte,3
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_CARD_RESET,static public final,byte,5
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_CARD_TERMINATE,static public final,byte,4
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_CVM_MANAGEMENT,static public final,byte,6
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_DAP_VERIFICATION,static public final,byte,1
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_DELEGATED_MANAGEMENT,static public final,byte,2
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_FINAL_APPLICATION,static public final,byte,14
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_GLOBAL_DELETE,static public final,byte,11
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_GLOBAL_LOCK,static public final,byte,12
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_GLOBAL_REGISTRY,static public final,byte,13
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_GLOBAL_SERVICE,static public final,byte,15
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_MANDATED_DAP,static public final,byte,7
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_RECEIPT_GENERATION,static public final,byte,16
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_SECURITY_DOMAIN,static public final,byte,0
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_TOKEN_VERIFICATION,static public final,byte,10
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_TRUSTED_PATH,static public final,byte,8
+A00000015100,org.globalplatform,4,GPRegistryEntry,public abstract interface,field,255,PRIVILEGE_CIPHERED_LOAD_FILE_DATA_BLOCK,static public final,byte,17
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,method,0,getServiceInterface,public abstract,javacard.framework.shareable(org.globalplatform.gpregistryentry;short;byte[];short;short)
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_ACCESS_ANY,static public final,byte,0
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_ACCESS_SECURITY_DOMAIN,static public final,byte,1
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_ACCESS_APPLICATION,static public final,byte,2
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_AES,static public final,byte,-120
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_3DES,static public final,byte,-127
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_3DES_CBC,static public final,byte,-126
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_DES,static public final,byte,-128
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_DES_CBC,static public final,byte,-124
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_DES_ECB,static public final,byte,-125
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_EXTENDED,static public final,byte,-1
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_HMAC_SHA1,static public final,byte,-112
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_HMAC_SHA1_160,static public final,byte,-111
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PRIVATE_CRT_P,static public final,byte,-92
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PRIVATE_CRT_Q,static public final,byte,-91
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PRIVATE_CRT_PQ,static public final,byte,-90
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PRIVATE_CRT_DP1,static public final,byte,-89
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PRIVATE_CRT_DQ1,static public final,byte,-88
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PRIVATE_EXPONENT,static public final,byte,-93
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PRIVATE_MODULUS,static public final,byte,-94
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PUBLIC_EXPONENT,static public final,byte,-96
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_TYPE_RSA_PUBLIC_MODULUS,static public final,byte,-95
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_USAGE_COMPUTATION_DECIPHERMENT,static public final,byte,64
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_USAGE_CONFIDENTIALITY,static public final,byte,8
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_USAGE_CRYPTOGRAPHIC_AUTHORIZATION,static public final,byte,1
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_USAGE_CRYPTOGRAPHIC_CHECKSUM,static public final,byte,4
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_USAGE_DIGITAL_SIGNATURE,static public final,byte,2
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_USAGE_SM_COMMAND,static public final,byte,16
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_USAGE_SM_RESPONSE,static public final,byte,32
+A00000015100,org.globalplatform,5,GlobalService,public abstract interface,field,255,KEY_USAGE_VERIFICATION_ENCIPHERMENT,static public final,byte,-128
+A00000015100,org.globalplatform,9,HTTPAdministration,public abstract interface,method,0,requestHTTPAdministrationSession,public abstract,void(byte[];short;short)
+A00000015100,org.globalplatform,10,HTTPReportListener,public abstract interface,method,0,httpAdministationSessionReport,public abstract,void(short)
+A00000015100,org.globalplatform,10,HTTPReportListener,public abstract interface,field,255,HTTP_SESSION_NO_ERROR,static public final,short,1
+A00000015100,org.globalplatform,10,HTTPReportListener,public abstract interface,field,255,HTTP_SESSION_ERROR,static public final,short,-32767
+A00000015100,org.globalplatform,8,Personalization,public abstract interface,method,0,processData,public abstract,short(byte[];short;short;byte[];short)
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,method,0,processSecurity,public abstract,short(javacard.framework.apdu)
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,method,1,wrap,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,method,2,unwrap,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,method,3,decryptData,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,method,4,encryptData,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,method,5,resetSecurity,public abstract,void()
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,method,6,getSecurityLevel,public abstract,byte()
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,field,255,AUTHENTICATED,static public final,byte,-128
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,field,255,C_DECRYPTION,static public final,byte,2
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,field,255,C_MAC,static public final,byte,1
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,field,255,R_ENCRYPTION,static public final,byte,32
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,field,255,R_MAC,static public final,byte,16
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,field,255,NO_SECURITY_LEVEL,static public final,byte,0
+A00000015100,org.globalplatform,2,SecureChannel,public abstract interface,field,255,ANY_AUTHENTICATED,static public final,byte,64
+A00000015100,org.globalplatform,6,SecureChannelx,public abstract interface,method,0,processSecurity,public abstract,short(javacard.framework.apdu)
+A00000015100,org.globalplatform,6,SecureChannelx,public abstract interface,method,1,wrap,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,6,SecureChannelx,public abstract interface,method,2,unwrap,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,6,SecureChannelx,public abstract interface,method,3,decryptData,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,6,SecureChannelx,public abstract interface,method,4,encryptData,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,6,SecureChannelx,public abstract interface,method,5,resetSecurity,public abstract,void()
+A00000015100,org.globalplatform,6,SecureChannelx,public abstract interface,method,6,getSecurityLevel,public abstract,byte()
+A00000015100,org.globalplatform,6,SecureChannelx,public abstract interface,method,7,setSecurityLevel,public abstract,void(byte)
+A00000015100,org.globalplatform,11,SecureChannelx2,public abstract interface,method,0,processSecurity,public abstract,short(javacard.framework.apdu)
+A00000015100,org.globalplatform,11,SecureChannelx2,public abstract interface,method,1,wrap,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,11,SecureChannelx2,public abstract interface,method,2,unwrap,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,11,SecureChannelx2,public abstract interface,method,3,decryptData,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,11,SecureChannelx2,public abstract interface,method,4,encryptData,public abstract,short(byte[];short;short)
+A00000015100,org.globalplatform,11,SecureChannelx2,public abstract interface,method,5,resetSecurity,public abstract,void()
+A00000015100,org.globalplatform,11,SecureChannelx2,public abstract interface,method,6,getSecurityLevel,public abstract,byte()
+A00000015100,org.globalplatform,11,SecureChannelx2,public abstract interface,method,7,processSecurity,public abstract,short(byte[];short;short;short)
+A00000015100,org.globalplatform,3,GPSystem,public,method,0,<init>,public,void()
+A00000015100,org.globalplatform,3,GPSystem,public,method,1,getCardContentState,static public,byte()
+A00000015100,org.globalplatform,3,GPSystem,public,method,2,getCardState,static public,byte()
+A00000015100,org.globalplatform,3,GPSystem,public,method,3,getCVM,static public,org.globalplatform.cvm(byte)
+A00000015100,org.globalplatform,3,GPSystem,public,method,4,getSecureChannel,static public,org.globalplatform.securechannel()
+A00000015100,org.globalplatform,3,GPSystem,public,method,5,lockCard,static public,boolean()
+A00000015100,org.globalplatform,3,GPSystem,public,method,6,terminateCard,static public,boolean()
+A00000015100,org.globalplatform,3,GPSystem,public,method,7,setATRHistBytes,static public,boolean(byte[];short;byte)
+A00000015100,org.globalplatform,3,GPSystem,public,method,8,setCardContentState,static public,boolean(byte)
+A00000015100,org.globalplatform,3,GPSystem,public,method,9,getRegistryEntry,static public,org.globalplatform.gpregistryentry(javacard.framework.aid)
+A00000015100,org.globalplatform,3,GPSystem,public,method,10,getService,static public,org.globalplatform.globalservice(javacard.framework.aid;short)
+A00000015100,org.globalplatform,3,GPSystem,public,method,11,getCardInfo,static public,short(byte[];short;short)
+A00000015100,org.globalplatform,3,GPSystem,public,method,12,getCardInfoLength,static public,short(short)
+A00000015100,org.globalplatform,3,GPSystem,public,method,0,equals,public,boolean(java.lang.object)
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,APPLICATION_INSTALLED,static public final,byte,3
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,APPLICATION_SELECTABLE,static public final,byte,7
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,APPLICATION_LOCKED,static public final,byte,-128
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,SECURITY_DOMAIN_PERSONALIZED,static public final,byte,15
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CARD_OP_READY,static public final,byte,1
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CARD_INITIALIZED,static public final,byte,7
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CARD_SECURED,static public final,byte,15
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CARD_LOCKED,static public final,byte,127
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CARD_TERMINATED,static public final,byte,-1
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_GLOBAL_PIN,static public final,byte,17
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_ETSI_PIN_APP_1,static public final,byte,1
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_ETSI_PIN_APP_2,static public final,byte,2
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_ETSI_PIN_APP_3,static public final,byte,3
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_ETSI_PIN_APP_4,static public final,byte,4
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_ETSI_PIN_APP_5,static public final,byte,5
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_ETSI_PIN_APP_6,static public final,byte,6
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_ETSI_PIN_APP_7,static public final,byte,7
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CVM_ETSI_PIN_APP_8,static public final,byte,8
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_SECURE_CHANNEL,static public final,byte,-127
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_CVM,static public final,byte,-126
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_AUHTORITY,static public final,byte,-125
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_AUTHORITY,static public final,byte,-125
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_HTTP_ADMINISTRATION,static public final,byte,-124
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_HTTP_REPORT,static public final,byte,-123
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_PRIVACY_PROTOCOL,static public final,byte,-122
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_AUTHORITY_SIGNATURE,static public final,byte,-121
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_BROKER,static public final,byte,-120
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,FAMILY_USSM,static public final,byte,-96
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,GLOBAL_SERVICE_IDENTIFIER,static public final,byte,-128
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CARD_INFO_ATR_HISTORICAL_BYTES,static public final,short,128
+A00000015100,org.globalplatform,3,GPSystem,public,field,255,CARD_INFO_CL_IO_RANDOM,static public final,short,129

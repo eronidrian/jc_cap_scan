@@ -1,17 +1,10 @@
 import argparse
 import csv
 import os
-import sys
-from typing import Literal
-import matplotlib as mpl
-
-
-import pandas as pd
-from matplotlib import pyplot as plt
 
 from jc_cap_scan.config.config import CaptureConfig, Config
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
-from jc_cap_scan.utils.capture_utils import capture_install_trace, get_actual_sample_interval
+from jc_cap_scan.utils.capture_utils import capture_install_trace
 from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
 
 

@@ -1,7 +1,6 @@
 title = "G&D Smartcafe 6.0 config"
 
 [capture]
-trigger_threshold = 1000
 autotrigger = 5000
 posttrigger_delay = 3000
 number_of_samples = 15_000_000

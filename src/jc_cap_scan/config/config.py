@@ -34,18 +34,16 @@ class ExtractionConfig:
 
 
 class CaptureConfig:
-    def __init__(self, trigger_threshold: int, autotrigger: int, posttrigger_delay: int, number_of_samples: int,
+    def __init__(self, autotrigger: int, posttrigger_delay: int, number_of_samples: int,
                  sample_interval: int, channel_range: int):
         """
         Config used to capture power traces
-        :param trigger_threshold: in mV, after reaching what threshold should the capture start
         :param autotrigger: in ms, artificially trigger after N ms
         :param posttrigger_delay: in ms, how long should the oscilloscope wait after receiving trigger for starting the capture
         :param number_of_samples: how many samples to capture
         :param sample_interval: in ns, interval between taking two samples
         :param channel_range: in mV, range of the Y-axis of the power trace
         """
-        self.trigger_threshold = trigger_threshold
         self.posttrigger_delay = posttrigger_delay
         self.autotrigger = autotrigger
         self.number_of_samples = number_of_samples
@@ -63,7 +61,7 @@ class CaptureConfig:
             content = tomllib.load(f)
         content = content["capture"]
 
-        return CaptureConfig(content["trigger_threshold"], content["autotrigger"], content["posttrigger_delay"],
+        return CaptureConfig(content["autotrigger"], content["posttrigger_delay"],
                              content["number_of_samples"], content["sample_interval"], content["channel_range"])
 
 

@@ -1,7 +1,6 @@
 title = "Infineon Secora config"
 
 [capture]
-trigger_threshold = 1000
 autotrigger = 5000
 posttrigger_delay = 2600
 number_of_samples = 9_000_000

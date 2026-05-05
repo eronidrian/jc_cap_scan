@@ -75,11 +75,9 @@ def extract_all_times_from_trs_file(trs_filename: str, extraction_config: Extrac
     :return: For each trace in the TRS file a list of durations of the periods
     """
     traces = trsfile.open(trs_filename, 'r')
-
     result = []
 
     for i, _ in enumerate(traces):
-
         trace = load_trs_file(trs_filename, True, i)
 
         periods = find_high_consumption_periods(trace, extraction_config)
@@ -99,11 +97,9 @@ def extract_single_time_from_trs_file(trs_filename: str, extraction_config: Extr
     :return: For each trace in the TRS file a single duration of the period with index extraction_config.index_to_extract. If there is no such period, 0 is returned for that trace.
     """
     traces = trsfile.open(trs_filename, 'r')
-
     result = []
 
     for i, _ in enumerate(traces):
-
         trace = load_trs_file(trs_filename, True, i)
 
         periods = find_high_consumption_periods(trace, extraction_config)
