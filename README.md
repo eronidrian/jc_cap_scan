@@ -4,8 +4,23 @@
 
 ## Installation
 
+After cloning the repository, install it using the following commands:
 ```shell
-$ 
+$ python3 -m venv .venv # create virtual environment
+$ source .venv/bin/activate # activate virtual environment
+$ pip install -r requirements.txt # install required packages
+$ pip install -e . # install the module
+$ sudo apt install pcscd # install pcscd package for the leiaboard
+```
+
+For using the oscilloscope you need to run the following commands:
+```shell
+$ sudo pcscd -fad # start the pcscd daemon
+$ python3 -m smartleia # start the smartleia daemon
+```
+In the terminal that open after the last command, enter the following command to set the trigger on the leiaboard:
+```python
+leia.set_trigger_strategy(1, [sl.TriggerPoints.TRIG_PRE_SEND_APDU], delay=0, single=0)
 ```
 
 
