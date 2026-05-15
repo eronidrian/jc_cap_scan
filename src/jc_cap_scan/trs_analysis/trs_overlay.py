@@ -63,7 +63,7 @@ def main():
     parser.add_argument("--align_to_end", help="Align traces not to start but to end", action="store_true")
 
     args = parser.parse_args()
-    trs_overlay(args.valid, args.invalid, args.alignment_threshold, not args.align_to_end)
+    trs_overlay(args.static, args.shift, args.alignment_threshold, not args.align_to_end)
 
 
 if __name__ == '__main__':
