@@ -2,42 +2,42 @@ import matplotlib.pyplot as plt
 import argparse
 import numpy as np
 
+from jc_cap_scan.config.config import ExtractionConfig
+from jc_cap_scan.trs_analysis.trs_extractor import find_template_in_trace, normalize_template
 from jc_cap_scan.utils.trs_utils import load_trs_file
 
 
-def get_alignment_offset(samples_static: np.ndarray, samples_shift: np.ndarray, alignment_threshold: float, align_to_start: bool) -> int | None:
+def get_alignment_offset(samples_static: np.ndarray, samples_shift: np.ndarray, template: np.ndarray) -> int | None:
     """
     Get offset by which samples invalid should be shifted to align with samples valid
     :param samples_static: Array of samples that are fixed
     :param samples_shift: Array of samples that are shifted
-    :param alignment_threshold: First sample above this threshold is considered as an 'anchor' that is aligned in both traces
-    :param align_to_start: Whether to align traces to start
-    :return: Offset for shifting the samples invalid, None if no such offset is found
+    :param template: Normalized template used to aling the traces
+    :return: Offset for shifting the samples invalid
     """
-    anchor_index = 0 if align_to_start else -1
+    static_anchor, _ = find_template_in_trace(samples_static, template)
+    shift_anchor, _ = find_template_in_trace(samples_shift, template)
 
-    try:
-        static_anchor = np.where(samples_static >= alignment_threshold)[0][anchor_index]
-        shift_anchor = np.where(samples_shift >= alignment_threshold)[0][anchor_index]
-    except IndexError:
-        return None
     offset_x = static_anchor - shift_anchor
 
     return offset_x
 
-def trs_overlay(path_static: str, path_shift: str, alignment_threshold: float, align_to_start: bool) -> None:
+def trs_overlay(path_static: str, path_shift: str, extraction_config: ExtractionConfig) -> None:
     """
     Overlay two power traces
     :param path_static: Path to power trace that will be static
     :param path_shift: Path to power trace that will be moved
-    :param alignment_threshold: Threshold for the alignment
-    :param align_to_start: Whether to align traces to start
+    :param extraction_config: Extraction configuration for getting information about template
     :return:
     """
-    samples_valid = load_trs_file(path_static, True)
-    samples_invalid = load_trs_file(path_shift, True)
+    samples_valid = load_trs_file(path_static, False)
+    samples_invalid = load_trs_file(path_shift, False)
 
-    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, alignment_threshold, align_to_start)
+    template_trace = load_trs_file(extraction_config.template_filename, False, extraction_config.template_index)
+    template = normalize_template(
+        template_trace[extraction_config.template_start[0]:extraction_config.template_start[1]])
+
+    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, template)
     if offset_invalid_x is None:
         print("Traces cannot be aligned")
         return None
@@ -59,11 +59,12 @@ def main():
 
     parser.add_argument("--static", help="Path to trsfile which will be static", type=str, required=True)
     parser.add_argument("--shift", help="Path to trsfile which will be moved", type=str, required=True)
-    parser.add_argument("-a", "--alignment_threshold", help="Threshold for the alignment", type=float, required=True)
-    parser.add_argument("--align_to_end", help="Align traces not to start but to end", action="store_true")
+    parser.add_argument('--config', help="Extraction configuration file in toml format", required=True,
+                                         type=str)
 
     args = parser.parse_args()
-    trs_overlay(args.static, args.shift, args.alignment_threshold, not args.align_to_end)
+    config = ExtractionConfig.load_from_toml(args.config)
+    trs_overlay(args.static, args.shift, config)
 
 
 if __name__ == '__main__':

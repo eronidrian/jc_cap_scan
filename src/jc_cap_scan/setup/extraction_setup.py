@@ -1,9 +1,8 @@
 import argparse
 from matplotlib import pyplot as plt
-from matplotlib.patches import Rectangle
 
 from jc_cap_scan.config.config import ExtractionConfig
-from jc_cap_scan.trs_analysis.trs_extractor import find_high_consumption_periods
+from jc_cap_scan.trs_analysis.trs_extractor import find_segment_start_and_end_in_trace
 from jc_cap_scan.utils.trs_utils import load_trs_file
 
 
@@ -16,23 +15,17 @@ def extraction_setup(trs_file: str, extraction_config: ExtractionConfig, trace_i
     :param show: Whether to show the trace with found periods or not
     :return:
     """
-    trace = load_trs_file(trs_file, True, trace_index)
-    periods = find_high_consumption_periods(trace, extraction_config)
-    print(periods)
-    print(len(periods))
+    trace = load_trs_file(trs_file, False, trace_index)
+    start_start, start_end, end_start, end_end = find_segment_start_and_end_in_trace(trace, extraction_config)
+    print(start_start, start_end, end_start, end_end)
 
     if show:
         fig, ax = plt.subplots()
         ax.plot(trace)
-        ax.vlines(periods, ax.get_ylim()[0], ax.get_ylim()[1], 'r')
+        ax.vlines([start_start, start_end, end_start, end_end], ax.get_ylim()[0], ax.get_ylim()[1], 'r')
         # highlight extracted region if it is in range
-        if len(periods) > extraction_config.index_to_extract:
-            highlight_start = periods[extraction_config.index_to_extract][0]
-            highlight_end = periods[extraction_config.index_to_extract][1]
-            ax.add_patch(Rectangle((highlight_start, ax.get_ylim()[0]), highlight_end - highlight_start,
-                                   abs(ax.get_ylim()[0] - ax.get_ylim()[1]), facecolor="xkcd:lightgreen"))
         ax.set_xlabel("Sample number")
-        ax.set_ylabel("Voltage (rescaled)")
+        ax.set_ylabel("Voltage")
         ax.set_title(f"Trace {trs_file}, index: {trace_index}")
         plt.show()
 

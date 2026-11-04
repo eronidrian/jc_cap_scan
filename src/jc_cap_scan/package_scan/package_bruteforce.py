@@ -5,7 +5,7 @@ import os
 from jc_cap_scan.config.config import CaptureConfig, Config
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
 from jc_cap_scan.utils.capture_utils import capture_install_trace
-from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import extract_times_from_trs_file
 
 
 def do_dummy_captures(traces_directory: str, num_of_repetitions: int, capture_config: CaptureConfig,
@@ -65,19 +65,19 @@ def package_bruteforce(results_file: str, traces_directory: str, base_aid: str, 
         for byte_value in range(256):
             current_aid = bytearray.fromhex(base_aid)
             current_aid[byte_number] = byte_value
-            print(f"AID {byte_value + 1}/256 ({current_aid.hex()}")
+            print(f"AID {byte_value + 1}/256 ({current_aid.hex()})")
 
             cap_name = f"{current_aid.hex()}.cap"
             trs_file_name = f"{current_aid.hex()}.trs"
             generate_cap_for_package_aid(current_aid, base_major, base_minor,
-                                                         'templates/template_generic',
+                                                         'templates/generic_template',
                                                          cap_name)
             print("Capturing traces...")
             capture_install_trace(cap_name, traces_for_one_byte,
                                   os.path.join(traces_directory, trs_file_name),
                                   config.capture, auth)
             print("Extracting times...")
-            times = extract_single_time_from_trs_file(os.path.join(traces_directory, trs_file_name),
+            times = extract_times_from_trs_file(os.path.join(traces_directory, trs_file_name),
                                                       config.extraction)
             result_writer.writerow([byte_number, byte_value] + times)
             if tidy_up:
@@ -127,3 +127,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

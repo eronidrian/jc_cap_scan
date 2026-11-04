@@ -1,116 +1,100 @@
 import trsfile
 import numpy as np
-import numba
+import bottleneck as bn
+from scipy.signal import correlate
 
 from jc_cap_scan.config.config import ExtractionConfig
 from jc_cap_scan.utils.trs_utils import load_trs_file
 
 
-@numba.njit
-def merge_gaps(starts, ends, max_gap):
+def find_template_in_trace(trace: np.ndarray, template: np.ndarray) -> tuple[int, int]:
+    n = len(template)
+
+    # FFT correlation remains useful for long traces.
+    corr = correlate(trace, template, mode="valid", method="fft")
+
+    sums = bn.move_sum(trace, window=n)
+    sums = sums[n - 1:]
+
+    sums_sq = bn.move_sum(trace * trace, window=n)
+    sums_sq = sums_sq[n - 1:]
+
+    local_var = np.maximum(sums_sq - sums * sums / n, 1e-12)
+
+    sqrt_var = np.sqrt(local_var)
+    scores = corr / sqrt_var
+
+    start = int(np.argmax(scores))
+    return start, start + n
+
+def find_segment_start_and_end_in_trace(trace: np.ndarray, start_template: np.ndarray, end_template: np.ndarray) -> tuple[int, int, int, int]:
     """
-    Bridge gaps between periods that are smaller than or equal to max_gap. This is useful to bridge small gaps that can be caused by noise in the power trace.
-    :param starts: Start of the periods
-    :param ends: Ends of the periods
-    :param max_gap: Max gap between periods to bridge
-    :return: New starts and ends of the periods
+    Find start and end of a segment in a trace using a template for the start and end of the segment.
+    :param trace: Power trace to search
+    :param start_template: Template for the start of the segment
+    :param end_template: Template for the end of the segment. Must be the same length as start segment.
+    :return: Four tuple with start template start and end, and end template start and end
     """
-    result_starts = []
-    result_ends = []
-    current_start = starts[0]
-    current_end = ends[0]
+    assert len(start_template) == len(end_template)
 
-    for i in range(1, len(starts)):
-        if starts[i] - current_end <= max_gap:
-            current_end = ends[i]
-        else:
-            result_starts.append(current_start)
-            result_ends.append(current_end)
-            current_start = starts[i]
-            current_end = ends[i]
+    n = len(start_template)
 
-    result_starts.append(current_start)
-    result_ends.append(current_end)
+    # FFT correlation remains useful for long traces.
+    corr_start = correlate(trace, start_template, mode="valid", method="fft")
+    corr_end = correlate(trace, end_template, mode="valid", method="fft")
 
-    return result_starts, result_ends
+    sums = bn.move_sum(trace, window=n)
+    sums = sums[n - 1:]
 
+    sums_sq = bn.move_sum(trace * trace, window=n)
+    sums_sq = sums_sq[n - 1:]
 
-def find_high_consumption_periods(samples: np.ndarray, extraction_config: ExtractionConfig) -> list[tuple[int, int]]:
+    local_var = np.maximum(sums_sq - sums * sums / n, 1e-12)
+
+    sqrt_var = np.sqrt(local_var)
+    scores_start = corr_start / sqrt_var
+    scores_end = corr_end / sqrt_var
+
+    start_1 = int(np.argmax(scores_start))
+    start_2 = int(np.argmax(scores_end))
+    return start_1, start_1 + n, start_2, start_2 + n
+
+def normalize_template(template: np.ndarray):
     """
-    Find periods of high consumption in the power trace
-    :param samples: Array of samples of the power trace
-    :param extraction_config: Config to use for the extraction
-    :return: Starts and ends of the high consumption periods
+    Normalize template
+    :param template: Template to normalize
+    :return: Normalized template
     """
-    samples = np.fromiter(samples, dtype=np.float16, count=len(samples))
-    high = samples > extraction_config.threshold
+    template = template - template.mean()
+    norm = np.linalg.norm(template)
+    if norm == 0:
+        raise ValueError("Template must not be constant")
+    return template / norm
 
-    # Detect rising and falling edges
-    diff = np.diff(high.astype(np.int8))
-    starts = np.flatnonzero(diff == 1) + 1
-    ends = np.flatnonzero(diff == -1) + 1
 
-    # Edge case: high at start or end
-    if high[0]:
-        starts = np.insert(starts, 0, 0)
-    if high[-1]:
-        ends = np.append(ends, len(high))
-
-    # Merge small gaps
-    result_starts, result_ends = merge_gaps(starts, ends, extraction_config.max_gap)
-
-    # Filter by min_duration
-    result_starts = np.array(result_starts)
-    result_ends = np.array(result_ends)
-    durations = result_ends - result_starts
-    valid = durations >= extraction_config.min_duration
-
-    return list(zip(result_starts[valid], result_ends[valid] - 1))
-
-def extract_all_times_from_trs_file(trs_filename: str, extraction_config: ExtractionConfig) -> list[list[int]]:
+def extract_times_from_trs_file(trs_filename: str, extraction_config: ExtractionConfig) -> list[int]:
     """
-    Extract durations of all periods for all traces in the TRS file
-    :param trs_filename: Path to the TRS file to extract the times from
-    :param extraction_config: Config to use for the extraction
-    :return: For each trace in the TRS file a list of durations of the periods
-    """
+     Extract durations of a segment in all traces from the TRS file. Uses template matching to find start and end of the segment.
+     :param trs_filename: Path to the TRS file to extract the times from
+     :param extraction_config: Config to use for the extraction
+     :return: For each trace in the TRS file a duration of the segment in number of samples
+     """
+
     traces = trsfile.open(trs_filename, 'r')
+    traces_count = len(traces)
+    traces.close()
     result = []
 
-    for i, _ in enumerate(traces):
-        trace = load_trs_file(trs_filename, True, i)
+    template_trace = load_trs_file(extraction_config.template_filename, False, extraction_config.template_index)
+    start_template = normalize_template(template_trace[extraction_config.template_start[0]:extraction_config.template_start[1]])
+    end_template = normalize_template(template_trace[extraction_config.template_end[0]:extraction_config.template_end[1]])
 
-        periods = find_high_consumption_periods(trace, extraction_config)
-        times = [period[1] - period[0] for period in periods]
-        print(f"Extracting {i + 1}/{len(traces)}")
-        print(len(times))
-        result.append(times)
+    for i in range(traces_count):
+        print(f"Extracting {i + 1}/{traces_count}")
+        trace = load_trs_file(trs_filename, False, i)
 
-    return result
-
-
-def extract_single_time_from_trs_file(trs_filename: str, extraction_config: ExtractionConfig) -> list[int]:
-    """
-    Extract only a single duration for each trace from the TRS file
-    :param trs_filename: Path to TRS file
-    :param extraction_config: Config to use for the extraction
-    :return: For each trace in the TRS file a single duration of the period with index extraction_config.index_to_extract. If there is no such period, 0 is returned for that trace.
-    """
-    traces = trsfile.open(trs_filename, 'r')
-    result = []
-
-    for i, _ in enumerate(traces):
-        trace = load_trs_file(trs_filename, True, i)
-
-        periods = find_high_consumption_periods(trace, extraction_config)
-        times = [period[1] - period[0] for period in periods]
-        try:
-            time = times[extraction_config.index_to_extract]
-        except IndexError:
-            time = 0
-
-        print(f"Extracting {i + 1}/{len(traces)}")
-        print(time)
-        result.append(int(time))
+        start_start, start_end, end_start, end_end = find_segment_start_and_end_in_trace(trace, start_template, end_template)
+        duration = end_start - start_start
+        result.append(duration)
 
     return result

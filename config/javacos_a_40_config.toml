@@ -3,9 +3,9 @@ title = "Javacos A40 config"
 [capture]
 autotrigger = 5000
 posttrigger_delay = 2700
-number_of_samples = 4_000_000
+number_of_samples = 5_000_000
 sample_interval = 50
-channel_range = 500
+channel_range = 200
 
 ## for resampled trace
 #[extraction]
@@ -16,10 +16,10 @@ channel_range = 500
 
 #for raw trace
 [extraction]
-max_gap = 7000
-min_duration = 4000
-threshold = 0.6
-index_to_extract = 6 #28
+template_filename = "new_library_discovery/test_ee130be55d7ca7_1_0.trs"
+template_index = 0
+template_start = [2385141,2386823]
+template_end = [2402310,2403992]
 
 # ignore_first_n = 1_200_000
 # diff_threshold = 0.85

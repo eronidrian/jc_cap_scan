@@ -3,7 +3,7 @@ import csv
 import os
 
 from jc_cap_scan.config.config import Config
-from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import extract_times_from_trs_file
 from jc_cap_scan.utils.cap_file_utils import is_installation_successful, uninstall
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid
 from jc_cap_scan.utils.capture_utils import capture_install_trace
@@ -88,7 +88,7 @@ def aid_list_scan(results_file: str, traces_directory: str, traces_for_one_cap: 
 
                 trs_file_name = f"{aid_name_map[aid].replace(".", "_")}_{major}_{minor}.trs"
                 capture_install_trace(cap_name, traces_for_one_cap, os.path.join(traces_directory, trs_file_name), config.capture, auth)
-                times = extract_single_time_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
+                times = extract_times_from_trs_file(os.path.join(traces_directory, trs_file_name), config.extraction)
 
                 print(f"AID: {aid}\n"
                       f"Major: {major}\n"

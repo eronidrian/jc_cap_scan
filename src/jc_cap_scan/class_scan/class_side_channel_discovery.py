@@ -4,7 +4,7 @@ import os.path
 from typing import Literal
 
 from jc_cap_scan.config.config import Config
-from jc_cap_scan.trs_analysis.trs_extractor import extract_single_time_from_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import extract_times_from_trs_file
 from jc_cap_scan.utils.cap_manipulation_utils import generate_cap_for_package_aid_and_class_token
 from jc_cap_scan.utils.capture_utils import capture_install_trace
 
@@ -47,7 +47,7 @@ def class_side_channel_discovery(results_file: str, traces_directory: str, base_
                                                      cp_info_number,
                                                      cap_name)
         success, response = capture_install_trace(cap_name, traces_for_one_token, os.path.join(traces_directory, trs_file), config.capture, auth)
-        times = extract_single_time_from_trs_file(os.path.join(traces_directory, trs_file), config.extraction)
+        times = extract_times_from_trs_file(os.path.join(traces_directory, trs_file), config.extraction)
 
         result_writer.writerow([base_aid, class_token] + times)
         if tidy_up:

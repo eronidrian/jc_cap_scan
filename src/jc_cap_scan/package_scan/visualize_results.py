@@ -35,7 +35,7 @@ def load_data_discovery(result_file: str) -> pd.DataFrame:
     data_dict = {}
     for row in csv_reader:
         byte_number, major, minor = row[1:4]
-        measurements = list(map(float, row[4:]))
+        measurements = list(map(float, row[4:5]))
         major = int(major)
         minor = int(minor)
         if major == 1 and minor == 0:
@@ -54,7 +54,6 @@ def load_data_discovery(result_file: str) -> pd.DataFrame:
     data = pd.DataFrame.from_dict(data_dict)
     data = data.reindex(sorted(data.columns), axis=1)
     data.rename(columns={20: "maj.", 21: "min."}, inplace=True) # replace dummy values for major and minor version
-
     return data
 
 
@@ -95,6 +94,8 @@ def visualize_results_discovery(result_file: str, capture_config: CaptureConfig,
 
     fig, ax = plt.subplots()
 
+    # print(data.median(axis=0))
+    # sns.pointplot(data.median(axis=0))
     sns.boxplot(data, showfliers=False)
     ax.set_xlabel("Changed byte")
     ax.set_ylabel("LOAD duration [ms]")
@@ -123,15 +124,20 @@ def visualize_results_bruteforce(result_files: list[str], capture_config: Captur
 
     medians = pd.DataFrame()
     for result_file in result_files:
-        data = pd.read_csv(result_file, names=[str(_) for _ in range(12)])
+        data = pd.read_csv(result_file, names=[str(_) for _ in range(22)])
         data = data.iloc[:, 2:]
         data = data.transpose()
 
 
         data = data.map(lambda x: (x * sample_interval) / 10 ** 6)
+        fig, ax = plt.subplots()
+        sns.boxplot(data, showfliers=False)
+        plt.show()
+        exit()
         # extract AID that was used
         result_file = result_file.split("/")[-1].split(".")[0].split("_")[-1]
-        medians[result_file] = data.median(axis=0)
+        result_file = 0
+        medians[result_file] = data.mean(axis=0)
 
     if show_or_save == 'save':
         mpl.use("pgf")

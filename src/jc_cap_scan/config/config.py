@@ -6,17 +6,17 @@ class ExtractionConfig:
     """
     Config used to extract duration information from the power trace
     """
-    def __init__(self, max_gap: int, min_duration: int, threshold: int, index_to_extract: int):
+    def __init__(self, template_filename: str, template_index: int, template_start: tuple[int, int], template_end: tuple[int, int]):
         """
-        :param max_gap: max gap between two periods that is bridged to merge them into a single period
-        :param min_duration: periods shorter than this threshold are discarded
-        :param threshold: threshold for detecting raising and falling edges for starts and ends of the periods
-        :param index_to_extract: period number that is important for the measurement
+        :param template_filename: Path to the TRS file to take the template from
+        :param template_index: Index of the trace in the TRS file to use for the template
+        :param template_start: Start and end sample for the template for the start of the extracted segment
+        :param template_end: Start and end sample for the template for the end of the extracted segment
         """
-        self.max_gap = max_gap
-        self.min_duration = min_duration
-        self.threshold = threshold
-        self.index_to_extract = index_to_extract
+        self.template_filename = template_filename
+        self.template_index = template_index
+        self.template_start = template_start
+        self.template_end = template_end
 
     @staticmethod
     def load_from_toml(toml_path: str) -> ExtractionConfig:
@@ -29,8 +29,8 @@ class ExtractionConfig:
             content = tomllib.load(f)
         content = content["extraction"]
 
-        return ExtractionConfig(content["max_gap"], content["min_duration"], content["threshold"],
-                                content["index_to_extract"])
+        return ExtractionConfig(content["template_filename"], content["template_index"], content["template_start"],
+                                content["template_end"])
 
 
 class CaptureConfig:

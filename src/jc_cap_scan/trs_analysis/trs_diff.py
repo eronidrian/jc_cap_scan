@@ -12,44 +12,6 @@ from jc_cap_scan.trs_analysis.trs_overlay import get_alignment_offset
 from jc_cap_scan.utils.trs_utils import load_trs_file
 
 
-def ratio_diff(number_1: float, number_2: float) -> float:
-    """
-    Simple 'ratio diff'. Divide the bigger number by the smaller one.
-    :param number_1: First number
-    :param number_2: Second number
-    :return: Ratio diff
-    """
-    if number_1 > number_2:
-        return number_1 / number_2
-    if number_2 > number_1:
-        return number_2 / number_1
-    return 1
-
-
-def get_diff_periods(samples_valid: ndarray, samples_invalid: ndarray, threshold: float,
-                     extraction_config: ExtractionConfig) -> float | None:
-    """
-    Get difference between two power traces by comparing the durations of extracted periods
-    :param samples_valid: Array of valid samples (the base power trace)
-    :param samples_invalid: Array of invalid samples (the compared power trace)
-    :param threshold: How much longer or shorter should be a period be to be considered different
-    :param extraction_config: Config to use for extracting the periods
-    :return: Sample number of the first difference (random sample from the period) or None if no difference is found
-    """
-    periods_valid = find_high_consumption_periods(samples_valid, extraction_config)
-    periods_invalid = find_high_consumption_periods(samples_invalid, extraction_config)
-    # go through the periods and calculate differences
-    for i in range(len(periods_valid)):
-        if i >= len(periods_invalid):
-            return None
-        duration_valid = periods_valid[i][1] - periods_valid[i][0]
-        duration_invalid = periods_invalid[i][1] - periods_invalid[i][0]
-        diff = ratio_diff(duration_valid, duration_invalid)
-        if diff > threshold:
-            # return random sample in the period, fixes overlapping points
-            return random.randrange(periods_valid[i][0], periods_valid[i][1])
-    return None
-
 
 def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_threshold: float, alignment_threshold: float, ignore_first_n: int,
                          show: bool) -> float | None:
@@ -63,7 +25,7 @@ def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_
     :param show: Whether to show the plot with the valid, invalid and diff traces
     :return: Number of the first different sample, None if no difference is found
     """
-    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, alignment_threshold, True)
+    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, template)
     if offset_invalid_x is None:
         return None
 
