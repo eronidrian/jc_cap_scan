@@ -4,7 +4,7 @@ import bottleneck as bn
 from scipy.signal import correlate
 
 from jc_cap_scan.config.config import ExtractionConfig
-from jc_cap_scan.utils.trs_utils import load_trs_file
+from jc_cap_scan.utils.trs_utils import load_single_trace_from_trs_file, load_all_traces_from_trs_file
 
 
 def find_template_in_trace(trace: np.ndarray, template: np.ndarray) -> tuple[int, int]:
@@ -59,18 +59,6 @@ def find_segment_start_and_end_in_trace(trace: np.ndarray, start_template: np.nd
     start_2 = int(np.argmax(scores_end))
     return start_1, start_1 + n, start_2, start_2 + n
 
-def normalize_template(template: np.ndarray):
-    """
-    Normalize template
-    :param template: Template to normalize
-    :return: Normalized template
-    """
-    template = template - template.mean()
-    norm = np.linalg.norm(template)
-    if norm == 0:
-        raise ValueError("Template must not be constant")
-    return template / norm
-
 
 def extract_times_from_trs_file(trs_filename: str, extraction_config: ExtractionConfig) -> list[int]:
     """
@@ -80,21 +68,15 @@ def extract_times_from_trs_file(trs_filename: str, extraction_config: Extraction
      :return: For each trace in the TRS file a duration of the segment in number of samples
      """
 
-    traces = trsfile.open(trs_filename, 'r')
-    traces_count = len(traces)
-    traces.close()
     result = []
 
-    template_trace = load_trs_file(extraction_config.template_filename, False, extraction_config.template_index)
-    start_template = normalize_template(template_trace[extraction_config.template_start[0]:extraction_config.template_start[1]])
-    end_template = normalize_template(template_trace[extraction_config.template_end[0]:extraction_config.template_end[1]])
+    with trsfile.open(trs_filename, "r") as traces:
+        for i, raw in enumerate(traces):
+            print(f"Extracting {i + 1}/{len(traces)}")
+            trace = np.asarray(raw, dtype=float)
 
-    for i in range(traces_count):
-        print(f"Extracting {i + 1}/{traces_count}")
-        trace = load_trs_file(trs_filename, False, i)
-
-        start_start, start_end, end_start, end_end = find_segment_start_and_end_in_trace(trace, start_template, end_template)
-        duration = end_start - start_start
-        result.append(duration)
+            start_start, start_end, end_start, end_end = find_segment_start_and_end_in_trace(trace, extraction_config.start_template, extraction_config.end_template)
+            duration = end_start - start_start
+            result.append(duration)
 
     return result

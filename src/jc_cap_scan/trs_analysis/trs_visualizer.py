@@ -2,7 +2,7 @@ import argparse
 
 import matplotlib.pyplot as plt
 
-from jc_cap_scan.trs_analysis.trs_diff import load_trs_file
+from jc_cap_scan.trs_analysis.trs_diff import load_single_trace_from_trs_file
 
 
 def visualize_trace(trs_file_path: str, trace_index: int, rescale: bool, start: int = 0, end: int = -1):
@@ -15,7 +15,7 @@ def visualize_trace(trs_file_path: str, trace_index: int, rescale: bool, start: 
     :param end: Last sample to visualize (0-indexed)
     :return:
     """
-    trace = load_trs_file(trs_file_path, rescale, trace_index, start, end)
+    trace = load_single_trace_from_trs_file(trs_file_path, rescale, trace_index, start, end)
 
     fig, ax = plt.subplots()
     ax.plot(trace)

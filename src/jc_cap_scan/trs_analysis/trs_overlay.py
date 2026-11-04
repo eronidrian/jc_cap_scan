@@ -3,8 +3,8 @@ import argparse
 import numpy as np
 
 from jc_cap_scan.config.config import ExtractionConfig
-from jc_cap_scan.trs_analysis.trs_extractor import find_template_in_trace, normalize_template
-from jc_cap_scan.utils.trs_utils import load_trs_file
+from jc_cap_scan.trs_analysis.trs_extractor import find_template_in_trace
+from jc_cap_scan.utils.trs_utils import load_single_trace_from_trs_file
 
 
 def get_alignment_offset(samples_static: np.ndarray, samples_shift: np.ndarray, template: np.ndarray) -> int | None:
@@ -30,14 +30,11 @@ def trs_overlay(path_static: str, path_shift: str, extraction_config: Extraction
     :param extraction_config: Extraction configuration for getting information about template
     :return:
     """
-    samples_valid = load_trs_file(path_static, False)
-    samples_invalid = load_trs_file(path_shift, False)
+    samples_valid = load_single_trace_from_trs_file(path_static, False)
+    samples_invalid = load_single_trace_from_trs_file(path_shift, False)
 
-    template_trace = load_trs_file(extraction_config.template_filename, False, extraction_config.template_index)
-    template = normalize_template(
-        template_trace[extraction_config.template_start[0]:extraction_config.template_start[1]])
 
-    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, template)
+    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, extraction_config.start_template)
     if offset_invalid_x is None:
         print("Traces cannot be aligned")
         return None

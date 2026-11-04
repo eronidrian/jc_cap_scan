@@ -1,5 +1,20 @@
 from __future__ import annotations
 import tomllib
+import numpy as np
+
+from jc_cap_scan.utils.trs_utils import load_single_trace_from_trs_file
+
+def normalize_template(template: np.ndarray):
+    """
+    Normalize template
+    :param template: Template to normalize
+    :return: Normalized template
+    """
+    template = template - template.mean()
+    norm = np.linalg.norm(template)
+    if norm == 0:
+        raise ValueError("Template must not be constant")
+    return template / norm
 
 
 class ExtractionConfig:
@@ -13,10 +28,14 @@ class ExtractionConfig:
         :param template_start: Start and end sample for the template for the start of the extracted segment
         :param template_end: Start and end sample for the template for the end of the extracted segment
         """
-        self.template_filename = template_filename
-        self.template_index = template_index
-        self.template_start = template_start
-        self.template_end = template_end
+        template_trace = load_single_trace_from_trs_file(template_filename, False, template_index)
+        start_template = normalize_template(
+            template_trace[template_start[0]:template_start[1]])
+        end_template = normalize_template(
+            template_trace[template_end[0]:template_end[1]])
+
+        self.start_template = start_template
+        self.end_template = end_template
 
     @staticmethod
     def load_from_toml(toml_path: str) -> ExtractionConfig:

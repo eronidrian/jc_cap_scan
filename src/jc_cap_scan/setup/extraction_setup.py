@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 from jc_cap_scan.config.config import ExtractionConfig
 from jc_cap_scan.trs_analysis.trs_extractor import find_segment_start_and_end_in_trace
-from jc_cap_scan.utils.trs_utils import load_trs_file
+from jc_cap_scan.utils.trs_utils import load_single_trace_from_trs_file
 
 
 def extraction_setup(trs_file: str, extraction_config: ExtractionConfig, trace_index: int, show: bool):
@@ -15,8 +15,8 @@ def extraction_setup(trs_file: str, extraction_config: ExtractionConfig, trace_i
     :param show: Whether to show the trace with found periods or not
     :return:
     """
-    trace = load_trs_file(trs_file, False, trace_index)
-    start_start, start_end, end_start, end_end = find_segment_start_and_end_in_trace(trace, extraction_config)
+    trace = load_single_trace_from_trs_file(trs_file, False, trace_index)
+    start_start, start_end, end_start, end_end = find_segment_start_and_end_in_trace(trace, extraction_config.start_template, extraction_config.end_template)
     print(start_start, start_end, end_start, end_end)
 
     if show:

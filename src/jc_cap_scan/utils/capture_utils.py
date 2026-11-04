@@ -145,7 +145,7 @@ def capture_trace(chandle, status: dict, trs_writer, capture_done_event, capture
         assert_pico_ok(status["setDataBufferA"])
 
         timebase = ns_to_timebase(capture_config.sample_interval)
-        status["runBlock"] = ps.ps4000RunBlock(chandle, preTriggerSamples, postTriggerSamples, timebase, 0, None, 0,
+        status["runBlock"] = ps.ps4000RunBlock(chandle, preTriggerSamples, postTriggerSamples, timebase, 1, None, 0,
                                                None, None)
         assert_pico_ok(status["runBlock"])
 

@@ -33,6 +33,8 @@ def test_single_changed_byte(results_writer: Writer, base_aid: bytearray, byte_n
     aid_modified = base_aid.copy()
     if byte_number is not None and byte_value is not None:
         aid_modified[byte_number] = byte_value
+        aid_modified[byte_number + 1:] = [0xff] * (len(aid_modified) - byte_number - 1)
+
 
     cap_name = f"test_{aid_modified.hex()}_{major}_{minor}.cap"
     trs_file_name = f"test_{aid_modified.hex()}_{major}_{minor}.trs"

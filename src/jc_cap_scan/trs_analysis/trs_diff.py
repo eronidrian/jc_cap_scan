@@ -1,31 +1,31 @@
 import argparse
-import random
-from typing import Literal
 
 import numpy as np
 from matplotlib import pyplot as plt
-from numpy import ndarray
 
 from jc_cap_scan.config.config import ExtractionConfig
-from jc_cap_scan.trs_analysis.trs_extractor import find_high_consumption_periods
 from jc_cap_scan.trs_analysis.trs_overlay import get_alignment_offset
-from jc_cap_scan.utils.trs_utils import load_trs_file
+from jc_cap_scan.utils.trs_utils import load_single_trace_from_trs_file
 
 
 
-def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_threshold: float, alignment_threshold: float, ignore_first_n: int,
-                         show: bool) -> float | None:
+def get_diff(path_valid: str, path_invalid: str, diff_threshold: float, show: bool, ignore_first_n : int,
+             extraction_config: ExtractionConfig) -> float | None:
     """
-    Get difference of two power traces by aligning them and then subtracting the invalid from the valid one. The first sample where the absolute value of the diff is higher than the threshold is returned as the first difference.
-    :param samples_valid: Array of valid samples (the base power trace)
-    :param samples_invalid: Array of invalid samples (the compared power trace)
-    :param diff_threshold: Threshold for the diff. The first sample where the absolute value of the diff is higher than this threshold is returned as the first difference.
-    :param alignment_threshold: Threshold used to align the traces
-    :param ignore_first_n: Do not look for difference in the first n samples
-    :param show: Whether to show the plot with the valid, invalid and diff traces
-    :return: Number of the first different sample, None if no difference is found
+    Get diff of two power traces using either the 'subtraction' or 'periods' algorithm
+    :param path_valid: Path to valid trace (the base power trace)
+    :param path_invalid: Path to invalid trace (the compared power trace)
+    :param diff_threshold: Threshold to use for the diff
+    :param show: Whether to show the diff
+    :param ignore_first_n: Ignore the first n samples when looking for the diff
+    :param extraction_config: Extraction config to get the template for the alignment
+    :return:
     """
-    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, template)
+
+    samples_valid = load_single_trace_from_trs_file(path_valid, False)
+    samples_invalid = load_single_trace_from_trs_file(path_invalid, False)
+
+    offset_invalid_x = get_alignment_offset(samples_valid, samples_invalid, extraction_config.start_template)
     if offset_invalid_x is None:
         return None
 
@@ -79,34 +79,6 @@ def get_diff_subtraction(samples_valid: ndarray, samples_invalid: ndarray, diff_
         return None
     return indices[0] + ignore_first_n
 
-
-def get_diff(path_valid: str, path_invalid: str, diff_threshold: float, alignment_threshold: float, algorithm: Literal['subtraction', 'periods'], show: bool, ignore_first_n : int | None = None,
-             extraction_config: ExtractionConfig | None = None) -> float | None:
-    """
-    Get diff of two power traces using either the 'subtraction' or 'periods' algorithm
-    :param path_valid: Path to valid trace (the base power trace)
-    :param path_invalid: Path to invalid trace (the compared power trace)
-    :param diff_threshold: Threshold to use for the diff
-    :param alignment_threshold: Threshold used to align the traces (only for 'subtraction' algorithm)
-    :param algorithm: Algorithm to use, can be either 'subtraction' or 'periods'
-    :param show: Whether to show the diff (only for 'subtraction' algorithm)
-    :param ignore_first_n: Ignore the first n samples when looking for the diff (only for 'subtraction' algorithm)
-    :param extraction_config: Extraction config (only for the 'periods' algorithm)
-    :return:
-    """
-    assert algorithm in ['subtraction', 'periods']
-
-    samples_valid = load_trs_file(path_valid, True)
-    samples_invalid = load_trs_file(path_invalid, True)
-
-    if algorithm == 'subtraction':
-        assert ignore_first_n is not None
-        return get_diff_subtraction(samples_valid, samples_invalid, diff_threshold, alignment_threshold, ignore_first_n, show)
-    elif algorithm == 'periods':
-        assert extraction_config is not None
-        return get_diff_periods(samples_valid, samples_invalid, diff_threshold, extraction_config)
-
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         prog="TRS diff"
@@ -114,19 +86,14 @@ if __name__ == '__main__':
     parser.add_argument("-v", "--valid", help="Path to trsfile which will be static", type=str, required=True)
     parser.add_argument("-i", "--invalid", help="Path to trsfile which will be moved", type=str, required=True)
     parser.add_argument("--diff_threshold", help="Threshold for the diff", type=float, required=True)
-    parser.add_argument("--alignment_threshold", help="Threshold for the alignment", type=float, required=True)
     parser.add_argument("--ignore_first_n", help="Ignore first n samples (for 'subtraction' algorithm)", type=int, required=False, default=0)
     parser.add_argument("--show", help="Show the resulting plot", action="store_true", required=False)
-    parser.add_argument("--algorithm", help="One of 'subtraction' or 'periods'", required=True)
-    parser.add_argument("--config", help="Path to config for the 'periods' algorithm", required=False)
+    parser.add_argument("--config", help="Path to extraction config to get the template", required=True)
 
     args = parser.parse_args()
+    extraction_config = ExtractionConfig.load_from_toml(args.config)
 
-    if args.algorithm == 'subtraction':
-        if args.show:
-            get_diff(args.valid, args.invalid, args.diff_threshold, args.alignment_threshold, args.algorithm, True, args.ignore_first_n)
-        elif not args.show:
-            print(get_diff(args.valid, args.invalid, args.diff_threshold, args.alignment_threshold, args.algorithm, False, args.ignore_first_n))
-    elif args.algorithm == 'periods':
-        extraction_config = ExtractionConfig.load_from_toml(args.config)
-        print(get_diff(args.valid, args.invalid, args.diff_threshold, args.alignment_treshold, args.algorithm, False, extraction_config=extraction_config))
+    if args.show:
+            get_diff(args.valid, args.invalid, args.diff_threshold, True, args.ignore_first_n, args.extraction_config)
+    elif not args.show:
+        print(get_diff(args.valid, args.invalid, args.diff_threshold,  False, args.ignore_first_n, args.extraction_config))

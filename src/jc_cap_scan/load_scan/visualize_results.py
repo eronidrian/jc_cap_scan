@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 import matplotlib as mpl
 
-from jc_cap_scan.utils.trs_utils import load_trs_file
+from jc_cap_scan.utils.trs_utils import load_single_trace_from_trs_file
 
 
 def visualize_results(results_file: str, base_trace_path: str, show_or_save: Literal['show', 'save'], save_filename: str | None = None) -> None:
@@ -20,7 +20,7 @@ def visualize_results(results_file: str, base_trace_path: str, show_or_save: Lit
     results = pd.read_csv(results_file, names=["component", "byte_number", "message", "diff"])
     results = results[results['message'] != "CAP loaded"] # include only successful installations
 
-    base_trace = load_trs_file(base_trace_path, True)
+    base_trace = load_single_trace_from_trs_file(base_trace_path, True)
 
     if show_or_save == 'save':
         mpl.use("pgf")
