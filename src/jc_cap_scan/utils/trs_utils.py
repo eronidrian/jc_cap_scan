@@ -47,7 +47,7 @@ def load_single_trace_from_trs_file(trs_path: str, rescale: bool, trace_index: i
     :return: numpy array with the traces
     """
     with trsfile.open(trs_path, 'r') as traces:
-        trace = np.copy(traces[trace_index].samples[start:end])
+        trace = np.asarray(traces[trace_index][start:end], dtype=float)
     if top is not None:
         trace[trace > top] = np.mean(trace)
     if bottom is not None:
