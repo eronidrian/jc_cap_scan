@@ -76,7 +76,7 @@ def extract_times_from_trs_file(trs_filename: str, extraction_config: Extraction
             trace = np.asarray(raw, dtype=float)
 
             start_start, start_end, end_start, end_end = find_segment_start_and_end_in_trace(trace, extraction_config.start_template, extraction_config.end_template)
-            duration = end_start - start_start
+            duration = end_start - start_end
             result.append(duration)
 
     return result

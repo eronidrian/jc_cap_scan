@@ -55,11 +55,11 @@ def get_diff(path_valid: str, path_invalid: str, diff_threshold: float, show: bo
         pass
 
     # Optional: if you want diff only where overlap exists, set non-overlap to NaN
-    overlap_start = max(0, start)
-    overlap_end = min(len(samples_valid), end)
-    mask = np.ones_like(diff, dtype=bool)
-    mask[overlap_start:overlap_end] = False
-    diff[mask] = np.nan
+    # overlap_start = max(0, start)
+    # overlap_end = min(len(samples_valid), end)
+    # mask = np.ones_like(diff, dtype=bool)
+    # mask[overlap_start:overlap_end] = False
+    # diff[mask] = np.nan
 
     diff = abs(diff)
 
@@ -94,6 +94,6 @@ if __name__ == '__main__':
     extraction_config = ExtractionConfig.load_from_toml(args.config)
 
     if args.show:
-            get_diff(args.valid, args.invalid, args.diff_threshold, True, args.ignore_first_n, args.extraction_config)
+            get_diff(args.valid, args.invalid, args.diff_threshold, True, args.ignore_first_n, extraction_config)
     elif not args.show:
-        print(get_diff(args.valid, args.invalid, args.diff_threshold,  False, args.ignore_first_n, args.extraction_config))
+        print(get_diff(args.valid, args.invalid, args.diff_threshold,  False, args.ignore_first_n, extraction_config))
