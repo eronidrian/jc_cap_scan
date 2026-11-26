@@ -18,11 +18,14 @@ def extraction_setup(trs_file: str, extraction_config: ExtractionConfig, trace_i
     trace = load_single_trace_from_trs_file(trs_file, False, trace_index)
     start_start, start_end, end_start, end_end = find_segment_start_and_end_in_trace(trace, extraction_config.start_template, extraction_config.end_template)
     print(start_start, start_end, end_start, end_end)
+    print(end_start - start_end)
 
     if show:
         fig, ax = plt.subplots()
         ax.plot(trace)
-        ax.vlines([start_start, start_end, end_start, end_end], ax.get_ylim()[0], ax.get_ylim()[1], 'r')
+        ax.vlines([start_start, start_end], ax.get_ylim()[0], ax.get_ylim()[1], 'r')
+        ax.vlines([end_start, end_end], ax.get_ylim()[0], ax.get_ylim()[1], 'g')
+
         # highlight extracted region if it is in range
         ax.set_xlabel("Sample number")
         ax.set_ylabel("Voltage")
