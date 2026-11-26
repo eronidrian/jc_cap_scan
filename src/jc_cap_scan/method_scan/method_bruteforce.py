@@ -48,7 +48,7 @@ def method_bruteforce(results_file: str, method_token_range: tuple[int, int], te
     uninstall("templates/good_package.cap")
     f = open(results_file, "w")
     csv_writer = csv.writer(f)
-    for i, entry in enumerate(sorted(os.scandir("templates/method_templates"), key=lambda ent: ent.name)):
+    for i, entry in enumerate(sorted(os.scandir("templates/templates_method"), key=lambda ent: ent.name)):
         if not entry.is_dir():
             continue
 
