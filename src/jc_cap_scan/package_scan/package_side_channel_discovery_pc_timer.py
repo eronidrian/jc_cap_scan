@@ -44,8 +44,17 @@ def measure_time_load(cap_name: str, auth: list[str] | None = None) -> float | N
     result = result.stdout.decode("utf-8")
 
     gp_log = result.splitlines()
-    load_line = gp_log[23] # this is the line in GPPro output that corresponds to the LOAD command
-    match = re.search(r'([0-9]+)ns', load_line)
+    load_line = None
+    for i, line in enumerate(gp_log):
+        match = re.search(r'A>> T=1 \(.*\) 84E8800', line)
+        if match:
+            load_line = i + 1
+    if load_line is None:
+        print("LOAD not find in GPPro log, exiting")
+        exit()
+
+    print(gp_log[load_line])
+    match = re.search(r'([0-9]+)ns', gp_log[load_line])
     if match is None:
         return None
     return float(match.group(1))
