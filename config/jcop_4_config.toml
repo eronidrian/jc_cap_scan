@@ -2,16 +2,16 @@ title = "NXP JCOP 4 config"
 
 [capture]
 autotrigger = 5000
-posttrigger_delay = 3280
-number_of_samples = 9_000_000
-sample_interval = 50
+posttrigger_delay = 4090
+number_of_samples = 3_000_000
+sample_interval = 25
 channel_range = 500
 
 [extraction]
-max_gap = 1000
-min_duration = 700
-threshold = 0.6
-index_to_extract = 24 #108
+template_filename = "invalid.trs"
+template_index = 0
+template_start = [4792200,4847400]
+template_end = [4906200,4961400]
 
 #[extraction]
 #max_gap = 100
